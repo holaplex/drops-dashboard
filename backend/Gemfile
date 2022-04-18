@@ -1,0 +1,79 @@
+source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby '2.7.5'
+
+gem 'bcrypt'
+gem 'rack-cors'
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 5.2.6'
+# Use postgresql as the database for Active Record
+gem 'pg', '>= 0.18', '< 2.0'
+# Use Puma as the app server
+gem 'puma', '~> 3.11'
+# Use SCSS for stylesheets
+# See https://github.com/rails/execjs#readme for more supported runtimes
+# gem 'mini_racer', platforms: :ruby
+
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 2.5'
+# Use Redis adapter to run Action Cable in production
+# gem 'redis', '~> 4.0'
+# Use ActiveModel has_secure_password
+# gem 'bcrypt', '~> 3.1.7'
+#
+
+gem 'devise', '~> 4.8', '>= 4.8.1'
+gem 'doorkeeper', '~> 5.5', '>= 5.5.4'
+gem 'doorkeeper-jwt', '~> 0.4.1'
+#
+# Use ActiveStorage variant
+# gem 'mini_magick', '~> 4.8'
+
+# Use Capistrano for deployment
+# gem 'capistrano-rails', group: :development
+
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
+
+# Add React Components support
+gem 'react-rails', '~> 2.6', '>= 2.6.1'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 4.1.0'
+  gem 'selenium-webdriver', '~> 2.35.1'
+  gem 'pry', '~> 0.14.1'
+  gem 'awesome_print', '~> 1.9', '>= 1.9.2'
+end
+
+group :development do
+  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  gem 'listen', '>= 3.0.5', '< 3.2'
+
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+
+  # Ruby LSP
+  gem 'solargraph', '~> 0.44.0'
+
+  # Ruby Linter
+  gem 'rubocop', '~> 1.26', '>= 1.26.1'
+  gem 'rubocop-rails', '~> 2.14', '>= 2.14.2'
+
+
+  gem 'foreman'
+end
+
+group :test do
+  gem 'chromedriver-helper'
+  gem 'minitest', '~> 5.8', '>= 5.8.4'
+  gem 'minitest-reporters', '~> 1.4', '>= 1.4.3'
+  gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
+  gem 'guard', '~> 2.18'
+  gem 'guard-minitest', '~> 2.4', '>= 2.4.6'
+end
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

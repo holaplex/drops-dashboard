@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  backend:
+    build: backend
+    working_dir: /backend
+    command: ["/bin/bash", "./development.sh"]
+    ports:
+      - 3000:3000
+    volumes:
+      - ${PWD}/backend:/backend
+      - bundler_gems:/usr/local/bundle/
+    depends_on:
+      - db
+    env_file:
+      - .env
+    # profiles: ['dev']
+    environment:
+      RAILS_ENV: development
+      NODE_ENV: development
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres:13
+    restart: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresdb:/var/lib/postgresql/data/
+    # profiles: ['dev']
+    environment:
+      POSTGRES_PASSWORD: password
+
+volumes:
+  postgresdb:
+  bundler_gems:
