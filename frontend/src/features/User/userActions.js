@@ -45,8 +45,8 @@ export const fetchUserBytoken = createAsyncThunk(
     try {
       const response = await userApi.me();
       if (response.status === 200) {
-        const { email, username } = response.data;
-        return { email, username };
+        const { email, username, userType } = response.data;
+        return { email, username, userType };
       } else {
         return thunkAPI.rejectWithValue(data);
       }

@@ -20,7 +20,7 @@ const Dashboard = () => {
     dispatch(fetchUserBytoken());
   }, []);
 
-  const { username, email } = useSelector(userSelector);
+  const { username, email, userType } = useSelector(userSelector);
 
   useEffect(() => {
     if (isError) {
@@ -43,6 +43,7 @@ const Dashboard = () => {
           <div>
             <h1>Hello!</h1>
             Welcome back <h3>{username}</h3>{' '}
+            userType <h3>{userType}</h3>{' '}
             <span>with token {access_token}</span>
           </div>
 
