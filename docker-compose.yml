@@ -3,6 +3,7 @@ version: "3.8"
 services:
   backend:
     build: backend
+    container_name: backend_${PROJECT_NAME}_${ENVIRONMENT}
     working_dir: /backend
     command: ["/bin/bash", "./development.sh"]
     ports:
@@ -16,13 +17,22 @@ services:
       - .env
     # profiles: ['dev']
     environment:
-      RAILS_ENV: development
-      NODE_ENV: development
+      RAILS_ENV: ${ENVIRONMENT}
+      RACK_ENV: ${ENVIRONMENT}
+      NODE_ENV: ${ENVIRONMENT}
+      DBHOST: db
+      DBUSER: ${POSTGRES_USER}
+      DBPASS: ${POSTGRES_PASSWORD}
+      APM_HOST: apm
+      PROJECT_NAME: ${PROJECT_NAME}
     stdin_open: true
     tty: true
+    networks:
+      - observability
 
   frontend:
     build: frontend
+    container_name: frontend_${PROJECT_NAME}_${ENVIRONMENT}
     working_dir: /frontend
     ports:
       - 3001:3001
@@ -35,9 +45,11 @@ services:
     # profiles: ['dev']
     tty: true
     stdin_open: true
-
+    networks:
+        - observability
   db:
     image: postgres:13
+    container_name: postgresql_${PROJECT_NAME}_${ENVIRONMENT}
     restart: "no"
     ports:
       - "5432:5432"
@@ -45,9 +57,16 @@ services:
       - postgresdb:/var/lib/postgresql/data/
     # profiles: ['dev']
     environment:
-      POSTGRES_PASSWORD: password
-
+      POSTGRES_DB: ${PROJECT_NAME}_${ENVIRONMENT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - observability
 volumes:
   postgresdb:
   bundler_gems:
   frontend_node_modules:
+
+networks:
+ observability:
+  external: true
