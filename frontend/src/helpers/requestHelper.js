@@ -6,7 +6,7 @@ import { refreshToken } from '../features/User/userApi';
 // TODO: Add BASEURL
 
 const requestHelper = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: '/api/v1',
 });
 
 requestHelper.interceptors.request.use(function (config) {
