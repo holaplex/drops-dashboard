@@ -7,9 +7,14 @@ const me = async () => {
   return await requestHelper.get('users/me').catch((e) => e.response);
 };
 
-const signUp = async ({ username, email, password }) => {
+const index = async () => {
+  console.log("WOOORKIIING")
+  return await requestHelper.get('/users').catch((e) => e.response)
+}
+
+const signUp = async ({ username, email, password, user_type }) => {
   return await requestHelper
-    .post('/users', { user: { username, email, password } })
+    .post('/users', { user: { username, email, password, user_type } })
     .catch((e) => e.response);
 };
 
@@ -32,4 +37,4 @@ const refreshToken = async ({ refreshToken }) => {
     .catch((e) => e.response);
 };
 
-export { signUp, login, refreshToken, me };
+export { signUp, login, refreshToken, me, index };

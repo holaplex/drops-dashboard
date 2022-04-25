@@ -3,7 +3,7 @@
 class RegistrationsController < Devise::RegistrationsController
   def create
     user = User.new(sign_up_params)
-
+    puts sign_up_params
     if user.save
       access_token = Doorkeeper::AccessToken.find_or_create_for(
         application: nil,
@@ -18,6 +18,7 @@ class RegistrationsController < Devise::RegistrationsController
           id: user.id,
           email: user.email,
           username: user.username,
+          user_type: user.user_type,
           token: {
             token_type: 'bearer',
             access_token: access_token.token,

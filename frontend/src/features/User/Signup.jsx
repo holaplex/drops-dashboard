@@ -75,6 +75,7 @@ const Signup = () => {
           username: '',
           email: '',
           password: '',
+          user_type: ''
         }}
         validationSchema={SignupSchema}
         onSubmit={(values) => {
@@ -126,6 +127,17 @@ const Signup = () => {
               {errors.password && touched.password ? (
                 <Error text={errors.password} />
               ) : null}
+            </FormField>
+            <FormField>
+              <span>Type</span>
+              <Input
+                id='user_type'
+                type='user_type'
+                autoComplete='current-user_type'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.user_type}
+              />
             </FormField>
             <Button disabled={isFetching} type='submit' text='Submit' />
           </Form>

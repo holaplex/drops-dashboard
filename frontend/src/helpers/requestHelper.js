@@ -20,13 +20,16 @@ requestHelper.interceptors.request.use(function (config) {
 
 requestHelper.interceptors.response.use(
   (response) => {
+    console.log("Success")
     return response;
   },
 
   async (error) => {
+    console.log(error)
     const originalConfig = error.config;
     if (error.response) {
-      if (error.response.status === 401 && !originalConfig.retry) {
+      if (error.response.status === 401 && !originalConfig.retry ) {
+        console.log("Going to try again...")
         originalConfig._retry = true;
         return handleRefreshToken(originalConfig);
       } else {
@@ -41,10 +44,9 @@ async function handleRefreshToken(originalConfig) {
   const response = await refreshToken({
     refreshToken: getToken()?.refresh_token,
   });
-
+  console.log(response)
   const token = response.data;
   const { access_token } = token;
-
   saveToken(token);
 
   originalConfig.headers.Authorization = `Bearer ${access_token}`;

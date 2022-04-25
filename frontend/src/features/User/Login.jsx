@@ -47,13 +47,13 @@ const Login = ({ }) => {
 
     if (isSuccess) {
       dispatch(clearState());
-      navigate('/');
+      navigate('/drops');
     }
   }, [isError, isSuccess, errorMessages]);
 
   return (
-    <div class="flex items-center justify-center bg-slate-900 w-screen h-screen">
-      <div class="w-full max-w-md">
+    <div className="flex items-center justify-center bg-slate-900 w-screen h-screen">
+      <div className="w-full max-w-md">
         <Formik
           initialValues={{
             email: '',
@@ -67,19 +67,18 @@ const Login = ({ }) => {
           {({ values, errors, touched, handleChange, handleBlur }) => (
             <Form className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4">
               <div
-                class="text-gray-800 text-2xl flex justify-center border-b-2 py-2 mb-4"
+                className="text-gray-800 text-2xl flex justify-center border-b-2 py-2 mb-4"
               >
                 Login
               </div>
-              <div class="mb-4">
+              <div className="mb-4">
                 <label
-                  class="block text-gray-700 text-sm font-normal mb-2"
-                  for="username"
+                  className="block text-gray-700 text-sm font-normal mb-2"
                 >
                   Email
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id='email'
                   name='email'
                   type='email'
@@ -91,15 +90,14 @@ const Login = ({ }) => {
                   data-testid='input-email'
                 />
               </div>
-              <div class="mb-6">
+              <div className="mb-6">
                 <label
-                  class="block text-gray-700 text-sm font-normal mb-2"
-                  for="password"
+                  className="block text-gray-700 text-sm font-normal mb-2"
                 >
                   Password
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   id='password'
                   type='password'
                   autoComplete='current-password'
@@ -113,10 +111,10 @@ const Login = ({ }) => {
                   <Error text={errors.password} />
                 )}
               </div>
-              <div class="flex items-center justify-between">
-                <button class="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" disabled={isFetching} type='submit' text='Submit'>Login</button>
+              <div className="flex items-center justify-between">
+                <button className="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" disabled={isFetching} type='submit' text='Submit'>Login</button>
                 <a
-                  class="inline-block align-baseline font-normal text-sm text-blue-500 hover:text-blue-800"
+                  className="inline-block align-baseline font-normal text-sm text-blue-500 hover:text-blue-800"
                   href="#"
                 >
                   Forgot Password?
