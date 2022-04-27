@@ -12,8 +12,22 @@ import AllDrops from './features/Drops/AllDrops';
 import { CreateDrop } from './features/Drops/CreateDrop';
 import CreateUser from './features/User/CreateUser';
 import AllUsers from './features/User/AllUsers';
+import { getToken, saveToken } from './helpers/localStorage';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchUserBytoken } from './features/User/userActions';
 
 function App() {
+  useEffect(() => {
+    function getUserData() {
+      const token = getToken().access_token;
+      if (token) {
+        store.dispatch(fetchUserBytoken())
+      }
+    }
+    getUserData()
+  }, [])
+
   return (
     <Provider store={store}>
       <Router>
@@ -39,17 +53,17 @@ function App() {
           <Route
             path='/users/create'
             element={
-              // <AdminPrivateRoute>
-              <CreateUser />
-              // </AdminPrivateRoute>
+              <AdminPrivateRoute>
+                <CreateUser />
+              </AdminPrivateRoute>
             }
           />
           <Route
             path='/users'
             element={
-              // <AdminPrivateRoute>
-              <AllUsers />
-              // </AdminPrivateRoute>
+              <AdminPrivateRoute>
+                <AllUsers />
+              </AdminPrivateRoute>
             }
           />
         </Routes>

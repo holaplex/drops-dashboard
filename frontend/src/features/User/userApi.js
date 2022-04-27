@@ -8,7 +8,6 @@ const me = async () => {
 };
 
 const index = async () => {
-  console.log("WOOORKIIING")
   return await requestHelper.get('/users').catch((e) => e.response)
 }
 

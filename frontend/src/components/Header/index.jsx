@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const index = ({ selected }) => {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ const index = ({ selected }) => {
                     </div>
                     <nav className={`flex-col flex-grow ${isOpen ? 'flex' : 'hidden'} pb-4 md:pb-0 md:flex md:justify-end md:flex-row`}>
                         {navItems.map((item, index) => (
-                            <a className={`${selected === item.label ? "bg-white text-gray-900" : "text-gray-200 bg-transparent"} px-4 py-2 mt-2 text-sm font-semibold rounded-lg hover:bg-gray-600 focus:bg-gray-600 focus:text-white hover:text-white md:mt-0 md:ml-4  focus:outline-none focus:shadow-outline`} href={item.href}>{item.label}</a>
+                            <Link className={`${selected === item.label ? "bg-white text-gray-900" : "text-gray-200 bg-transparent"} px-4 py-2 mt-2 text-sm font-semibold rounded-lg hover:bg-gray-600 focus:bg-gray-600 focus:text-white hover:text-white md:mt-0 md:ml-4  focus:outline-none focus:shadow-outline`} to={item.href}>{item.label}</Link>
                         ))}
                         <button onClick={() => onLogOut()} className="ml-5 px-4 py-2 mt-8 bg-red-800 text-white text-sm font-semibold rounded-lg md:mt-0">
                             Logout

@@ -13,14 +13,13 @@ requestHelper.interceptors.request.use(function (config) {
   // resets token in case user hard refreshes the page
   const token = getToken().access_token;
   config.headers.common['Authorization'] = token
-    ? `Bearer ${token.access_token}`
+    ? `Bearer ${token}`
     : '';
   return config;
 });
 
 requestHelper.interceptors.response.use(
   (response) => {
-    console.log("Success")
     return response;
   },
 

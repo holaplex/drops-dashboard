@@ -44,7 +44,7 @@ Doorkeeper.configure do
   # If you want to disable expiration, set this to nil.
   #
   # access_token_expires_in 2.minutes
-  access_token_expires_in 10.seconds
+  access_token_expires_in 24.hours
 
   access_token_generator '::Doorkeeper::JWT'
 

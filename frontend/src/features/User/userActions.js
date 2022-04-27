@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import requestHelper from '../../helpers/requestHelper';
 import * as userApi from './userApi';
-import { saveToken } from '../../helpers/localStorage';
+import { getToken, saveToken } from '../../helpers/localStorage';
 export const signupUser = createAsyncThunk(
   'users/signupUser',
   async ({ username, email, password, user_type }, thunkAPI) => {
@@ -28,9 +28,10 @@ export const loginUser = createAsyncThunk(
       const response = await userApi.login({ email, password });
       const data = response.data;
       if (response.status === 200) {
+        saveToken(data);
         const userResponse = await userApi.me();
         const userData = userResponse.data
-        saveToken(data);
+        console.log(userData)
         return {...data, ...userData}
       } else {
         return thunkAPI.rejectWithValue(data);
