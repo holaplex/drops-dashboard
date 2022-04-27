@@ -28,9 +28,6 @@ export const userSlice = createSlice({
     [signupUser.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      state.email = payload.email;
-      state.username = payload.username;
-      state.user_type = payload.user_type
     },
     [signupUser.pending]: (state) => {
       state.isFetching = true;

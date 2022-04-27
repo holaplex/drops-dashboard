@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { userSelector } from '../../features/User/userSlice';
 
 const index = ({ selected }) => {
     const navigate = useNavigate();
+    const user = useSelector(userSelector)
     const [isOpen, setIsOpen] = useState(false)
     const onLogOut = () => {
         localStorage.clear();
@@ -22,9 +25,13 @@ const index = ({ selected }) => {
                         </button>
                     </div>
                     <nav className={`flex-col flex-grow ${isOpen ? 'flex' : 'hidden'} pb-4 md:pb-0 md:flex md:justify-end md:flex-row`}>
-                        {navItems.map((item, index) => (
-                            <Link className={`${selected === item.label ? "bg-white text-gray-900" : "text-gray-200 bg-transparent"} px-4 py-2 mt-2 text-sm font-semibold rounded-lg hover:bg-gray-600 focus:bg-gray-600 focus:text-white hover:text-white md:mt-0 md:ml-4  focus:outline-none focus:shadow-outline`} to={item.href}>{item.label}</Link>
-                        ))}
+                        {navItems.map((item, index) => {
+                            if (item.isOnlyAdmin && user.user_type !== "admin") return null;
+
+                            return (
+                                <Link className={`${selected === item.label ? "bg-white text-gray-900" : "text-gray-200 bg-transparent"} px-4 py-2 mt-2 text-sm font-semibold rounded-lg hover:bg-gray-600 focus:bg-gray-600 focus:text-white hover:text-white md:mt-0 md:ml-4  focus:outline-none focus:shadow-outline`} to={item.href}>{item.label}</Link>
+                            )
+                        })}
                         <button onClick={() => onLogOut()} className="ml-5 px-4 py-2 mt-8 bg-red-800 text-white text-sm font-semibold rounded-lg md:mt-0">
                             Logout
                         </button>
@@ -43,6 +50,7 @@ const navItems = [
     },
     {
         label: 'Users',
-        href: '/users'
+        href: '/users',
+        isOnlyAdmin: true
     },
 ]

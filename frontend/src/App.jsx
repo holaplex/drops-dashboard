@@ -16,6 +16,7 @@ import { getToken, saveToken } from './helpers/localStorage';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchUserBytoken } from './features/User/userActions';
+import RolePrivateRoute from './helpers/RolePrivateRoute';
 
 function App() {
   useEffect(() => {
@@ -45,25 +46,25 @@ function App() {
           <Route
             path='/drops/create'
             element={
-              <AdminPrivateRoute>
+              <RolePrivateRoute roles={adminAndClient}>
                 <CreateDrop />
-              </AdminPrivateRoute>
+              </RolePrivateRoute>
             }
           />
           <Route
             path='/users/create'
             element={
-              <AdminPrivateRoute>
+              <RolePrivateRoute roles={onlyAdmin}>
                 <CreateUser />
-              </AdminPrivateRoute>
+              </RolePrivateRoute>
             }
           />
           <Route
             path='/users'
             element={
-              <AdminPrivateRoute>
+              <RolePrivateRoute roles={onlyAdmin}>
                 <AllUsers />
-              </AdminPrivateRoute>
+              </RolePrivateRoute>
             }
           />
         </Routes>
@@ -74,3 +75,7 @@ function App() {
 }
 
 export default App;
+
+const onlyAdmin = ["admin"]
+
+const adminAndClient = ["admin", "client"]

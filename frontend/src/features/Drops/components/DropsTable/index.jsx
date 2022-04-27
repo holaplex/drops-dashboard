@@ -1,18 +1,22 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { userSelector } from '../../../User/userSlice';
 
 const index = () => {
     const navigate = useNavigate();
+    const user = useSelector(userSelector)
     return (
         <div className=' w-screen h-screen overflow-y-auto'>
-
-            <div class="max-w-5xl mt-28 mx-auto">
+            <div class="max-w-5xl mx-auto">
                 <div class="relative overflow-x-auto">
+                    <p className='my-16 max-w-5xl font-semibold text-4xl'>Hi, {user.username}</p>
                     <div class="pb-2">
                         <div class="relative flex mt-1 justify-between items-center">
                             <h1 className='text-gray-800 text-3xl font-bold'>All drops</h1>
 
-                            <button onClick={() => navigate('/drops/create')} class="py-4 border shadow-md border-gray-300 text-white text-lg rounded-lg block w-60 bg-gray-800">Create Drop</button>
+                            {user.user_type !== "minting_vendor" &&
+                                <button onClick={() => navigate('/drops/create')} class="py-4 border shadow-md border-gray-300 text-white text-lg rounded-lg block w-60 bg-gray-800">Create Drop</button>}
                         </div>
                     </div>
                     <table class="w-full text-sm text-left  text-gray-400">
