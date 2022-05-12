@@ -10,10 +10,56 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_100226) do
+ActiveRecord::Schema.define(version: 2022_05_12_185120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "collections", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "conferences", force: :cascade do |t|
+    t.string "name"
+    t.string "long_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "nfts", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "sku"
+    t.string "upi"
+    t.integer "scarcity"
+    t.string "gallery_url"
+    t.string "gallery_filename"
+    t.string "final_url"
+    t.string "final_filename"
+    t.string "creator"
+    t.integer "royalty_matrix"
+    t.string "legend"
+    t.string "sport"
+    t.string "award"
+    t.string "fan_ranking_points"
+    t.string "unlock"
+    t.float "price", default: 0.0
+    t.string "currency", default: "USD"
+    t.string "drop_name"
+    t.string "gallery_type"
+    t.string "final_type"
+    t.string "cm_address"
+    t.string "cm_image_url"
+    t.string "cm_video_url"
+    t.string "clientId"
+    t.string "price_in_sol"
+    t.string "sol_usdt"
+    t.string "sol_usdt_when"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
@@ -57,6 +103,14 @@ ActiveRecord::Schema.define(version: 2022_03_15_100226) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
+  create_table "schools", force: :cascade do |t|
+    t.string "name"
+    t.bigint "conference_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conference_id"], name: "index_schools_on_conference_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "username", default: "", null: false
@@ -73,4 +127,5 @@ ActiveRecord::Schema.define(version: 2022_03_15_100226) do
 
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "schools", "conferences"
 end

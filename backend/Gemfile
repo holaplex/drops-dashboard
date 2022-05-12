@@ -39,12 +39,13 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # Add React Components support
 gem 'react-rails', '~> 2.6', '>= 2.6.1'
+gem 'roo', '~> 2.9'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 4.1.0'
-  gem 'selenium-webdriver', '~> 2.35.1'
-  gem 'pry', '~> 0.14.1'
   gem 'awesome_print', '~> 1.9', '>= 1.9.2'
+  gem 'pry', '~> 0.14.1'
+  gem 'rspec-rails', '~> 4.1.0'
+  # gem 'selenium-webdriver', '~> 2.35.1'
 end
 
 group :development do
@@ -62,17 +63,16 @@ group :development do
   gem 'rubocop', '~> 1.26', '>= 1.26.1'
   gem 'rubocop-rails', '~> 2.14', '>= 2.14.2'
 
-
   gem 'foreman'
 end
 
 group :test do
   gem 'chromedriver-helper'
+  gem 'guard', '~> 2.18'
+  gem 'guard-minitest', '~> 2.4', '>= 2.4.6'
   gem 'minitest', '~> 5.8', '>= 5.8.4'
   gem 'minitest-reporters', '~> 1.4', '>= 1.4.3'
   gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
-  gem 'guard', '~> 2.18'
-  gem 'guard-minitest', '~> 2.4', '>= 2.4.6'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
