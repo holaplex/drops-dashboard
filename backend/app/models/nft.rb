@@ -16,9 +16,7 @@ class Nft < ApplicationRecord
       hash[sym] = val
     end
 
-    nfts = import_from_hash(hash, drop_name)
-    pp nfts[:gallery_url]
-    return nfts
+    import_from_hash(hash, drop_name)
   end
 
   def self.import_from_hash(hash, _drop_name = nil)
