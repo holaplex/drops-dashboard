@@ -20,13 +20,16 @@ class NftController < ApplicationController
 
       headers = sheet.row(i)
 
+      nfts = []
       i += 2
       while i < last
         nft = Nft.import_from_spreadsheet_row(sheet.row(i), headers, tab) if sheet.row(i)[0]
-        pp 'NFT', nft
         i += 1
       end
     end
+
+    
+
     render json: { success: true }, status: :ok
   end
 end

@@ -16,7 +16,9 @@ class Nft < ApplicationRecord
       hash[sym] = val
     end
 
-    import_from_hash(hash, drop_name)
+    nfts = import_from_hash(hash, drop_name)
+    pp nfts[:gallery_url]
+    return nfts
   end
 
   def self.import_from_hash(hash, _drop_name = nil)
@@ -41,7 +43,6 @@ class Nft < ApplicationRecord
                         :final_url, :creator, :royalty_matrix, :legend, :sport, :award, :price, :drop_name)
 
     nft = Nft.where(final_url: hash[:final_url]).first_or_initialize(fields)
-
     # if nft.errors.count > 0
     #   raise "#{hash[:name]} had errors!"
     # else
@@ -54,13 +55,6 @@ class Nft < ApplicationRecord
     #     nft.collection = Collection.where(name: hash[:collection]).first_or_initialize
     #   end
     # end
-
-    begin
-      (nft.save if nft)
-    rescue StandardError
-      debugger
-    end
-
-    nft
+    return nft
   end
 end
