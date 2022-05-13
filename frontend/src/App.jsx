@@ -17,11 +17,13 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchUserBytoken } from './features/User/userActions';
 import RolePrivateRoute from './helpers/RolePrivateRoute';
+import Summary from './features/Drops/Summary';
 
 function App() {
   useEffect(() => {
     function getUserData() {
       const token = getToken().access_token;
+      // console.log("TOOOOKENNNN", token)
       if (token) {
         store.dispatch(fetchUserBytoken())
       }
@@ -48,6 +50,14 @@ function App() {
             element={
               <RolePrivateRoute roles={adminAndClient}>
                 <CreateDrop />
+              </RolePrivateRoute>
+            }
+          />
+          <Route
+            path='/drops/summary'
+            element={
+              <RolePrivateRoute roles={adminAndClient}>
+                <Summary />
               </RolePrivateRoute>
             }
           />

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 import Header from '../../components/Header'
 
 export const CreateDrop = () => {
     const [file, setFile] = useState()
+    const navigate = useNavigate();
 
     const handleUpload = async () => {
         const formData = new FormData()
@@ -12,6 +14,9 @@ export const CreateDrop = () => {
         const res = await axios.post('http://localhost:3000/api/v1/upload/excel', formData)
         console.log("UPLOADING")
         console.log(res)
+        if (res.sucess === true) {
+            navigate('/drops/summary')
+        }
     }
 
     useEffect(() => { console.log(file) }, [file])
