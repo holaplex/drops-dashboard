@@ -35,7 +35,7 @@ class GoogleService
     drive_service.authorization = authorize
 
     response = drive_service.get_file(id, supports_all_drives: true,
-                                          download_dest: "./tmp/image/#{id}.#{file_extension}")
+                                          download_dest: "./public/images/#{id}.#{file_extension}")
     "#{id}.#{file_extension}"
   rescue StandardError => e
     puts "An error occurred: #{e}"
