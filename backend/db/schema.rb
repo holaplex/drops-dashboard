@@ -28,12 +28,19 @@ ActiveRecord::Schema.define(version: 2022_05_12_185120) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "nft_drops", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "nfts", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "sku"
     t.string "upi"
     t.integer "scarcity"
+    t.bigint "nft_drop_id"
     t.string "gallery_url"
     t.string "gallery_filename"
     t.string "final_url"
@@ -59,6 +66,7 @@ ActiveRecord::Schema.define(version: 2022_05_12_185120) do
     t.string "sol_usdt_when"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["nft_drop_id"], name: "index_nfts_on_nft_drop_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -125,6 +133,7 @@ ActiveRecord::Schema.define(version: 2022_05_12_185120) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "nfts", "nft_drops"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "schools", "conferences"

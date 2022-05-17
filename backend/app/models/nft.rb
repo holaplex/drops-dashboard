@@ -1,8 +1,9 @@
 class Nft < ApplicationRecord
   belongs_to :collection, optional: true
   belongs_to :school, optional: true
+  belongs_to :nft_drop, optional: true
   has_one :conference, through: :school
-  def self.import_from_spreadsheet_row(row, headers, drop_name = nil)
+  def self.import_from_spreadsheet_row(row, headers, drop_name = nil, drop_id)
     map = {
       nft_name: :name, nft_description: :description, "edition_/_scarcity": :scarcity, edition_scarcity: :scarcity,
       gallery_image: :gallery_url, final_media: :final_url, gallery_image_asset: :gallery_url,
@@ -16,10 +17,11 @@ class Nft < ApplicationRecord
       hash[sym] = val
     end
 
-    import_from_hash(hash, drop_name)
+    import_from_hash(hash, drop_name, drop_id)
   end
 
-  def self.import_from_hash(hash, _drop_name = nil)
+  def self.import_from_hash(hash, _drop_name = nil, drop_id)
+    hash[:nft_drop_id] = drop_id
     if !hash[:price].blank? && hash[:price].is_a?(String)
       p = begin
         hash[:price].sub(/[$\t ]/, '').to_f
@@ -38,9 +40,11 @@ class Nft < ApplicationRecord
     end
 
     fields = hash.slice(:name, :description, :sku, :upi, :scarcity, :gallery_url, :fan_ranking_points, :unlock,
-                        :final_url, :creator, :royalty_matrix, :legend, :sport, :award, :price, :drop_name)
-
+                        :final_url, :creator, :royalty_matrix, :legend, :sport, :award, :price, :drop_name, :nft_drop_id)
+    pp 'FIELDS', fields
     nft = Nft.where(final_url: hash[:final_url]).first_or_initialize(fields)
+    nft.save!
+    nft
     # if nft.errors.count > 0
     #   raise "#{hash[:name]} had errors!"
     # else
@@ -53,6 +57,5 @@ class Nft < ApplicationRecord
     #     nft.collection = Collection.where(name: hash[:collection]).first_or_initialize
     #   end
     # end
-    return nft
   end
 end

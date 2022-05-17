@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index]
 
       post '/upload/excel', to: 'nft#upload'
+      get '/nfts', to: 'nft#index'
     end
   end
 end

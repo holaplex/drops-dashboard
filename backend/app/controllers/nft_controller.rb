@@ -5,12 +5,13 @@ class NftController < ApplicationController
     file = params[:file]
 
     xlsx = Roo::Spreadsheet.open(file)
-    # pp 'XLSL', xlsx
+
+    #     pp params
+    nft_drop = NftDrop.create(name: params[:name])
 
     tabs = xlsx.sheets
     nfts = []
     tabs.each do |tab|
-      # pp 'TAB', tab
       sheet = xlsx.sheet(tab)
       last = sheet.last_row + 1
 
@@ -23,17 +24,18 @@ class NftController < ApplicationController
       i += 2
       while i < last
         unless sheet.row(i)[0].nil?
-          nft = Nft.import_from_spreadsheet_row(sheet.row(i), headers, tab)
+          nft = Nft.import_from_spreadsheet_row(sheet.row(i), headers, tab, nft_drop[:id])
           image_id = nft[:gallery_url].split('d/', -1)[1].split('/v', -1)[0]
           final_media_id = nft[:final_url].split('d/', -1)[1].split('/v', -1)[0]
           nft_image = GoogleService.get_drive_media(image_id, 'gallery')
           nft_final_media = GoogleService.get_drive_media(final_media_id, 'final')
-          nfts.push({ nft_image: nft_image, nft_final_media: nft_final_media, nft_id: nft[:id] })
+
+          pp 'NFT', nft
+          nfts.push(nft)
         end
         i += 1
       end
     end
-    pp nfts
-    render json: { success: true, nfts: nfts }, status: :ok
+    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name] }, status: :ok
   end
 end
