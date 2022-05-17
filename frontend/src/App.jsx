@@ -20,12 +20,12 @@ import RolePrivateRoute from './helpers/RolePrivateRoute';
 import Summary from './features/Drops/Summary';
 import ReviewNft from './features/Drops/ReviewNft';
 import ConfirmDrop from './features/Drops/ConfirmDrop'
+import ForgotPassword from './features/User/ForgotPassword';
 
 function App() {
   useEffect(() => {
     function getUserData() {
       const token = getToken().access_token;
-      // console.log("TOOOOKENNNN", token)
       if (token) {
         store.dispatch(fetchUserBytoken())
       }
@@ -38,6 +38,7 @@ function App() {
       <Router>
         <Routes>
           <Route element={<Login />} path='/login' />
+          <Route element={<ForgotPassword />} path='/forgot-password' />
           <Route element={<Signup />} path='/signup' />
           <Route
             path='/drops'

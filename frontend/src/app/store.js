@@ -4,6 +4,6 @@ import { dropSlice } from '../features/Drops/dropSlice';
 export default configureStore({
   reducer: {
     user: userSlice.reducer,
-    drop: dropSlice.reducer
+    drop: dropSlice.reducer,
   },
 });
