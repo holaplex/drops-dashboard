@@ -1,17 +1,19 @@
+import React from 'react'
+
 const ReviewNftCard = ({ nft }) => {
-  console.log("NFT", nft)
+  const IMAGE_DIR = 'http://localhost:3000/images/'
+
   return (
     <div className='my-6'>
       <div className='text-center my-6'>
         <span><b>Review:</b> {nft.name}</span>
       </div>
-      <div className='flex gap-6'>
+      <div className='flex justify-evenly'>
         <div className='flex w-1/2'>
-          <img className='mx-2' width='200' height='200' src='https://ca.slack-edge.com/T02ERR4SW56-U02E26PTXTM-9c36fd83e6d5-512' />
-          <img className='mx-2' width='200' height='200' src='https://ca.slack-edge.com/T02ERR4SW56-U02E26PTXTM-9c36fd83e6d5-512' />
-
+          <img className='mx-2' width='300' height='500' src={`${IMAGE_DIR}${nft.gallery_filename}`} />
+          <video autoPlay muted className='mx-2' width='300' height='500' src={`${IMAGE_DIR}${nft.final_filename}`} />
         </div>
-        <div className='text-xs'>
+        <div className='text-sm'>
           <div className='flex flex-col'>
             <b>Fan Ranking points:</b>
             <span>{nft.fan_ranking_points}</span>

@@ -19,6 +19,7 @@ import { fetchUserBytoken } from './features/User/userActions';
 import RolePrivateRoute from './helpers/RolePrivateRoute';
 import Summary from './features/Drops/Summary';
 import ReviewNft from './features/Drops/ReviewNft';
+import ConfirmDrop from './features/Drops/ConfirmDrop'
 
 function App() {
   useEffect(() => {
@@ -67,6 +68,14 @@ function App() {
             element={
               <RolePrivateRoute roles={adminAndClient}>
                 <ReviewNft />
+              </RolePrivateRoute>
+            }
+          />
+          <Route
+            path='/drops/confirm'
+            element={
+              <RolePrivateRoute roles={adminAndClient}>
+                <ConfirmDrop />
               </RolePrivateRoute>
             }
           />
