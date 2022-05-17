@@ -35,6 +35,6 @@ class NftController < ApplicationController
         i += 1
       end
     end
-    render json: { success: true, nfts: nfts}, status: :ok
+    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name] }, status: :ok
   end
 end
