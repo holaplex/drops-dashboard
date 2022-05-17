@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchUserBytoken } from './features/User/userActions';
 import RolePrivateRoute from './helpers/RolePrivateRoute';
 import Summary from './features/Drops/Summary';
+import ReviewNft from './features/Drops/ReviewNft';
 
 function App() {
   useEffect(() => {
@@ -58,6 +59,14 @@ function App() {
             element={
               <RolePrivateRoute roles={adminAndClient}>
                 <Summary />
+              </RolePrivateRoute>
+            }
+          />
+          <Route
+            path='/drops/review'
+            element={
+              <RolePrivateRoute roles={adminAndClient}>
+                <ReviewNft />
               </RolePrivateRoute>
             }
           />

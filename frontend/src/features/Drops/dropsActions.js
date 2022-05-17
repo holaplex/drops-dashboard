@@ -5,7 +5,6 @@ import * as dropApi from './dropsApi';
 export const createDrop = createAsyncThunk(
   'drop/create',
   async (formData, thunkAPI) => {
-    console.log("FORM DATA", formData)
     try {
       const response = await dropApi.create(formData)
 
