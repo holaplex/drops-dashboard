@@ -10,7 +10,7 @@ const ConfirmDrop = () => {
   const { name, nfts } = useSelector(dropSelector)
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const IMAGE_DIR = ':3000/images/'
+  const IMAGE_DIR = window.location.origin + ':3000/images/'
 
   const handleCancel = () => {
     dispatch(clearState())
