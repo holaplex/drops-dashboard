@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createDrop } from './dropsActions'
+import { createDrop, getDrops } from './dropsActions'
 
 export const dropSlice = createSlice({
   name: 'drop',
@@ -8,6 +8,7 @@ export const dropSlice = createSlice({
     isFetching: false,
     isSuccess: false,
     isError: false,
+    drops: [],
     nfts: [],
   },
 
@@ -37,6 +38,23 @@ export const dropSlice = createSlice({
       state.name = payload.drop_name
       state.isFetching = false;
       state.isSuccess = true;
+    },
+    //Get all
+    [getDrops.rejected]: (state, { payload }) => {
+      console.log("ERROR", payload)
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [getDrops.pending]: (state) => {
+      console.log("LOADING")
+      state.isFetching = true;
+    },
+    [getDrops.fulfilled]: (state, { payload }) => {
+      console.log("PAYLOAD", payload)
+      state.drops = payload.drops;
+      state.isFetching = false;
+      // state.isSuccess = true;
     },
   }
 })

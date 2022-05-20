@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
       post '/upload/excel', to: 'nft#upload'
       get '/nfts', to: 'nft#index'
+      get '/drops', to: 'drop#index'
     end
   end
 end

@@ -44,11 +44,11 @@ export const CreateDrop = () => {
                         </span>
                         <input value={name} onChange={v => setName(v.target.value)} className="field text-sm text-gray-600 p-2 px-3 rounded-r w-full" type="text" placeholder="MyAmazingDrop" />
                     </span>
-                    <span class="flex shadow-md mb-5 text-xs">
-                        <span class="bg-gray-800 w-28 font-bold text-center text-gray-200 p-3 px-5 rounded-l">
+                    <span className="flex shadow-md mb-5 text-xs">
+                        <span className="bg-gray-800 w-28 font-bold text-center text-gray-200 p-3 px-5 rounded-l">
                             Upload XLS
                         </span>
-                        <input onChange={f => setFile(f.target.files[0])} class="field text-sm text-gray-600 p-2 px-3 rounded-r w-full" type="file" placeholder="" />
+                        <input onChange={f => setFile(f.target.files[0])} className="field text-sm text-gray-600 p-2 px-3 rounded-r w-full" type="file" placeholder="" />
                     </span>
                     {isFetching ? (
                         <button disabled className='bg-gray-800 disabled font-bold text-gray-200 p-3 w-8/12 rounded-md cursor-wait opacity-75'>

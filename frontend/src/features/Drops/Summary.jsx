@@ -19,8 +19,8 @@ export const Summary = () => {
   return (
     <>
       <Header selected="Drops" />
-      <div className='flex justify-center items-center'>
-        <div className='w-2/3 justify-center flex flex-col p-6'>
+      <div className='flex w-full justify-center items-center'>
+        <div className='w-8/12 mt-6 justify-center flex flex-col'>
           <div className='w-full flex flex-col'>
             <div>
               <h5>

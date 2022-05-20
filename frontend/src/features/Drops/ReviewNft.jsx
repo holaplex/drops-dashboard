@@ -32,8 +32,8 @@ const ReviewNft = () => {
     <>
       <Header selected="Drops" />
 
-      <div>
-        <div className='m-6'>
+      <div className='w-full flex justify-center'>
+        <div className='w-8/12 m-6'>
           <div className='flex justify-between'>
             <h5 className='text-lg'><i>{name}</i></h5>
             <span>{position + 1} of {nfts.length}</span>

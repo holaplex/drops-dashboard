@@ -9,11 +9,11 @@ const ReviewNftCard = ({ nft }) => {
         <span><b>Review:</b> {nft.name}</span>
       </div>
       <div className='flex justify-evenly'>
-        <div className='flex w-1/2'>
-          <img className='mx-2' width='300' height='500' src={`${IMAGE_DIR}${nft.gallery_filename}`} />
-          <video autoPlay muted className='mx-2' width='300' height='500' src={`${IMAGE_DIR}${nft.final_filename}`} />
+        <div className='flex gap-2 mr-6 w-2/3'>
+          <img className='w-1/2' width='100' height='100' src={`${IMAGE_DIR}${nft.gallery_filename}`} />
+          <video className='w-1/2' autoPlay muted width='100' height='100' src={`${IMAGE_DIR}${nft.final_filename}`} />
         </div>
-        <div className='text-sm'>
+        <div className='text-sm w-1/3'>
           <div className='flex flex-col'>
             <b>Fan Ranking points:</b>
             <span>{nft.fan_ranking_points}</span>
