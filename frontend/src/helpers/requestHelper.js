@@ -5,8 +5,12 @@ import { refreshToken } from '../features/User/userApi';
 // TODO: Add interceptor to refresh token
 // TODO: Add BASEURL
 
+export const IMAGE_DIR = window.location.origin.includes('localhost') ? 'http://localhost:3000/images/' : ':3000/images/'
+const BASE_URL = window.location.origin.includes('localhost') ? 'http://localhost:3000/api/v1' : '/api/v1'
+
+
 const requestHelper = axios.create({
-  baseURL: '/api/v1',
+  baseURL: BASE_URL,
 });
 
 requestHelper.interceptors.request.use(function (config) {

@@ -1,7 +1,7 @@
 import React from 'react'
+import { IMAGE_DIR } from '../../../../helpers/requestHelper'
 
 const ReviewNftCard = ({ nft }) => {
-  const IMAGE_DIR = window.location.origin + ':3000/images/'
 
   return (
     <div className='my-6'>

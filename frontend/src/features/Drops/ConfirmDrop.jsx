@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { dropSelector, clearState } from './dropSlice'
+import { IMAGE_DIR } from '../../helpers/requestHelper'
 
 import Header from '../../components/Header'
 
@@ -10,7 +11,6 @@ const ConfirmDrop = () => {
   const { name, nfts } = useSelector(dropSelector)
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const IMAGE_DIR = window.location.origin + ':3000/images/'
 
   const handleCancel = () => {
     dispatch(clearState())
