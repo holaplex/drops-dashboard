@@ -5,15 +5,20 @@ import { refreshToken } from '../features/User/userApi';
 // TODO: Add interceptor to refresh token
 // TODO: Add BASEURL
 
-export const IMAGE_DIR = window.location.origin.includes('localhost') ? 'http://localhost:3000/images/' : ':3000/images/'
-const BASE_URL = window.location.origin.includes('localhost') ? 'http://localhost:3000/api/v1' : '/api/v1'
+export const IMAGE_DIR = window.location.origin.includes('localhost')
+  ? 'http://localhost:3000/images/'
+  : window.location.origin + ':3000/images/'
+
+const BASE_URL = window.location.origin.includes('localhost') 
+  ? 'http://localhost:3000/api/v1' 
+  : '/api/v1'
 
 
 const requestHelper = axios.create({
   baseURL: BASE_URL,
 });
 
-requestHelper.interceptors.request.use(function (config) {
+requestHelper.interceptors.request.use(function(config) {
   // resets token in case user hard refreshes the page
   const token = getToken().access_token;
   config.headers.common['Authorization'] = token
@@ -31,7 +36,7 @@ requestHelper.interceptors.response.use(
     console.log(error)
     const originalConfig = error.config;
     if (error.response) {
-      if (error.response.status === 401 && !originalConfig.retry ) {
+      if (error.response.status === 401 && !originalConfig.retry) {
         console.log("Going to try again...")
         originalConfig._retry = true;
         return handleRefreshToken(originalConfig);
@@ -45,7 +50,7 @@ requestHelper.interceptors.response.use(
 
 async function handleRefreshToken(originalConfig) {
   const response = await refreshToken({
-    refreshToken: getToken()?.refresh_token,
+    refreshToken: getToken() ?.refresh_token,
   });
   console.log(response)
   const token = response.data;
