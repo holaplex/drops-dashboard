@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ReviewNftCard = ({ nft }) => {
-  const IMAGE_DIR = 'http://localhost:3000/images/'
+  const IMAGE_DIR = window.location.origin + ':3000/images/'
 
   return (
     <div className='my-6'>
