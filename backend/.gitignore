@@ -40,3 +40,8 @@ yarn-debug.log*
 .env
 
 /public/images/*
+!/public/images/.keep
+
+/public/drops/*
+!/public/drops/.keep
+

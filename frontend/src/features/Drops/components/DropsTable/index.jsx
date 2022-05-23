@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { userSelector } from '../../../User/userSlice';
 import { getDrops } from '../../dropsActions'
 import { dropSelector } from '../../dropSlice'
+import { DOWNLOAD_DIR } from '../../../../helpers/requestHelper'
 
 const index = () => {
     const navigate = useNavigate()
@@ -34,19 +35,19 @@ const index = () => {
                         <tr>
                             <th scope="col" className="px-6 py-3">
                                 ID
-                                </th>
+                            </th>
                             <th scope="col" className="px-6 py-3">
                                 Name
-                                </th>
+                            </th>
                             <th scope="col" className="px-6 py-3">
                                 Time Created
-                                </th>
+                            </th>
                             <th scope="col" className="px-6 py-3">
                                 Status
-                                </th>
+                            </th>
                             <th scope="col" className="px-6 py-3">
                                 Actions
-                                </th>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,7 +87,7 @@ const index = () => {
                                         {user.user_type === 'minting_vendor' && (
                                             <td className="px-6 py-4">
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Review</a>
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Download (.tar)</a>
+                                                <a href={`${DOWNLOAD_DIR}drop.tar`} className="font-medium text-blue-500 hover:underline mr-2" download>Download (.tar)</a>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Upload (.json)</a>
                                             </td>
                                         )}
@@ -94,7 +95,7 @@ const index = () => {
                                         {user.user_type === 'admin' && (
                                             <td className="px-6 py-4">
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Review</a>
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Download (.tar)</a>
+                                                <a href={`${DOWNLOAD_DIR}drop.tar`} className="font-medium text-blue-500 hover:underline mr-2" download>Download (.tar)</a>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Upload (.json)</a>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
                                             </td>
