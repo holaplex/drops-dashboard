@@ -1,7 +1,7 @@
 class NftController < ApplicationController
   require 'roo'
 
-  def upload
+  def upload_excel
     file = params[:file]
 
     xlsx = Roo::Spreadsheet.open(file)
@@ -34,5 +34,17 @@ class NftController < ApplicationController
       end
     end
     render json: { success: true, nfts: nfts, drop_name: nft_drop[:name] }, status: :ok
+  end
+
+  def upload_minted
+    file = params[:file]
+    drop = NftDrop.find(params[:drop_id])
+    drop.status = 'Mint Completed'
+    drop.save!
+    tmp = file.tempfile
+    destiny_file = File.join('public', 'uploads', file.original_filename)
+    FileUtils.move tmp.path, destiny_file
+
+    render json: { success: true, drop: drop }, status: :ok
   end
 end

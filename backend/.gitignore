@@ -45,3 +45,6 @@ yarn-debug.log*
 /public/drops/*
 !/public/drops/.keep
 
+/public/uploads/*
+!/public/uploads/.keep
+

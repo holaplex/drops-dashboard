@@ -9,4 +9,8 @@ const index = async () => {
 const create = async (formData) => {
   return await requestHelper.post('/upload/excel', formData)
 };
-export { create, index };
+
+const uploadMint = async (formData) => {
+  return await requestHelper.post('/upload/minted', formData)
+};
+export { create, index, uploadMint };

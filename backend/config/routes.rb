@@ -19,7 +19,8 @@ Rails.application.routes.draw do
 
       resources :users, only: [:index]
 
-      post '/upload/excel', to: 'nft#upload'
+      post '/upload/excel', to: 'nft#upload_excel'
+      post '/upload/minted', to: 'nft#upload_minted'
       get '/nfts', to: 'nft#index'
       get '/drops', to: 'drop#index'
     end
