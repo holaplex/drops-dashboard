@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createDrop, getDrops } from './dropsActions'
+import { createSlice, current } from '@reduxjs/toolkit';
+import { createDrop, getDrops, uploadMint } from './dropsActions'
 
 export const dropSlice = createSlice({
   name: 'drop',
@@ -55,6 +55,24 @@ export const dropSlice = createSlice({
       state.drops = payload.drops;
       state.isFetching = false;
       // state.isSuccess = true;
+    },
+    //Upload mint
+    [uploadMint.rejected]: (state, { payload }) => {
+      console.log("ERROR", payload)
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [uploadMint.pending]: (state) => {
+      console.log("LOADING")
+      state.isFetching = true;
+    },
+    [uploadMint.fulfilled]: (state, { payload }) => {
+      state.drops = state.drops.map(
+        drop => drop.id == payload.drop.id ? { ...drop, status: payload.drop.status } : drop
+      )
+      state.isFetching = false;
+      state.isSuccess = true;
     },
   }
 })

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userSelector } from '../../../User/userSlice';
-import { getDrops } from '../../dropsActions'
+import { getDrops, uploadMint } from '../../dropsActions'
 import { dropSelector } from '../../dropSlice'
 import { DOWNLOAD_DIR } from '../../../../helpers/requestHelper'
-import { uploadMint } from '../../dropsApi'
+// import { uploadMint } from '../../dropsApi'
 
 const index = () => {
     const navigate = useNavigate()
@@ -16,6 +16,7 @@ const index = () => {
 
     const [showModal, setShowModal] = useState(false);
     const [selectedDrop, setSelectedDrop] = useState()
+
     useEffect(() => {
         dispatch(getDrops())
     }, [])
@@ -28,7 +29,8 @@ const index = () => {
         const formData = new FormData()
         formData.append("file", file)
         formData.append("drop_id", selectedDrop)
-        uploadMint(formData)
+
+        dispatch(uploadMint(formData))
         setShowModal(false)
     }
 
@@ -111,7 +113,7 @@ const index = () => {
                                             <td className="px-6 py-4">
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Review</a>
                                                 <a href={`${DOWNLOAD_DIR}drop.tar`} className="font-medium text-blue-500 hover:underline mr-2" download>Download (.tar)</a>
-                                                <button onClick={() => handleModal(drop.id)} className='font-medium text-blue-500 hover:underline mr-2"'>Upload (.json)</button>
+                                                <button onClick={() => handleModal(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Upload (.json)</button>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
 
                                             </td>
@@ -164,7 +166,7 @@ const index = () => {
                                             Close
                                         </button>
                                         <button
-                                            className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            className="p-2 border shadow-md border-gray-300 text-white text-lg rounded-lg block bg-gray-800"
                                             type="button"
                                             onClick={handleUpload}
                                         >
