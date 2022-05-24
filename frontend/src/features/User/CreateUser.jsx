@@ -145,8 +145,8 @@ const CreateUsers = () => {
                                     value={values.user_type}
                                     data-testid='input-user_type'
                                 /> */}
-                                <Field as="select" name="user_type" className="shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value=""></option>
+                                <Field as="select" placeHolder="asd" name="user_type" className="shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    <option disabled selected value="" >Select a user role</option>
                                     <option value="client">Client</option>
                                     <option value="minting_vendor">Minting Vendor</option>
                                 </Field>
