@@ -1,29 +1,40 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { userSelector } from '../features/User/userSlice';
+import { userSelector, clearState } from '../features/User/userSlice';
 import { getToken } from '../helpers/localStorage';
 import { fetchUserBytoken } from '../features/User/userActions';
-import store from '../app/store';
 
 const RolePrivateRoute = ({ children, roles = [] }) => {
     const [authorized, setAuthorizded] = useState()
     const [loading, setLoading] = useState(true)
+    const { user_type, isFetching, isSuccess, isError, errorMessages } =
+        useSelector(userSelector);
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        async function getUserData() {
-            const token = getToken().access_token;
-
-            if (token) {
-                const user = await store.dispatch(fetchUserBytoken())
-                const authorized = roles.includes(user.payload.user_type);
-                setAuthorizded(authorized)
-            }
+        if (isSuccess) {
+            roles.includes(user_type) ? setAuthorizded(true) : setAuthorizded(false)
             setLoading(false)
         }
-        getUserData()
+        if (isError) {
+            console.log(errorMessages)
+            setLoading(false)
+        }
+        dispatch(clearState());
+    }, [isSuccess, isError, isFetching])
+
+    useEffect(() => {
+        const token = getToken().access_token;
+        if (token) {
+            dispatch(fetchUserBytoken())
+        }
+        else{
+            console.log("NO TOKEN")
+        }
     }, [])
+
     // If authorized, return an outlet that will render child elements
     // If not, return element that will navigate to login page
 

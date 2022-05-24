@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -9,11 +8,6 @@ import * as Yup from 'yup';
 
 import { signupUser } from './userActions';
 import { userSelector, clearState } from './userSlice';
-
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import FormField from '../../components/FormField';
-import Error from '../../components/Error';
 
 const SignupSchema = Yup.object().shape({
     username: Yup.string()
@@ -49,22 +43,15 @@ const CreateUsers = () => {
     };
 
     useEffect(() => {
-        return () => {
-            dispatch(clearState());
-        };
-    }, []);
-
-    useEffect(() => {
         if (isSuccess) {
-            dispatch(clearState());
             navigate('/users');
         }
 
         if (isError) {
             const parsedErrorMessages = parseErrorMessages(errorMessages);
             toast.error(parsedErrorMessages);
-            dispatch(clearState());
         }
+        dispatch(clearState());
     }, [isSuccess, isError, errorMessages]);
 
     return (
@@ -76,7 +63,7 @@ const CreateUsers = () => {
                         username: '',
                         email: '',
                         password: '',
-                        user_type: ''
+                        user_type: '0'
                     }}
                     validationSchema={SignupSchema}
                     onSubmit={(values) => {
@@ -133,22 +120,10 @@ const CreateUsers = () => {
                             </div>
                             <div className="mb-4">
                                 <span>Role</span>
-                                {/* <input
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id='user_type'
-                                    name='user_type'
-                                    type='user_type'
-                                    placeholder='youremail@email.com'
-                                    autoComplete='user_type'
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.user_type}
-                                    data-testid='input-user_type'
-                                /> */}
-                                <Field as="select" placeHolder="asd" name="user_type" className="shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option disabled selected value="" >Select a user role</option>
-                                    <option value="client">Client</option>
-                                    <option value="minting_vendor">Minting Vendor</option>
+                                <Field onChange={handleChange} onBlur={handleBlur} value={values.user_type} as="select" name="user_type" required className={`shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${values.user_type === '0' ? 'text-gray-400' : 'text-gray-700'}`}>
+                                    <option className="text-gray-700" disabled value="0" >Select a user role</option>
+                                    <option className="text-gray-700" value="client">Client</option>
+                                    <option className="text-gray-700" value="minting_vendor">Minting Vendor</option>
                                 </Field>
                             </div>
                             <button className="px-4 py-2 w-full rounded text-white inline-block shadow-lg bg-gray-800 hover:bg-gray-600" disabled={isFetching} type='submit' text='Submit'>Create</button>
