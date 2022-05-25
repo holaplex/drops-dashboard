@@ -5,7 +5,6 @@ import { userSelector } from '../../../User/userSlice';
 import { getDrops, uploadMint } from '../../dropsActions'
 import { dropSelector } from '../../dropSlice'
 import { DOWNLOAD_DIR } from '../../../../helpers/requestHelper'
-// import { uploadMint } from '../../dropsApi'
 
 const index = () => {
     const navigate = useNavigate()
@@ -32,6 +31,10 @@ const index = () => {
 
         dispatch(uploadMint(formData))
         setShowModal(false)
+    }
+
+    const handleReview = (drop_id) => {
+        navigate(`/drops/review/${drop_id}`)
     }
 
     return (
@@ -95,7 +98,7 @@ const index = () => {
                                         {/* Client buttons  */}
                                         {user.user_type === 'client' && (
                                             <td className="px-6 py-4">
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Review</a>
+                                                <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Publish</a>
                                             </td>
@@ -103,7 +106,7 @@ const index = () => {
                                         {/* Minting vendor buttons  */}
                                         {user.user_type === 'minting_vendor' && (
                                             <td className="px-6 py-4">
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Review</a>
+                                                <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
                                                 <a href={`${DOWNLOAD_DIR}drop.tar`} className="font-medium text-blue-500 hover:underline mr-2" download>Download (.tar)</a>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Upload (.json)</a>
                                             </td>
@@ -111,7 +114,7 @@ const index = () => {
                                         {/* System admin buttons  */}
                                         {user.user_type === 'admin' && (
                                             <td className="px-6 py-4">
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Review</a>
+                                                <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
                                                 <a href={`${DOWNLOAD_DIR}drop.tar`} className="font-medium text-blue-500 hover:underline mr-2" download>Download (.tar)</a>
                                                 <button onClick={() => handleModal(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Upload (.json)</button>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>

@@ -1,10 +1,11 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import { createDrop, getDrops, uploadMint } from './dropsActions'
+import { createDrop, getDrops, show, uploadMint } from './dropsActions'
 
 export const dropSlice = createSlice({
   name: 'drop',
   initialState: {
     name: '',
+    isReviewingAFinishedDrop: false,
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -18,6 +19,10 @@ export const dropSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
+      // state.isReviewingAFinishedDrop = false;
+    },
+    finishReview: (state) => {
+      state.isReviewingAFinishedDrop = false;
     },
   },
   extraReducers: {
@@ -38,6 +43,25 @@ export const dropSlice = createSlice({
       state.name = payload.drop_name
       state.isFetching = false;
       state.isSuccess = true;
+    },
+    //Show
+    [show.rejected]: (state, { payload }) => {
+      console.log("ERROR", payload)
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [show.pending]: (state) => {
+      console.log("LOADING SHOW")
+      state.isFetching = true;
+    },
+    [show.fulfilled]: (state, { payload }) => {
+      console.log("PAYLOAD", payload)
+      state.nfts = payload.nfts
+      state.name = payload.drop_name
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.isReviewingAFinishedDrop = true;
     },
     //Get all
     [getDrops.rejected]: (state, { payload }) => {
@@ -77,6 +101,6 @@ export const dropSlice = createSlice({
   }
 })
 
-export const { clearState } = dropSlice.actions;
+export const { clearState, finishReview } = dropSlice.actions;
 
 export const dropSelector = (state) => state.drop;

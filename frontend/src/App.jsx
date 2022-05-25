@@ -65,7 +65,15 @@ function App() {
             }
           />
           <Route
-            path='/drops/review'
+            path={"/drops/review"}
+            element={
+              <RolePrivateRoute roles={adminAndClient}>
+                <ReviewNft />
+              </RolePrivateRoute>
+            }
+          />
+          <Route
+            path={"/drops/review/:drop_id"}
             element={
               <RolePrivateRoute roles={adminAndClient}>
                 <ReviewNft />

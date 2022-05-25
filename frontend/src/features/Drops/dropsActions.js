@@ -40,6 +40,26 @@ export const getDrops = createAsyncThunk(
   }
 )
 
+export const show = createAsyncThunk(
+  'drops/drop',
+  async (drop_id, thunkAPI) => {
+    try {
+      const response = await dropApi.show(drop_id)
+      const { data } = response
+      if (response.status === 200) {
+        const { drop_name, nfts } = response.data
+        return { drop_name, nfts }
+      }
+      else {
+        return thunkAPI.rejectWithValue(data)
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e)
+    }
+
+  }
+)
+
 export const uploadMint = createAsyncThunk(
   'upload/minted',
   async (formData, thunkAPI) => {

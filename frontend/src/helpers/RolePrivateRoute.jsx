@@ -16,6 +16,7 @@ const RolePrivateRoute = ({ children, roles = [] }) => {
     useEffect(() => {
         if (isSuccess) {
             roles.includes(user_type) ? setAuthorizded(true) : setAuthorizded(false)
+            dispatch(clearState());
             setLoading(false)
         }
         if (isError) {
@@ -30,7 +31,7 @@ const RolePrivateRoute = ({ children, roles = [] }) => {
         if (token) {
             dispatch(fetchUserBytoken())
         }
-        else{
+        else {
             console.log("NO TOKEN")
         }
     }, [])
