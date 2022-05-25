@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       post '/upload/minted', to: 'nft#upload_minted'
       get '/nfts', to: 'nft#index'
       get '/drops', to: 'drop#index'
+      post '/forgot_password', to: 'users#forgot_password'
+      post '/reset_password', to: 'users#reset_password'
     end
   end
 end

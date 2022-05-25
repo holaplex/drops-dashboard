@@ -9,9 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { userSelector, clearState } from './userSlice';
 import { loginUser } from './userActions';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import FormField from '../../components/FormField';
 import Error from '../../components/Error';
 
 const LoginSchema = Yup.object().shape({
@@ -115,7 +112,7 @@ const Login = ({ }) => {
                 <button className="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" disabled={isFetching} type='submit' text='Submit'>Login</button>
                 <a
                   className="inline-block align-baseline font-normal text-sm text-blue-500 hover:text-blue-800"
-                  href="#"
+                  href="/forgot-password"
                 >
                   Forgot Password?
                 </a>

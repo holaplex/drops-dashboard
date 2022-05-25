@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signupUser, loginUser, fetchUserBytoken } from './userActions';
+import {
+  signupUser,
+  loginUser,
+  fetchUserBytoken,
+  forgotPassword,
+  resetPassword,
+} from './userActions';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -39,10 +45,10 @@ export const userSlice = createSlice({
     },
 
     // Login
-    [loginUser.fulfilled]:(state, { payload }) => {
+    [loginUser.fulfilled]: (state, { payload }) => {
       state.email = payload.email;
       state.username = payload.username;
-      state.user_type = payload.user_type
+      state.user_type = payload.user_type;
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -55,6 +61,34 @@ export const userSlice = createSlice({
       state.isFetching = true;
     },
 
+    // Forgot Password
+    [forgotPassword.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [forgotPassword.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [forgotPassword.pending]: (state) => {
+      state.isFetching = true;
+    },
+
+    //reset-password
+    [resetPassword.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [resetPassword.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [resetPassword.pending]: (state) => {
+      state.isFetching = true;
+    },
+
     // FetchByToken
     [fetchUserBytoken.pending]: (state) => {
       state.isFetching = true;
@@ -64,7 +98,7 @@ export const userSlice = createSlice({
       state.isSuccess = true;
       state.email = payload.email;
       state.username = payload.username;
-      state.user_type = payload.user_type
+      state.user_type = payload.user_type;
     },
     [fetchUserBytoken.rejected]: (state) => {
       state.isFetching = false;

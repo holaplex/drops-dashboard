@@ -8,8 +8,8 @@ const me = async () => {
 };
 
 const index = async () => {
-  return await requestHelper.get('/users').catch((e) => e.response)
-}
+  return await requestHelper.get('/users').catch((e) => e.response);
+};
 
 const signUp = async ({ username, email, password, user_type }) => {
   return await requestHelper
@@ -27,6 +27,18 @@ const login = async ({ email, password }) => {
     .catch((e) => e.response);
 };
 
+const forgotPassword = async (email) => {
+  return await requestHelper
+    .post('/forgot_password', { email })
+    .catch((e) => e.response);
+};
+
+const resetPassword = async (password, reset_password_token) => {
+  return await requestHelper
+    .post('/reset_password', { password, reset_password_token })
+    .catch((e) => e.response);
+};
+
 const refreshToken = async ({ refreshToken }) => {
   return await requestHelper
     .post('/oauth/token', {
@@ -36,4 +48,12 @@ const refreshToken = async ({ refreshToken }) => {
     .catch((e) => e.response);
 };
 
-export { signUp, login, refreshToken, me, index };
+export {
+  signUp,
+  login,
+  refreshToken,
+  me,
+  index,
+  forgotPassword,
+  resetPassword,
+};

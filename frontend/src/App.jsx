@@ -21,6 +21,7 @@ import Summary from './features/Drops/Summary';
 import ReviewNft from './features/Drops/ReviewNft';
 import ConfirmDrop from './features/Drops/ConfirmDrop'
 import ForgotPassword from './features/User/ForgotPassword';
+import ResetPassword from './features/User/ResetPassword';
 
 function App() {
   useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
         <Routes>
           <Route element={<Login />} path='/login' />
           <Route element={<ForgotPassword />} path='/forgot-password' />
+          <Route element={<ResetPassword />} path='/reset-password/:reset_password_token' />
           <Route element={<Signup />} path='/signup' />
           <Route
             path='/drops'

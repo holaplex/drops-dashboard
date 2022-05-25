@@ -6,7 +6,12 @@ export const signupUser = createAsyncThunk(
   'users/signupUser',
   async ({ username, email, password, user_type }, thunkAPI) => {
     try {
-      const response = await userApi.signUp({ username, email, password, user_type });
+      const response = await userApi.signUp({
+        username,
+        email,
+        password,
+        user_type,
+      });
       const { data } = response;
       if (response.status === 200) {
         const { token } = data.user;
@@ -30,9 +35,46 @@ export const loginUser = createAsyncThunk(
       if (response.status === 200) {
         saveToken(data);
         const userResponse = await userApi.me();
-        const userData = userResponse.data
-        console.log(userData)
-        return {...data, ...userData}
+        const userData = userResponse.data;
+        console.log(userData);
+        return { ...data, ...userData };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk(
+  'users/forgotPassword',
+  async ({ email }, thunkAPI) => {
+    try {
+      const response = await userApi.forgotPassword(email);
+      const data = response.data;
+      if (response.status === 200) {
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'users/resetPassword',
+  async ({ password, reset_password_token }, thunkAPI) => {
+    try {
+      const response = await userApi.resetPassword(
+        password,
+        reset_password_token
+      );
+      const data = response.data;
+      if (response.status === 200) {
+        return data;
       } else {
         return thunkAPI.rejectWithValue(data);
       }

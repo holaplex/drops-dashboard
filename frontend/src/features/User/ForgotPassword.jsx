@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form } from 'formik';
@@ -6,14 +6,14 @@ import * as Yup from 'yup';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector, clearState } from './userSlice';
-import { loginUser } from './userActions';
+import { forgotPassword, loginUser } from './userActions';
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required')
 });
 
 const ForgotPassword = () => {
-
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -21,23 +21,51 @@ const ForgotPassword = () => {
         useSelector(userSelector);
 
 
+    const onSubmit = (email) => {
+        dispatch(forgotPassword(email));
+    }
+
     useEffect(() => {
         return () => {
             dispatch(clearState());
         };
     }, []);
 
+    useEffect(() => {
+        if (isError) {
+            toast.error(errorMessages[0]);
+            dispatch(clearState());
+        }
+
+        if (isSuccess) {
+            dispatch(clearState());
+            setShowSuccessMessage(true)
+        }
+    }, [isError, isSuccess, errorMessages]);
+
+    if (showSuccessMessage) {
+        return (
+            <div className="flex items-center justify-center bg-slate-900 w-screen h-screen">
+                <div className="w-full max-w-md">
+                    <div className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4">
+                        <h1>
+                            Check your email for a link to reset your password.
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        )
+    }
     return (
         <div className="flex items-center justify-center bg-slate-900 w-screen h-screen">
             <div className="w-full max-w-md">
                 <Formik
                     initialValues={{
                         email: '',
-                        password: '',
                     }}
                     validationSchema={LoginSchema}
                     onSubmit={(values) => {
-                        // onSubmit(values);
+                        onSubmit(values);
                     }}
                 >
                     {({ values, errors, touched, handleChange, handleBlur }) => (
@@ -60,9 +88,9 @@ const ForgotPassword = () => {
                                     type='email'
                                     placeholder='youremail@email.com'
                                     autoComplete='email'
-                                    // onChange={handleChange}
-                                    // onBlur={handleBlur}
-                                    // value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.email}
                                     data-testid='input-email'
                                 />
                             </div>
