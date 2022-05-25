@@ -7,7 +7,8 @@ class User < ApplicationRecord
          :registerable,
          :recoverable,
          :rememberable,
-         :validatable
+         :validatable,
+         :lockable
 
   has_many :access_grants,
            class_name: 'Doorkeeper::AccessGrant',

@@ -24,10 +24,11 @@ class NftController < ApplicationController
           nft = Nft.import_from_spreadsheet_row(sheet.row(i), headers, tab, nft_drop[:id])
           image_id = nft[:gallery_url].split('d/', -1)[1].split('/v', -1)[0]
           final_media_id = nft[:final_url].split('d/', -1)[1].split('/v', -1)[0]
-          nft_image = GoogleService.get_drive_media(image_id, 'gallery')
-          nft_final_media = GoogleService.get_drive_media(final_media_id, 'final')
-          nft[:gallery_filename] = nft_image
-          nft[:final_filename] = nft_final_media
+          nft_image = GoogleService.get_drive_media(image_id, 'gallery', nft_drop.name)
+          nft_final_media = GoogleService.get_drive_media(final_media_id, 'final', nft_drop.name)
+          nft[:gallery_filename] = "/#{nft_drop.name}/#{nft_image}"
+          nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media}"
+          nft.save!
           nfts.push(nft)
         end
         i += 1

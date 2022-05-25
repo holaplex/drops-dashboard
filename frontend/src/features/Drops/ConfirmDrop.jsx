@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 
-import { dropSelector, clearState } from './dropSlice'
+import { dropSelector, clearState, finishReview } from './dropSlice'
 import { IMAGE_DIR } from '../../helpers/requestHelper'
 
 import Header from '../../components/Header'
 
 const ConfirmDrop = () => {
-  const { name, nfts } = useSelector(dropSelector)
+  const { name, nfts, isReviewingAFinishedDrop } = useSelector(dropSelector)
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
+  useEffect(() => { console.log(isReviewingAFinishedDrop) }, [isReviewingAFinishedDrop])
 
   const handleCancel = () => {
     dispatch(clearState())
@@ -19,6 +22,13 @@ const ConfirmDrop = () => {
 
   const handleSubmit = () => {
     navigate('/drops')
+    dispatch(clearState())
+  }
+
+  const handleCompleteReview = () => {
+    navigate('/drops')
+    dispatch(finishReview())
+    dispatch(clearState())
   }
 
 
@@ -44,24 +54,35 @@ const ConfirmDrop = () => {
           </div>
 
           <div>
-            <h2><b>Are you sure you would like to submit this drop? This action cannot be undone.</b></h2>
+            {!isReviewingAFinishedDrop && (
+              <h2><b>Are you sure you would like to submit this drop? This action cannot be undone.</b></h2>
+
+            )}
           </div>
           <div className='flex justify-between mt-6'>
-            <button
+            {!isReviewingAFinishedDrop ? (<button
               className='bg-red-800 font-bold text-white p-3 rounded-md hover:bg-red-700'
-              onClick={handleCancel}>No, Cancel Drop</button>
+              onClick={handleCancel}>No, Cancel Drop</button>) : (<div></div>)}
+
             <div className='flex gap-2'>
               <button
                 className={`bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700`}
                 onClick={() => navigate(-1)}
               >
                 Go Back
-            </button>
-              <button
+              </button>
+              {!isReviewingAFinishedDrop ? (<button
                 onClick={handleSubmit}
                 className={`bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700`}
               >Yes, Submit
-            </button>
+              </button>) : (
+                <button
+                  onClick={handleCompleteReview}
+                  className={`bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700`}
+                >Complete Review
+                </button>
+              )}
+
             </div>
           </div>
         </div>

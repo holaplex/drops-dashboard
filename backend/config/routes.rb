@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get '/drops', to: 'drop#index'
       post '/forgot_password', to: 'users#forgot_password'
       post '/reset_password', to: 'users#reset_password'
+      get '/drops/:drop_id', to: 'drop#show'
     end
   end
 end
