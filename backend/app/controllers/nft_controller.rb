@@ -28,13 +28,14 @@ class NftController < ApplicationController
           nft_final_media = GoogleService.get_drive_media(final_media_id, 'final', nft_drop.name)
           nft[:gallery_filename] = "/#{nft_drop.name}/#{nft_image}"
           nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media}"
+          nft[:nft_drop_id] = nft_drop[:id]
           nft.save!
           nfts.push(nft)
         end
         i += 1
       end
     end
-    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name] }, status: :ok
+    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name], drop_id: nft_drop[:id] }, status: :ok
   end
 
   def upload_minted

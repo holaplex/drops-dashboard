@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userSelector } from '../../../User/userSlice';
-import { getDrops, uploadMint } from '../../dropsActions'
-import { dropSelector } from '../../dropSlice'
+import { getDrops, uploadMint, publish } from '../../dropsActions'
+import { clearState, dropSelector } from '../../dropSlice'
 import { DOWNLOAD_DIR } from '../../../../helpers/requestHelper'
 
 const index = () => {
@@ -20,6 +20,14 @@ const index = () => {
         dispatch(getDrops())
     }, [])
 
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(getDrops())
+            dispatch(clearState())
+        }
+
+    }, [isFetching, isSuccess, isError])
+
     const handleModal = (drop_id) => {
         setSelectedDrop(drop_id)
         setShowModal(true)
@@ -35,6 +43,10 @@ const index = () => {
 
     const handleReview = (drop_id) => {
         navigate(`/drops/review/${drop_id}`)
+    }
+
+    const handlePublish = async (drop_id) => {
+        dispatch(publish(drop_id))
     }
 
     return (
@@ -100,7 +112,7 @@ const index = () => {
                                             <td className="px-6 py-4">
                                                 <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Publish</a>
+                                                <button onClick={() => handlePublish(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Publish</button>
                                             </td>
                                         )}
                                         {/* Minting vendor buttons  */}

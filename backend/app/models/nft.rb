@@ -43,19 +43,20 @@ class Nft < ApplicationRecord
                         :final_url, :creator, :royalty_matrix, :legend, :sport, :award, :price, :drop_name, :nft_drop_id)
     pp 'FIELDS', fields
     nft = Nft.where(final_url: hash[:final_url]).first_or_initialize(fields)
-    nft.save!
-    nft
+
     # if nft.errors.count > 0
     #   raise "#{hash[:name]} had errors!"
     # else
-    #   nft.drop_name ||= drop_name
-    #   nft.upi = nft.upi.gsub(/[.][0-9]$/, '') unless nft.upi.blank?
-    #   if !nft.school && !hash[:school].blank?
-    #     nft.school = School.where(name: hash[:school]).first_or_initialize(conference: Conference.where(name: hash[:conference]).first_or_initialize)
-    #   end
-    #   if !nft.collection && !hash[:collection].blank?
-    #     nft.collection = Collection.where(name: hash[:collection]).first_or_initialize
-    #   end
+    # nft.drop_name ||= drop_name
+    nft.upi = nft.upi.gsub(/[.][0-9]$/, '') unless nft.upi.blank?
+    if !nft.school && !hash[:school].blank?
+      nft.school = School.where(name: hash[:school]).first_or_initialize(conference: Conference.where(name: hash[:conference]).first_or_initialize)
+    end
+    if !nft.collection && !hash[:collection].blank?
+      nft.collection = Collection.where(name: hash[:collection]).first_or_initialize
+    end
+    nft.save!
+    nft
     # end
   end
 end

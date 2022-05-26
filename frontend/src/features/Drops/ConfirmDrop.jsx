@@ -3,17 +3,25 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { dropSelector, clearState, finishReview } from './dropSlice'
+import { submit } from './dropsActions'
 import { IMAGE_DIR } from '../../helpers/requestHelper'
 
 import Header from '../../components/Header'
 
 const ConfirmDrop = () => {
-  const { name, nfts, isReviewingAFinishedDrop } = useSelector(dropSelector)
+  const { id, name, nfts, isReviewingAFinishedDrop, isFetching, isSuccess, isError } = useSelector(dropSelector)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
   useEffect(() => { console.log(isReviewingAFinishedDrop) }, [isReviewingAFinishedDrop])
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clearState())
+      navigate('/drops')
+    }
+  }, [isFetching, isSuccess, isError])
 
   const handleCancel = () => {
     dispatch(clearState())
@@ -21,14 +29,13 @@ const ConfirmDrop = () => {
   }
 
   const handleSubmit = () => {
-    navigate('/drops')
-    dispatch(clearState())
+    dispatch(submit(id))
   }
 
   const handleCompleteReview = () => {
-    navigate('/drops')
     dispatch(finishReview())
     dispatch(clearState())
+    navigate('/drops')
   }
 
 

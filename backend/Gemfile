@@ -41,6 +41,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # Add React Components support
 gem 'aws-sdk'
+gem 'http'
 gem 'react-rails', '~> 2.6', '>= 2.6.1'
 gem 'roo', '~> 2.9'
 

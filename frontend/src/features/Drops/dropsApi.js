@@ -2,6 +2,14 @@ import requestHelper from '../../helpers/requestHelper';
 
 // TODO: Raise an error if necessary
 
+const submit = async (drop_id) => {
+  return await requestHelper.post(`/drops/submit/${drop_id}`)
+}
+
+const publish = async (drop_id) => {
+  return await requestHelper.post(`/drops/publish/${drop_id}`)
+}
+
 const index = async () => {
   return await requestHelper.get('/drops')
 }
@@ -17,4 +25,4 @@ const create = async (formData) => {
 const uploadMint = async (formData) => {
   return await requestHelper.post('/upload/minted', formData)
 };
-export { create, index, show, uploadMint };
+export { submit, publish, create, index, show, uploadMint };

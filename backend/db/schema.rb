@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_24_140822) do
+ActiveRecord::Schema.define(version: 2022_05_25_205512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,12 @@ ActiveRecord::Schema.define(version: 2022_05_24_140822) do
     t.string "sol_usdt_when"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "preview_url"
+    t.bigint "school_id"
+    t.bigint "collection_id"
+    t.index ["collection_id"], name: "index_nfts_on_collection_id"
     t.index ["nft_drop_id"], name: "index_nfts_on_nft_drop_id"
+    t.index ["school_id"], name: "index_nfts_on_school_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -138,7 +143,9 @@ ActiveRecord::Schema.define(version: 2022_05_24_140822) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "nfts", "collections"
   add_foreign_key "nfts", "nft_drops"
+  add_foreign_key "nfts", "schools"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "schools", "conferences"
