@@ -9,7 +9,7 @@ class DropController < ApplicationController
   def submit
     drop = NftDrop.find(params[:drop_id])
     nfts_json = mount_json(drop.id)
-    File.open("./public/images/#{drop.name}/#{drop.name}.json", 'w') do |f|
+    File.open("./public/images/#{drop.name.gsub(' ', '_')}/#{drop.name}.json", 'w') do |f|
       file = f.write(nfts_json.to_json)
     end
 

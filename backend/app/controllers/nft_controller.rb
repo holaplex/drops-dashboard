@@ -26,8 +26,9 @@ class NftController < ApplicationController
           final_media_id = nft[:final_url].split('d/', -1)[1].split('/v', -1)[0]
           nft_image = GoogleService.get_drive_media(image_id, 'gallery', nft_drop.name)
           nft_final_media = GoogleService.get_drive_media(final_media_id, 'final', nft_drop.name)
-          nft[:gallery_filename] = "/#{nft_drop.name}/#{nft_image}"
-          nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media}"
+          nft[:gallery_filename] = "/#{nft_drop.name}/#{nft_image}".gsub(' ', '_')
+          nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media}".gsub(' ', '_')
+
           nft[:nft_drop_id] = nft_drop[:id]
           nft.save!
           nfts.push(nft)

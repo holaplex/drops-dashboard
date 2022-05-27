@@ -33,10 +33,11 @@ class GoogleService
     drive_service = Google::Apis::DriveV3::DriveService.new
     drive_service.client_options.application_name = APPLICATION_NAME
     drive_service.authorization = authorize
-    Dir.mkdir("./public/images/#{drop_name}") unless File.exist?("./public/images/#{drop_name}")
+    dir_name = "./public/images/#{drop_name}".gsub(' ', '_')
+    Dir.mkdir(dir_name) unless File.exist?(dir_name)
 
     response = drive_service.get_file(id, supports_all_drives: true,
-                                          download_dest: "./public/images/#{drop_name}/#{id}.#{file_extension}")
+                                          download_dest: "#{dir_name}/#{id}.#{file_extension}")
     "#{id}.#{file_extension}"
   rescue StandardError => e
     puts "An error occurred: #{e}"
