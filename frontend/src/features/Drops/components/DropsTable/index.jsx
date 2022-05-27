@@ -52,7 +52,7 @@ const index = () => {
     return (
         <div className=' w-full flex flex-row justify-center items-center'>
             <div className="w-8/12" >
-                <p className='my-16 font-semibold text-4xl'>Hi, {user.username}</p>
+                <p className='my-6 font-semibold text-4xl'>Hi, {user.username}</p>
                 <div className="pb-2">
                     <div className="relative flex mt-1 justify-between items-center">
                         <h1 className='text-gray-800 text-3xl font-bold'>All drops</h1>

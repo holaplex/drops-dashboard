@@ -28,11 +28,11 @@ export const Summary = () => {
               </h5>
             </div>
             <div className='w-full flex flex-column justify-between mt-6'>
-              <h1>Summary of CSV</h1>
+              <h1 className='text-xl font-bold'>Summary of CSV</h1>
               <h5><i>Count: {nfts.length}</i> </h5>
             </div>
           </div>
-          <div className='mt-6'>
+          <div className='mt-10'>
             <ul className='flex flex-col'>
               {nfts.map(nft => (
                 <li key={nft.id} className='flex justify-between w-full'>

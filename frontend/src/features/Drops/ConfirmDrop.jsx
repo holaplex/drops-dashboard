@@ -45,10 +45,10 @@ const ConfirmDrop = () => {
       <div className='w-full flex justify-center mt-6'>
         <div className='w-8/12'>
           <div className='flex justify-between'>
-            <span><b>Confirm Drop:</b> {name}</span>
+            <span className='text-lg'><b>Confirm Drop:</b> {name}</span>
             <span>Count {nfts.length}</span>
           </div>
-          <div className='my-5'>
+          <div className='my-10'>
             {nfts.map(nft => (
               <li key={nft.id} className='flex justify-between w-full'>
                 <div>{nft.name}</div>
