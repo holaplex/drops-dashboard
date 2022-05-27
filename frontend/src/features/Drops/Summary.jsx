@@ -39,7 +39,7 @@ export const Summary = () => {
                   <div>{nft.name}</div>
                   <div className='flex'>
                     <img className='mx-2' width='70' height='150' src={`${IMAGE_DIR}${nft.gallery_filename}`} />
-                    <video autoPlay muted className='mx-2' width='70' height='150' src={`${IMAGE_DIR}${nft.final_filename}`} />
+                    <video autoPlay muted className='ml-2' width='70' height='150' src={`${IMAGE_DIR}${nft.final_filename}`} />
                   </div>
                 </li>
               ))}
