@@ -1,0 +1,28 @@
+#pull official base image
+FROM node:16.13.1 as develop-stage
+# set working directory
+WORKDIR /app
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+# install app dependencies
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install
+# add app
+COPY . ./
+
+FROM develop-stage as build-stage
+RUN yarn build
+
+#RUN npm install -g serve
+#ENTRYPOINT HOST='0.0.0.0' serve -s build -l 5000
+# production
+FROM ubuntu:20.04 as production-stage
+RUN rm -rf /usr/share/html/*
+COPY --from=build-stage /app/dist /usr/share/html
+
+#ENTRYPOINT tail -f /dev/null
+#COPY nginx /etc/nginx
+#EXPOSE 80
+#CMD ["nginx", "-g", "daemon off;"]
+

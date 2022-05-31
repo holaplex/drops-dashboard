@@ -12,6 +12,10 @@ development:
   <<: *default
   database: <%= "#{ENV.fetch('PROJECT_NAME')}-development"  %>
 
+staging:
+  <<: *default
+  database: <%= "#{ENV.fetch('PROJECT_NAME')}-staging"  %>
+
 test:
   <<: *default
   database: <%= "#{ENV.fetch('PROJECT_NAME')}-test" %>
