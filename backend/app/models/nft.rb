@@ -67,13 +67,14 @@ class Nft < ApplicationRecord
     system("ffmpeg -hide_banner -loglevel error  -i #{src} -i #{watermark} -filter_complex 'overlay=-350:-300' -y #{dst}")
   end
   
-  def make_watermark(src, dst_file,watermark="./app/assets/images/watermark-45.png")
-    dst = "./public/images/watermarked/#{dst_file}"
+  def make_watermark(src, dst_file, drop_name)
+    Dir.mkdir("./public/images/watermarked/#{drop_name}") unless File.exists?("./public/images/watermarked/#{drop_name}")
+    dst = "./public/images/watermarked/#{drop_name}/#{dst_file}"
     res = true
     if (File.exists?(src))
       res = do_watermark(src, dst, "./app/assets/images/watermark-45.png")
     end
-    res
+    dst
   end
 
 end

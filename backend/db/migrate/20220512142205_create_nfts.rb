@@ -6,6 +6,7 @@ class CreateNfts < ActiveRecord::Migration[5.2]
       t.string :sku
       t.string :upi
       t.integer :scarcity
+      t.string :preview_url
       # t.references :collection, null: true, foreign_key: true
       t.references :nft_drop, null: true, foreign_key: true
 

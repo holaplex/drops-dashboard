@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2022_05_24_140822) do
     t.string "sku"
     t.string "upi"
     t.integer "scarcity"
+    t.string "preview_url"
     t.bigint "nft_drop_id"
     t.string "gallery_url"
     t.string "gallery_filename"

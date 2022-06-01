@@ -28,7 +28,11 @@ class NftController < ApplicationController
           nft_final_media = GoogleService.get_drive_media(final_media_id, 'final', nft_drop.name)
           nft[:gallery_filename] = "/#{nft_drop.name}/#{nft_image}"
           nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media}"
-          nft.make_watermark("./public/images#{nft[:final_filename]}",nft_final_media)
+          path = nft.make_watermark("./public/images#{nft[:final_filename]}",nft_final_media, nft_drop.name)
+          Net::SCP.upload!("assets.campuslegends.com", "assets",
+            path, "/home/assets/assets/images/preview-videos", 
+            :ssh => { :keys => "new_key", :passphrase => 'new_key' })
+          nft[:preview_url] = "https://assets.campuslegends.com/images/preview-videos/#{nft_final_media}"
           nft.save!
           nfts.push(nft)
         end
