@@ -1,9 +1,10 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import { createDrop, getDrops, show, uploadMint } from './dropsActions'
+import { submit, publish, createDrop, getDrops, show, uploadMint } from './dropsActions'
 
 export const dropSlice = createSlice({
   name: 'drop',
   initialState: {
+    id: '',
     name: '',
     isReviewingAFinishedDrop: false,
     isFetching: false,
@@ -41,6 +42,39 @@ export const dropSlice = createSlice({
       console.log("PAYLOAD", payload)
       state.nfts = payload.nfts
       state.name = payload.drop_name
+      state.id = payload.drop_id
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    //Submit
+    [submit.rejected]: (state, { payload }) => {
+      console.log("ERROR", payload)
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [submit.pending]: (state) => {
+      console.log("LOADING SUBMIT")
+      state.isFetching = true;
+    },
+    [submit.fulfilled]: (state, { payload }) => {
+      console.log("PAYLOAD SUBMIT", payload)
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    //Publish
+    [publish.rejected]: (state, { payload }) => {
+      console.log("ERROR", payload)
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [publish.pending]: (state) => {
+      console.log("LOADING PUBLISH")
+      state.isFetching = true;
+    },
+    [publish.fulfilled]: (state, { payload }) => {
+      console.log("PAYLOAD PUBLISH", payload)
       state.isFetching = false;
       state.isSuccess = true;
     },

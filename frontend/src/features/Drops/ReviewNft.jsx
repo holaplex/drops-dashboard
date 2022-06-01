@@ -51,7 +51,7 @@ const ReviewNft = () => {
         <div className='w-8/12 m-6'>
           <div className='flex justify-between'>
             <h5 className='text-lg'><i>{name}</i></h5>
-            <span>{position + 1} of {nfts.length}</span>
+            <span className='text-lg'>{position + 1} of {nfts.length}</span>
           </div>
 
           <ReviewNftCard nft={nfts[position]} />

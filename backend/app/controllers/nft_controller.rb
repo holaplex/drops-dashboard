@@ -33,13 +33,17 @@ class NftController < ApplicationController
             path, "/home/assets/assets/images/preview-videos", 
             :ssh => { :keys => "new_key", :passphrase => 'new_key' })
           nft[:preview_url] = "https://assets.campuslegends.com/images/preview-videos/#{nft_final_media}"
+          nft[:gallery_filename] = "/#{nft_drop.name}/#{nft_image}".gsub(' ', '_')
+          nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media}".gsub(' ', '_')
+
+          nft[:nft_drop_id] = nft_drop[:id]
           nft.save!
           nfts.push(nft)
         end
         i += 1
       end
     end
-    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name] }, status: :ok
+    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name], drop_id: nft_drop[:id] }, status: :ok
   end
 
   def upload_minted

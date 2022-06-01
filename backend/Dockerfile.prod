@@ -1,0 +1,16 @@
+FROM ruby:2.7.5
+
+ARG ENVIRONMENT
+
+WORKDIR /backend
+RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client nodejs
+#COPY Gemfile ./
+
+COPY . /backend
+
+RUN RAILS_ENV=$ENVIRONMENT bundle install
+
+
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["bundle exec rails s -b 0.0.0.0"]
+

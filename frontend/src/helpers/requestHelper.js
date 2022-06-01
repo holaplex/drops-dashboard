@@ -7,16 +7,20 @@ import { refreshToken } from '../features/User/userApi';
 
 export const IMAGE_DIR = window.location.origin.includes('localhost')
   ? 'http://localhost:3000/images/'
-  : window.location.origin + ':3000/images/'
+  : window.location.origin + '/images/'
 
 export const DOWNLOAD_DIR = window.location.origin.includes('localhost')
   ? 'http://localhost:3000/drops/'
-  : window.location.origin + ':3000/drops/'
+  : window.location.origin + '/drops/'
 
 const BASE_URL = window.location.origin.includes('localhost') 
   ? 'http://localhost:3000/api/v1' 
   : '/api/v1'
 
+//@todo Figure which campus api url to put here
+export const CAMPUS_API = window.location.origin.includes('localhost') 
+  ? 'http://localhost:4000/api/v1' 
+  : ''
 
 const requestHelper = axios.create({
   baseURL: BASE_URL,

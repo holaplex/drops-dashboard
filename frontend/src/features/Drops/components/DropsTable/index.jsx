@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userSelector } from '../../../User/userSlice';
-import { getDrops, uploadMint } from '../../dropsActions'
-import { dropSelector } from '../../dropSlice'
+import { getDrops, uploadMint, publish } from '../../dropsActions'
+import { clearState, dropSelector } from '../../dropSlice'
 import { DOWNLOAD_DIR } from '../../../../helpers/requestHelper'
 
 const index = () => {
@@ -19,6 +19,14 @@ const index = () => {
     useEffect(() => {
         dispatch(getDrops())
     }, [])
+
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(getDrops())
+            dispatch(clearState())
+        }
+
+    }, [isFetching, isSuccess, isError])
 
     const handleModal = (drop_id) => {
         setSelectedDrop(drop_id)
@@ -37,10 +45,14 @@ const index = () => {
         navigate(`/drops/review/${drop_id}`)
     }
 
+    const handlePublish = async (drop_id) => {
+        dispatch(publish(drop_id))
+    }
+
     return (
         <div className=' w-full flex flex-row justify-center items-center'>
             <div className="w-8/12" >
-                <p className='my-16 font-semibold text-4xl'>Hi, {user.username}</p>
+                <p className='my-6 font-semibold text-4xl'>Hi, {user.username}</p>
                 <div className="pb-2">
                     <div className="relative flex mt-1 justify-between items-center">
                         <h1 className='text-gray-800 text-3xl font-bold'>All drops</h1>
@@ -100,7 +112,7 @@ const index = () => {
                                             <td className="px-6 py-4">
                                                 <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Publish</a>
+                                                <button onClick={() => handlePublish(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Publish</button>
                                             </td>
                                         )}
                                         {/* Minting vendor buttons  */}

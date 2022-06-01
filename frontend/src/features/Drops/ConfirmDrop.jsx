@@ -3,17 +3,25 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { dropSelector, clearState, finishReview } from './dropSlice'
+import { submit } from './dropsActions'
 import { IMAGE_DIR } from '../../helpers/requestHelper'
 
 import Header from '../../components/Header'
 
 const ConfirmDrop = () => {
-  const { name, nfts, isReviewingAFinishedDrop } = useSelector(dropSelector)
+  const { id, name, nfts, isReviewingAFinishedDrop, isFetching, isSuccess, isError } = useSelector(dropSelector)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
   useEffect(() => { console.log(isReviewingAFinishedDrop) }, [isReviewingAFinishedDrop])
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clearState())
+      navigate('/drops')
+    }
+  }, [isFetching, isSuccess, isError])
 
   const handleCancel = () => {
     dispatch(clearState())
@@ -21,14 +29,13 @@ const ConfirmDrop = () => {
   }
 
   const handleSubmit = () => {
-    navigate('/drops')
-    dispatch(clearState())
+    dispatch(submit(id))
   }
 
   const handleCompleteReview = () => {
-    navigate('/drops')
     dispatch(finishReview())
     dispatch(clearState())
+    navigate('/drops')
   }
 
 
@@ -38,16 +45,16 @@ const ConfirmDrop = () => {
       <div className='w-full flex justify-center mt-6'>
         <div className='w-8/12'>
           <div className='flex justify-between'>
-            <span><b>Confirm Drop:</b> {name}</span>
+            <span className='text-lg'><b>Confirm Drop:</b> {name}</span>
             <span>Count {nfts.length}</span>
           </div>
-          <div className='my-5'>
+          <div className='my-10'>
             {nfts.map(nft => (
               <li key={nft.id} className='flex justify-between w-full'>
                 <div>{nft.name}</div>
                 <div className='flex'>
                   <img className='mx-2' width='70' height='150' src={`${IMAGE_DIR}${nft.gallery_filename}`} />
-                  <video autoPlay muted className='mx-2' width='70' height='150' src={`${IMAGE_DIR}${nft.final_filename}`} />
+                  <video autoPlay muted className='ml-2' width='70' height='150' src={`${IMAGE_DIR}${nft.final_filename}`} />
                 </div>
               </li>
             ))}

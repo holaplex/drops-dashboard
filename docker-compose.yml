@@ -1,72 +1,99 @@
-version: "3.8"
+version: '3.8'
+
+x-backend-base: &backend-base
+  container_name: backend_${PROJECT_NAME}_${ENVIRONMENT}
+  working_dir: /backend
+  volumes:
+    - ${PWD}/backend:/backend
+    - bundler_gems:/usr/local/bundle/
+  depends_on:
+    - db
+  environment:
+    RAILS_ENV: ${ENVIRONMENT}
+    NODE_ENV: ${ENVIRONMENT}
+    DBHOST: db
+    DBUSER: ${POSTGRES_USER}
+    DBPASS: ${POSTGRES_PASSWORD}
+    APM_HOST: elastic-agent
+    PROJECT_NAME: ${PROJECT_NAME}
+
+x-frontend-base: &frontend-base
+  container_name: frontend_${PROJECT_NAME}_${ENVIRONMENT}
 
 services:
-  backend:
+  backend-dev:
+    <<: *backend-base
     build: backend
-    container_name: backend_${PROJECT_NAME}_${ENVIRONMENT}
-    working_dir: /backend
-    command: ["/bin/bash", "./development.sh"]
+    command: ['/bin/bash', './development.sh']
     ports:
       - 3000:3000
-    volumes:
-      - ${PWD}/backend:/backend
-      - bundler_gems:/usr/local/bundle/
-    depends_on:
-      - db
-    env_file:
-      - .env
-    # profiles: ['dev']
-    environment:
-      RAILS_ENV: ${ENVIRONMENT}
-      RACK_ENV: ${ENVIRONMENT}
-      NODE_ENV: ${ENVIRONMENT}
-      DBHOST: db
-      DBUSER: ${POSTGRES_USER}
-      DBPASS: ${POSTGRES_PASSWORD}
-      APM_HOST: apm
-      PROJECT_NAME: ${PROJECT_NAME}
+    profiles: ['dev']
     stdin_open: true
     tty: true
+
+  backend-prod:
+    <<: *backend-base
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
+    profiles: ['prod']
     networks:
       - observability
 
-  frontend:
-    build: frontend
-    container_name: frontend_${PROJECT_NAME}_${ENVIRONMENT}
+  frontend-dev:
+    <<: *frontend-base
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     working_dir: /frontend
-    ports:
-      - 3001:3001
     volumes:
       - ${PWD}/frontend:/frontend
-      - frontend_node_modules:/frontend/node_modules/
+      - frontend_node_modules:/frontend/node_modules/ 
+    ports:
+      - 5000:5000
     command: yarn vite
     depends_on:
       - backend
-    # profiles: ['dev']
-    tty: true
-    stdin_open: true
+    profiles: ['dev']
+
+  frontend-prod:
+    <<: *frontend-base
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    volumes:
+      - ${PWD}/frontend:/frontend
+      - frontend_node_modules:/frontend/node_modules/ 
+      - production_html:/usr/share/html/
     networks:
-        - observability
+      - observability
+    profiles: ['prod']
+
+
   db:
     image: postgres:13
+    restart: 'no'
     container_name: postgresql_${PROJECT_NAME}_${ENVIRONMENT}
-    restart: "no"
-    ports:
-      - "5432:5432"
     volumes:
       - postgresdb:/var/lib/postgresql/data/
-    # profiles: ['dev']
+    profiles: ['dev', 'prod']
     environment:
       POSTGRES_DB: ${PROJECT_NAME}_${ENVIRONMENT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - observability
+
 volumes:
   postgresdb:
   bundler_gems:
   frontend_node_modules:
+  production_html:
+    external: true
 
 networks:
  observability:
   external: true
+

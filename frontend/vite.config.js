@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: '3001',
-    host: true
+    host: true,
+    hmr: {
+     protocol: 'ws',
+     host: 'localhost',
+     port: '3001'
+    }
   }
 })
