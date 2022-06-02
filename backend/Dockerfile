@@ -1,6 +1,6 @@
 FROM ruby:2.7.5
 
-RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client nodejs
+RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client nodejs ffmpeg
 
 COPY Gemfile ./
 RUN bundle install
