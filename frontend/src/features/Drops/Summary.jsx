@@ -46,7 +46,7 @@ export const Summary = () => {
 
             </ul>
             <div className='flex justify-between mt-6 mb-6'>
-              <button onClick={() => handleCancel()} className='bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700' >No, Cancel</button>
+              <button onClick={() => handleCancel()} className='bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700' >No, Cancel drop</button>
               <button onClick={() => navigate('/drops/review')} className='bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700' >Next</button>
             </div>
           </div>
