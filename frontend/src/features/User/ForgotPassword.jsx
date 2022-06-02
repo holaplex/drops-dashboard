@@ -95,7 +95,11 @@ const ForgotPassword = () => {
                                 />
                             </div>
                             <div className="flex items-center justify-between">
-                                <button className="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" disabled={isFetching} type='submit' text='Submit'>Recover</button>
+                                {isFetching ? (
+                                    <button className="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" disabled={isFetching} type='submit' text='Submit'>Loading...</button>
+                                ) : (
+                                    <button className="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" disabled={isFetching} type='submit' text='Submit'>Recover</button>
+                                )}
                             </div>
                         </Form>
                     )}
