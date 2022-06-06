@@ -12,5 +12,5 @@ RUN RAILS_ENV=$ENVIRONMENT bundle install
 
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["bundle exec rails s -b 0.0.0.0"]
+CMD ["bundle install && bundle exec rails s -b 0.0.0.0"]
 

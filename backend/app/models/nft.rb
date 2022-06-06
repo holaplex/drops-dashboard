@@ -69,6 +69,7 @@ class Nft < ApplicationRecord
   end
   
   def make_watermark(src, dst_file, drop_name)
+    drop_name = drop_name.gsub(' ', '_')
     Dir.mkdir("./public/images/watermarked/#{drop_name}") unless File.exists?("./public/images/watermarked/#{drop_name}")
     dst = "./public/images/watermarked/#{drop_name}/#{dst_file}"
     res = true

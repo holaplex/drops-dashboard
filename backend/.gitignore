@@ -49,3 +49,5 @@ yarn-debug.log*
 /public/uploads/*
 !/public/uploads/.keep
 
+/public/images/watermarked/*
+!/public/images/watermarked/.keep
