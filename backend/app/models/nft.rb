@@ -65,7 +65,7 @@ class Nft < ApplicationRecord
   end
   
   def do_watermark(src, dst, watermark="./app/assets/images/watermark-45.png")
-    system("ffmpeg -hide_banner -loglevel error  -i #{src} -i #{watermark} -filter_complex 'overlay=-350:-300' -y #{dst}")
+    system("ffmpeg -hide_banner -loglevel error  -i #{src} -i #{watermark} -filter_complex 'overlay=0:0' -y #{dst}")
   end
   
   def make_watermark(src, dst_file, drop_name)
