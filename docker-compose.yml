@@ -30,6 +30,8 @@ services:
     profiles: ['dev']
     stdin_open: true
     tty: true
+    networks:
+      - observability
 
   backend-prod:
     <<: *backend-base
@@ -46,16 +48,16 @@ services:
     <<: *frontend-base
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     working_dir: /frontend
     volumes:
       - ${PWD}/frontend:/frontend
       - frontend_node_modules:/frontend/node_modules/ 
     ports:
-      - 5000:5000
+      - 3001:3001
     command: yarn vite
     depends_on:
-      - backend
+      - backend-dev
     profiles: ['dev']
 
   frontend-prod:
