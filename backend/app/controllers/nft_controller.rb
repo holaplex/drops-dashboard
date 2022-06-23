@@ -34,10 +34,44 @@ class NftController < ApplicationController
             :ssh => { :keys => "new_key", :passphrase => 'new_key' })
           nft[:preview_url] = "https://assets.campuslegends.com/images/preview-videos/#{nft_final_media}"
 
-
           nft[:nft_drop_id] = nft_drop[:id]
           nft.save!
           nfts.push(nft)
+
+          json = {
+            name: nft[:name],
+            symbol: 'TDO', # TODO
+            description: nft[:description],
+            seller_fee_basis_points: nft[:royalty_matrix], # TODO: ????????
+            image: nft[:cm_image_url], # TODO: ???
+            animation_url: nft[:cm_video_url], # TODO: ???
+            collection: {
+              name: nft[:collection_id].to_s, # TODO: very wrong and bad fix this
+              family: '', # TODO
+            },
+            attributes: [
+              # TODO: uh...do we store this anywhere?
+              { trait_type: '', value: nil },
+            ],
+            external_url: '', # TODO: ? what even is this
+            properties: {
+              files: [
+                # TODO: enumerate the files, i guess??
+                { uri: '', type: '' },
+              ],
+              # TODO: um...
+              category: '',
+              creators: [
+                # TODO: same as attributes...where is this?
+                { address: '', share: -1 },
+              ],
+            },
+          }
+
+          # TODO: like literally all of this
+          json = JSON.dump(json)
+
+          pp 'JSON', json
         end
         i += 1
       end
