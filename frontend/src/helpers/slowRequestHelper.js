@@ -69,4 +69,4 @@ async function handleRefreshToken(originalConfig) {
   return requestHelper(originalConfig);
 }
 
-export default slowRequestHelper;
+export default requestHelper;
