@@ -23,7 +23,7 @@ jobs:
       run: doctl registry login --expiry-seconds 1200
 
     - name: Build, tag, and push images to registry
-      if: github.ref == 'refs/heads/main'
+      #if: github.ref == 'refs/heads/main'
       id: build-image-main
       env:
         REGISTRY: registry.digitalocean.com/clr
