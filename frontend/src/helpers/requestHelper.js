@@ -7,7 +7,7 @@ import { refreshToken } from '../features/User/userApi';
 
 export const IMAGE_DIR = window.location.origin.includes('localhost')
   ? 'http://localhost:3000/images/'
-  : window.location.origin + '/public/images'
+  : window.location.origin + '/images'
 
 export const DOWNLOAD_DIR = window.location.origin.includes('localhost')
   ? 'http://localhost:3000/drops/'
