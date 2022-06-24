@@ -38,32 +38,55 @@ class NftController < ApplicationController
           nft.save!
           nfts.push(nft)
 
+          seller_fee_basis_points = nft[:royalty_matrix]&.to_i 
+          seller_fee_basis_points =  [10000, seller_fee_basis_points].min
+
+          attributes_list = [
+            {
+              trait_type: "legend",
+              value: nft.legend
+            },
+            {
+              trait_type: "conference",
+              value: nft.conference&.name,
+            },
+            {
+              trait_type: "school",
+              value: nft.school&.name,
+            },
+            {
+              trait_type: "sport",
+              value: nft.sport,
+            },
+            {
+              trait_type: "award",
+              value: nft.award,
+            },
+          ]
+
+          category = nft.cm_video_url.present? ? 'video' : 'image'
+
+          # 0.json, 0.png
+
           json = {
             name: nft[:name],
-            symbol: 'TDO', # TODO
+            symbol: 'CLHP',
             description: nft[:description],
-            seller_fee_basis_points: nft[:royalty_matrix], # TODO: ????????
-            image: nft[:cm_image_url], # TODO: ???
-            animation_url: nft[:cm_video_url], # TODO: ???
-            collection: {
-              name: nft[:collection_id].to_s, # TODO: very wrong and bad fix this
-              family: '', # TODO
-            },
-            attributes: [
-              # TODO: uh...do we store this anywhere?
-              { trait_type: '', value: nil },
-            ],
-            external_url: '', # TODO: ? what even is this
+            seller_fee_basis_points: seller_fee_basis_points,
+            image: '0.png',
+            animation_url: '0.mp4',
+            attributes: attributes_list,
+            external_url: 'campus.io',
             properties: {
+              category: category
               files: [
                 # TODO: enumerate the files, i guess??
-                { uri: '', type: '' },
+                { uri: '0.png', type: 'image/png' },
+                { uri: '0.mp4', type: 'video/mp4' },
               ],
-              # TODO: um...
-              category: '',
               creators: [
                 # TODO: same as attributes...where is this?
-                { address: '', share: -1 },
+                { address: 'campEwCXkqfySan6a7R71BTBSurfLsfqHgShC11J3Bj', share: 100 },
               ],
             },
           }

@@ -17,6 +17,7 @@ x-backend-base: &backend-base
     APM_HOST: elastic-agent
     PROJECT_NAME: ${PROJECT_NAME}
 
+
 x-frontend-base: &frontend-base
   container_name: frontend_${PROJECT_NAME}_${ENVIRONMENT}
 
@@ -70,6 +71,27 @@ services:
     profiles: ['prod']
 
 
+  redis:
+    image: 'redis:5-alpine'
+    command: redis-server
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis:/data'
+
+  sidekiq:
+    depends_on:
+      - 'db'
+      - 'redis'
+    build: ./backend
+    command: bundle exec sidekiq
+    volumes:
+      - '.:/backend'
+      - '/backend/tmp' # don't mount tmp directory
+    environment:
+      - REDIS_URL_SIDEKIQ=redis://redis:6379/1
+  
+
   db:
     image: postgres:13
     restart: 'no'
@@ -85,6 +107,7 @@ services:
       - observability
 
 volumes:
+  redis:
   postgresdb:
   bundler_gems:
   frontend_node_modules:
