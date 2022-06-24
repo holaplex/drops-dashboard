@@ -5,28 +5,15 @@ import { refreshToken } from '../features/User/userApi';
 // TODO: Add interceptor to refresh token
 // TODO: Add BASEURL
 
-export const IMAGE_DIR = window.location.origin.includes('localhost')
-  ? 'http://localhost:3000/images/'
-  : window.location.origin + '/images/'
-
-export const DOWNLOAD_DIR = window.location.origin.includes('localhost')
-  ? 'http://localhost:3000/drops/'
-  : window.location.origin + '/drops/'
-
 const BASE_URL = window.location.origin.includes('localhost') 
   ? 'http://localhost:3000/api/v1' 
   : '/stream/api/v1/'
 
-//@todo Figure which campus api url to put here
-export const CAMPUS_API = window.location.origin.includes('localhost') 
-  ? 'http://localhost:4000/api/v1' 
-  : ''
-
-const requestHelper = axios.create({
+const slowRequestHelper = axios.create({
   baseURL: BASE_URL,
 });
 
-requestHelper.interceptors.request.use(function(config) {
+slowRequestHelper.interceptors.request.use(function(config) {
   // resets token in case user hard refreshes the page
   const token = getToken().access_token;
   config.headers.common['Authorization'] = token
@@ -35,7 +22,7 @@ requestHelper.interceptors.request.use(function(config) {
   return config;
 });
 
-requestHelper.interceptors.response.use(
+slowRequestHelper.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -66,7 +53,7 @@ async function handleRefreshToken(originalConfig) {
   saveToken(token);
 
   originalConfig.headers.Authorization = `Bearer ${access_token}`;
-  return requestHelper(originalConfig);
+  return slowRequestHelper(originalConfig);
 }
 
-export default requestHelper;
+export default slowRequestHelper;
