@@ -18,7 +18,9 @@ gem 'puma', '~> 3.11'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
-gem 'sidekiq'
+gem 'sidekiq', '< 6'
+gem 'rubyzip'
+gem 'nft_storage'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'

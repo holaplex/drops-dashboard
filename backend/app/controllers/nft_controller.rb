@@ -69,6 +69,7 @@ class NftController < ApplicationController
           # 0.json, 0.png
 
           json = {
+            _id: nft.id,
             name: nft[:name],
             symbol: 'CLHP',
             description: nft[:description],
@@ -91,8 +92,16 @@ class NftController < ApplicationController
             },
           }
 
-          # TODO: like literally all of this
-          json = JSON.dump(json)
+
+          image_url = GoogleService.get_drive_media(image_id, 'gallery', nft_drop.name)
+          video_url = GoogleService.get_drive_media(final_media_id, 'final', nft_drop.name)
+
+          ProcessDropJob.perform_async(
+            json,
+            image_url,
+            video_url,
+            nft.scarcity,
+          )
 
           pp 'JSON', json
         end
