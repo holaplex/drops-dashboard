@@ -31,16 +31,20 @@ jobs:
       run: |
         git_hash=$(git rev-parse --short "$GITHUB_SHA")
         repo=drop-dashboard
+        #git_branch=${GITHUB_REF##*/}
+        git_branch=dev
         app=frontend
-        image_tag="$REGISTRY/$REPOSITORY:$repo-$app-${GITHUB_REF##*/}-$git_hash"
+        release="$app-$git_branch-$git_hash"
+        image_tag="$REGISTRY/$REPOSITORY:$release"
         docker build -t $image_tag ./$app
-        docker push $REGISTRY/$REPOSITORY:$repo-${GITHUB_REF##*/}-$git_hash
-        echo "::set-output name=image::$REGISTRY/$REPOSITORY:${GITHUB_REF##*/}-$git_hash"
+        docker push $REGISTRY/$REPOSITORY:$release
+        echo "::set-output name=image::$image_tag"
         app=backend
-        image_tag="$REGISTRY/$REPOSITORY:$repo-$app-${GITHUB_REF##*/}-$git_hash"
+        release="$app-$git_branch-$git_hash"
+        image_tag="$REGISTRY/$REPOSITORY:$release"
         docker build -t $image_tag ./$app
-        docker push $REGISTRY/$REPOSITORY:${GITHUB_REF##*/}-$git_hash
-        echo "::set-output name=image::$REGISTRY/$REPOSITORY:${GITHUB_REF##*/}-$git_hash"
+        docker push $image_tag
+        echo "::set-output name=image::$image_tag"
 
 
   # - name: Triggering deployment update in remote repository
