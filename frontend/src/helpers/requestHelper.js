@@ -11,7 +11,7 @@ export const IMAGE_DIR = window.location.origin.includes('localhost')
 
 export const DOWNLOAD_DIR = window.location.origin.includes('localhost')
   ? 'http://localhost:3000/drops/'
-  : window.location.origin + '/drops/'
+  : window.location.origin + '/stream/drops/'
 
 const BASE_URL = window.location.origin.includes('localhost') 
   ? 'http://localhost:3000/api/v1' 
