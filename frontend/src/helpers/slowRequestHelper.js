@@ -15,7 +15,7 @@ export const DOWNLOAD_DIR = window.location.origin.includes('localhost')
 
 const BASE_URL = window.location.origin.includes('localhost') 
   ? 'http://localhost:3000/api/v1' 
-  : '/stream'
+  : '/stream/api/v1/'
 
 //@todo Figure which campus api url to put here
 export const CAMPUS_API = window.location.origin.includes('localhost') 
