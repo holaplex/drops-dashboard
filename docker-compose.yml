@@ -79,6 +79,8 @@ services:
     volumes:
       - 'redis:/data'
     profiles: ['dev', 'prod']
+    networks:
+      - observability
 
 
   sidekiq-dev:
