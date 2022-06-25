@@ -1,17 +1,13 @@
 require 'open-uri'
 require 'zip'
 require 'fileutils'
-require 'nft_storage'
+require 'http'
 
-# setup authorization
-NFTStorage.configure do |config|
-  config.access_token = ENV.fetch("NFT_STORAGE_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJmQTVkRjFCODQyNGJBRjg2NjAzMDRFNDVENmMzOGVlNDY1ZDE0MDMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NjEwOTU1MzM5MiwibmFtZSI6ImNhbXB1cyJ9.5UyOHRRJjbvmwgjX6bDdHrBogZnHByXCKTuteNV3jyk")
-end
 
 
 
 class ProcessDropJob
-  include Sidekiq::Job
+  include Sidekiq::Worker
   # download media files
   # scarcity # of times, create duplicates, modifying json and filename
   # save them in a single dir
@@ -24,39 +20,74 @@ class ProcessDropJob
   # profit!
 
   def perform(metadata, image_url, video_url, scarcity)
-    directory = File.realdirpath(metadata["_id"])
-    Dir.mkdir(directory)
-    open(image_url) do |image|
-      File.open(File.join(directory, "0.png"), "wb") do |file|
-        file.write(image.read)
-      end
-    end
-    
-    open(video_url) do |image|
-      File.open(File.join(directory, "0.mp4"), "wb") do |file|
-        file.write(image.read)
-      end
-    end
-
-    (1...scarcity).each do |n|
-      FileUtils.cp(File.join(directory, "0.png"), File.join(directory, "#{n}.png"))
-      FileUtils.cp(File.join(directory, "0.mp4"), File.join(directory, "#{n}.mp4"))
-    end
-
-    zipfile_path = "."
-    zipper = ZipFileGenerator.new(directory, zipfile_path)
-    zipper.write
-
-
-    api_instance = NFTStorage::NFTStorageAPI.new
-    body = File.open(zipfile_path) # File | 
-
+    puts "**** RUNNING DROP JOB ****"
+    puts metadata
+    puts image_url
+    puts video_url
+    puts scarcity
+    puts "^^^ RUNNING DROP JOB ^^^^"
     begin
-      # Store a file
-      result = api_instance.store(body)
-      puts result
-    rescue NFTStorage::ApiError => e
-      puts "Error when calling NFTStorageAPI->store: #{e}"
+      directory = File.realdirpath(metadata["_id"].to_s)
+      if File.directory?(directory) 
+        FileUtils.remove_dir(directory) # make sure we start fresh every job
+      end
+      Dir.mkdir(directory)
+      open(image_url) do |image|
+        path = File.realdirpath(File.join(directory, "0.png"))
+        File.open(path, "w+") do |file|
+          file.write(image.read)
+        end
+      end
+      
+      open(video_url) do |image|
+        path = File.realdirpath(File.join(directory, "0.mp4"))
+        File.open(path, "w+") do |file|
+          file.write(image.read)
+        end
+      end
+      File.open(File.realdirpath(File.join(directory, "0.json")), "w+") do |file|
+        file.write(image.read)
+      end
+
+      (1...scarcity.to_i).each do |n|
+        FileUtils.cp(File.join(directory, "0.json"),  File.realdirpath(File.join(directory, "#{n}.json")))
+        FileUtils.cp(File.join(directory, "0.mp4"), File.realdirpath(File.join(directory, "#{n}.mp4")))
+        FileUtils.cp(File.join(directory, "0.mp4"), File.realdirpath(File.join(directory, "#{n}.mp4")))
+      end
+
+      zip_dir = File.realdirpath("zip")
+      if File.directory?(zip_dir) 
+        FileUtils.remove_dir(zip_dir) # make sure we start fresh every job
+      end
+      Dir.mkdir(zip_dir)
+      zipfile_path = File.join("zip", "#{metadata["_id"].to_s}")
+      zipper = ZipFileGenerator.new(directory,  File.realdirpath(zipfile_path))
+      zipper.write
+
+
+      api_instance = NFTStorage::NFTStorageAPI.new
+
+      begin
+
+        token = ENV.fetch("NFT_STORAGE_TOKEN", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJmQTVkRjFCODQyNGJBRjg2NjAzMDRFNDVENmMzOGVlNDY1ZDE0MDMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1NjEwOTU1MzM5MiwibmFtZSI6ImNhbXB1cyJ9.5UyOHRRJjbvmwgjX6bDdHrBogZnHByXCKTuteNV3jyk")
+        response = HTTP
+        .auth("Bearer #{token}")
+        .headers(
+          "accept" => 'application/json',
+          "Content-Type" => 'application/zip',
+        )
+        .post('https://api.nft.storage/upload',
+          body: File.read(zipfile_path)
+          
+        )
+        puts "**** NFT STORAGE RESULT ****"
+        puts response
+        puts "**** NFT STORAGE RESULT ****"
+      rescue NFTStorage::ApiError => e
+        puts "Error when calling NFTStorageAPI->store: #{e}"
+      end
+    rescue StandardError => e
+      puts "Drop job error: #{e}"
     end
 
 

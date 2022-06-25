@@ -68,7 +68,6 @@ ActiveRecord::Schema.define(version: 2022_05_25_205512) do
     t.string "sol_usdt_when"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "preview_url"
     t.bigint "school_id"
     t.bigint "collection_id"
     t.index ["collection_id"], name: "index_nfts_on_collection_id"

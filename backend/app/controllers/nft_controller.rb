@@ -28,10 +28,10 @@ class NftController < ApplicationController
           nft_final_media = GoogleService.get_drive_media(final_media_id, 'final', nft_drop.name)
           nft[:gallery_filename] = "/#{nft_drop.name}/#{nft_image}".gsub(' ', '_')
           nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media}".gsub(' ', '_')
-          path = nft.make_watermark("./public/images#{nft[:final_filename]}",nft_final_media, nft_drop.name)
-          Net::SCP.upload!("assets.campuslegends.com", "assets",
-            path, "/home/assets/assets/images/preview-videos", 
-            :ssh => { :keys => "new_key", :passphrase => 'new_key' })
+          # path = nft.make_watermark("./public/images#{nft[:final_filename]}",nft_final_media, nft_drop.name)
+          # Net::SCP.upload!("assets.campuslegends.com", "assets",
+          #   path, "/home/assets/assets/images/preview-videos", 
+          #   :ssh => { :keys => "new_key", :passphrase => 'new_key' })
           nft[:preview_url] = "https://assets.campuslegends.com/images/preview-videos/#{nft_final_media}"
 
           nft[:nft_drop_id] = nft_drop[:id]
@@ -68,7 +68,7 @@ class NftController < ApplicationController
 
           # 0.json, 0.png
 
-          json = {
+          payload = {
             _id: nft.id,
             name: nft[:name],
             symbol: 'CLHP',
@@ -79,31 +79,29 @@ class NftController < ApplicationController
             attributes: attributes_list,
             external_url: 'campus.io',
             properties: {
-              category: category
+              category: category,
               files: [
-                # TODO: enumerate the files, i guess??
                 { uri: '0.png', type: 'image/png' },
                 { uri: '0.mp4', type: 'video/mp4' },
               ],
               creators: [
-                # TODO: same as attributes...where is this?
                 { address: 'campEwCXkqfySan6a7R71BTBSurfLsfqHgShC11J3Bj', share: 100 },
               ],
             },
           }
 
 
-          image_url = GoogleService.get_drive_media(image_id, 'gallery', nft_drop.name)
-          video_url = GoogleService.get_drive_media(final_media_id, 'final', nft_drop.name)
+          image_url = nft[:gallery_url]
+          video_url = nft[:final_url]
 
           ProcessDropJob.perform_async(
-            json,
+            payload,
             image_url,
             video_url,
-            nft.scarcity,
+            nft.scarcity.to_s,
           )
 
-          pp 'JSON', json
+          pp 'JSON', payload
         end
         i += 1
       end

@@ -8,7 +8,9 @@ x-backend-base: &backend-base
     - bundler_gems:/usr/local/bundle/
   depends_on:
     - db
+    - redis
   environment:
+    REDIS_URL_SIDEKIQ: redis://redis:6379/12
     RAILS_ENV: ${ENVIRONMENT}
     NODE_ENV: ${ENVIRONMENT}
     DBHOST: db

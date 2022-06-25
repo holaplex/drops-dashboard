@@ -37,6 +37,9 @@
 yarn-debug.log*
 .yarn-integrity
 
+/*.png
+/*.mp4
+/zip/*
 .env
 
 /public/images/*
