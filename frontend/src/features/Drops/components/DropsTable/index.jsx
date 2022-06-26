@@ -107,33 +107,13 @@ const index = () => {
                                         <td className="px-6 py-4">
                                             {drop.status || (<span>Waing</span>)}
                                         </td>
-                                        {/* Client buttons  */}
-                                        {user.user_type === 'client' && (
+                                        {
                                             <td className="px-6 py-4">
                                                 <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
                                                 <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
                                                 <button onClick={() => handlePublish(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Publish</button>
                                             </td>
-                                        )}
-                                        {/* Minting vendor buttons  */}
-                                        {user.user_type === 'minting_vendor' && (
-                                            <td className="px-6 py-4">
-                                                <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
-                                                <a href={`${DOWNLOAD_DIR}drop.tar`} className="font-medium text-blue-500 hover:underline mr-2" download>Download (.tar)</a>
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Upload (.json)</a>
-                                            </td>
-                                        )}
-                                        {/* System admin buttons  */}
-                                        {user.user_type === 'admin' && (
-                                            <td className="px-6 py-4">
-                                                <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
-                                                <a href={`${DOWNLOAD_DIR}drop.tar`} className="font-medium text-blue-500 hover:underline mr-2" download>Download (.tar)</a>
-                                                <button onClick={() => handleModal(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Upload (.json)</button>
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
-
-                                            </td>
-                                        )}
-
+                                        }
                                     </tr>
                                 ))
                             )

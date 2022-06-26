@@ -36,9 +36,10 @@ class GoogleService
     dir_name = "./public/images/#{drop_name}".gsub(' ', '_')
     Dir.mkdir(dir_name) unless File.exist?(dir_name)
 
+    download_dest = "#{dir_name}/#{id}.#{file_extension}"
     response = drive_service.get_file(id, supports_all_drives: true,
-                                          download_dest: "#{dir_name}/#{id}.#{file_extension}")
-    "#{id}.#{file_extension}"
+                                          download_dest: download_dest)
+    {name: "#{id}.#{file_extension}", destination: download_dest }
   rescue StandardError => e
     puts "An error occurred: #{e}"
   end
