@@ -36,13 +36,13 @@ jobs:
         app=frontend
         release="$app-$git_branch-$git_hash"
         image_tag="$REGISTRY/$REPOSITORY:$release"
-        docker build -t $image_tag -f Dockerfile.prod ./$app
+        docker build -t $image_tag -f ./$app/Dockerfile.prod ./$app
         docker push $REGISTRY/$REPOSITORY:$release
         echo "::set-output name=image::$image_tag"
         app=backend
         release="$app-$git_branch-$git_hash"
         image_tag="$REGISTRY/$REPOSITORY:$release"
-        docker build -t $image_tag -f Dockerfile.prod ./$app
+        docker build -t $image_tag -f ./$app/Dockerfile.prod ./$app
         docker push $image_tag
         echo "::set-output name=image::$image_tag"
 
