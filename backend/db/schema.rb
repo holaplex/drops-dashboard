@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_27_220734) do
+ActiveRecord::Schema.define(version: 2022_06_27_224826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2022_06_27_220734) do
     t.bigint "school_id"
     t.bigint "collection_id"
     t.string "zipped_assets_uri"
+    t.string "status", default: "initialized"
     t.index ["collection_id"], name: "index_nfts_on_collection_id"
     t.index ["nft_drop_id"], name: "index_nfts_on_nft_drop_id"
     t.index ["school_id"], name: "index_nfts_on_school_id"

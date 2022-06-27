@@ -59,7 +59,10 @@ class ZipAssetsJob
 
       puts "zipping done !!!"
       nft = Nft.find(metadata["_id"].to_i)
-      nft.update(zipped_assets_uri: zipfile_path)
+      nft.update(
+        zipped_assets_uri: zipfile_path
+        status: Nft::ZIPPED
+      )
 
     rescue StandardError => e
       puts "Drop job error: #{e}"

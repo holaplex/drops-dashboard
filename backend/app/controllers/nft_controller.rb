@@ -9,6 +9,27 @@ class NftController < ApplicationController
     send_data(data, filename: 'assets.zip')
   end
 
+  def callback
+    # {candyMachineId: candyMachine, creator: walletKeyPair.publicKey.toBase58(), guid: guid}
+    nft = Nft.find(params[:guid])
+
+    nft.update(
+      cm_address: params[:candyMachineId],
+      status: Nft::ONCHAIN
+    )
+
+
+    
+    
+    # async 
+    # # register the candy machine with xmint
+    # # update the status in the database
+    # # ping api.campuslegends.com to set it live
+
+    render json: {}, status: :ok
+
+  end
+
   def upload_excel
     file = params[:file]
 

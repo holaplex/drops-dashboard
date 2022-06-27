@@ -18,6 +18,9 @@ x-backend-base: &backend-base
     DBPASS: ${POSTGRES_PASSWORD}
     APM_HOST: elastic-agent
     PROJECT_NAME: ${PROJECT_NAME}
+    KEYPAIR: ${KEYPAIR}
+    HOST: ${HOST}
+    NFT_STORAGE_TOKEN: ${NFT_STORAGE_TOKEN}
 
 
 x-frontend-base: &frontend-base

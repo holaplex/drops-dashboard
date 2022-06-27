@@ -3,6 +3,18 @@ class Nft < ApplicationRecord
   belongs_to :school, optional: true
   belongs_to :nft_drop, optional: true
   has_one :conference, through: :school
+  
+  
+  #### NFT STATUSES ####
+  # initialized - default
+  ZIPPED = 'zipped' #- assets available
+  SUBMITTED = 'submitted' # candy machince submitted
+  ONCHAIN = 'onchain'
+  # published - on api.campuslegends.com
+  # error - you are fucked, error column
+  ########################
+  
+  
   def self.import_from_spreadsheet_row(row, headers, drop_name = nil, drop_id)
     map = {
       nft_name: :name, nft_description: :description, "edition_/_scarcity": :scarcity, edition_scarcity: :scarcity,
