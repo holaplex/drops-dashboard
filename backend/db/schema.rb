@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_26_200407) do
+ActiveRecord::Schema.define(version: 2022_06_27_220734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "collections", force: :cascade do |t|
     t.string "name"
@@ -35,7 +36,7 @@ ActiveRecord::Schema.define(version: 2022_06_26_200407) do
     t.string "status", default: "Waiting"
   end
 
-  create_table "nfts", force: :cascade do |t|
+  create_table "nfts", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "sku"
