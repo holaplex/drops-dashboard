@@ -30,13 +30,7 @@ export const publish = createAsyncThunk(
 
       const { data } = response;
       if (response.status === 200) {
-        const { success, drop_name, nfts } = response.data
-
-        const res = await axios.post(`${CAMPUS_API}/publish`, {
-          drop_name,
-          nfts
-        })
-        return { success, res: res.data }
+        return { success, res: data }
       } else {
         return thunkAPI.rejectWithValue(data);
       }
