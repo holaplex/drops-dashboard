@@ -7,7 +7,7 @@ require 'open-uri'
 
 
 
-class ZipAssetsDrop
+class ZipAssetsJob
   include Sidekiq::Worker
 
 

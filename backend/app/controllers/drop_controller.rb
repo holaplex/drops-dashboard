@@ -18,8 +18,17 @@ class DropController < ApplicationController
 
   def publish
     drop = NftDrop.find(params[:drop_id])
-    drop.status = 'Published'
+    drop.status = 'processing candy machine'
     drop.save!
+
+    drops.nfts.each do |nft|
+      ProcessCandyMachineJob.perform_async({
+        nft_id: nft.id,
+        drop_id: drop.id,
+      })
+    end
+
+
     nfts_json = mount_json(drop.id)
     render json: { success: true, nfts: nfts_json, drop_name: drop.name }, status: :ok
   end
