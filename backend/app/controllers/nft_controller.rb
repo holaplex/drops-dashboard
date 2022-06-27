@@ -39,7 +39,7 @@ class NftController < ApplicationController
           # path = nft.make_watermark("./public/images#{nft[:final_filename]}",nft_final_media, nft_drop.name)
           # Net::SCP.upload!("assets.campuslegends.com", "assets",
           #   path, "/home/assets/assets/images/preview-videos", 
-          #   :ssh => { :keys => "new_key", :passphrase => 'new_key' })
+          #   :ssh => { :keys => "key"})
           # nft[:preview_url] = "https://assets.campuslegends.com/images/preview-videos/#{nft_final_media[:name]}"
 
           nft[:nft_drop_id] = nft_drop[:id]

@@ -54,3 +54,5 @@ yarn-debug.log*
 
 /public/images/watermarked/*
 !/public/images/watermarked/.keep
+
+key
