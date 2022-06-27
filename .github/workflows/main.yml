@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, development, staging ]
+
+jobs:
+  build:
+    name: Building and Pushing Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      id: login-registry
+      run: doctl registry login --expiry-seconds 1200
+
+    - name: Build, tag, and push images to registry (dev)
+      if: github.ref == 'refs/heads/development'
+      id: build-image-dev
+      env:
+        REGISTRY: registry.digitalocean.com/clr
+        REPOSITORY: ${{ github.event.repository.name }}
+      run: |
+        git_hash=$(git rev-parse --short "$GITHUB_SHA")
+        repo=drop-dashboard
+        git_branch=${GITHUB_REF##*/}
+        #Frontend
+        app=frontend
+        release="$app-$git_branch-$git_hash"
+        image_tag="$REGISTRY/$REPOSITORY:$release"
+        docker build -t $image_tag -f ./$app/Dockerfile ./$app
+        docker push $REGISTRY/$REPOSITORY:$release
+        echo "::set-output name=image::$image_tag"
+        #Backend
+        app=backend
+        release="$app-$git_branch-$git_hash"
+        image_tag="$REGISTRY/$REPOSITORY:$release"
+        docker build -t $image_tag -f ./$app/Dockerfile ./$app
+        docker push $image_tag
+        echo "::set-output name=image::$image_tag"
+
+    - name: Build, tag, and push images to registry (prod)
+      if: github.ref == 'refs/heads/main'
+      id: build-image-main
+      env:
+        REGISTRY: registry.digitalocean.com/clr
+        REPOSITORY: ${{ github.event.repository.name }}
+      run: |
+        git_hash=$(git rev-parse --short "$GITHUB_SHA")
+        repo=drop-dashboard
+        git_branch=${GITHUB_REF##*/}
+        #Frontend
+        app=frontend
+        release="$app-$git_branch-$git_hash"
+        image_tag="$REGISTRY/$REPOSITORY:$release"
+        docker build -t $image_tag -f ./$app/Dockerfile.prod ./$app
+        docker push $REGISTRY/$REPOSITORY:$release
+        echo "::set-output name=image::$image_tag"
+        #Backend
+        app=backend
+        release="$app-$git_branch-$git_hash"
+        image_tag="$REGISTRY/$REPOSITORY:$release"
+        docker build -t $image_tag -f ./$app/Dockerfile.prod --build-arg ENVIRONMENT=production ./$app
+        docker push $image_tag
+        echo "::set-output name=image::$image_tag"
+
+
+    - name: Triggering deployment update in remote repository
+      if: github.ref == 'refs/heads/development'
+      uses: actions/github-script@v6
+      env:
+        BRANCH: ${{ github.ref_name }}
+      with:
+        github-token: ${{ secrets.ACTIONS_TOKEN }}
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: 'holaplex',
+            repo: 'campus-legends-k8s',
+            workflow_id: 'drops-dashboard.yaml',
+            ref: 'dev'
+          })
+
+    - name: Triggering deployment update in remote repository
+      if: github.ref == 'refs/heads/main'
+      uses: actions/github-script@v6
+      env:
+        BRANCH: ${{ github.ref_name }}
+      with:
+        github-token: ${{ secrets.ACTIONS_TOKEN }}
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: 'holaplex',
+            repo: 'campus-legends-k8s',
+            workflow_id: 'drops-dashboard.yaml',
+            ref: process.env.BRANCH
+          })
