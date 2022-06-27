@@ -24,7 +24,7 @@ jobs:
 
     - name: Build, tag, and push images to registry (dev)
       if: github.ref == 'refs/heads/development'
-      id: build-image-main
+      id: build-image-dev
       env:
         REGISTRY: registry.digitalocean.com/clr
         REPOSITORY: ${{ github.event.repository.name }}
