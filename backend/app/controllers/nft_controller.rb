@@ -18,13 +18,7 @@ class NftController < ApplicationController
       status: Nft::ONCHAIN
     )
 
-
-    
-    
-    # async 
-    # # register the candy machine with xmint
-    # # update the status in the database
-    # # ping api.campuslegends.com to set it live
+    PublishNftJob.perform_async(nft.id)
 
     render json: {}, status: :ok
 
