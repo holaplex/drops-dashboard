@@ -15,6 +15,8 @@ module CandyMachineFactory
       $rpc: String!
       $collectionMint: String!
       $setCollectionMint: Boolean!
+      $guid: String!
+      $callback: String!
     ) {
       candyMachineUpload(
         config: $config
@@ -24,6 +26,8 @@ module CandyMachineFactory
         rpc: $rpc
         collectionMint: $collectionMint
         setCollectionMint: $setCollectionMint
+        guid: $guid
+        callback: $callback
       ) {
         processId
       }
@@ -45,25 +49,28 @@ class ProcessCandyMachineJob
     keypair = ENV.fetch('KEYPAIR')
     host = ENV.fetch('HOST')
 
+    collectionMint = 'TODOTODOTODO'
+
     puts CandyMachineFactory::Client.schema
     response = CandyMachineFactory::Client.query(
       CandyMachineFactory::CreateCandyMachine, 
       variables: { 
-        config: config.to_json,
+        config: config,
         filesZipUrl: "#{host}/api/v1/nfts/#{@nft.id}/zip",
         keyPair: keypair,
         env: 'mainnet',
         rpc: 'https://holaplex.rpcpool.com/',
-        # collectionMint: String!
-        # setCollectionMint: true
+        collectionMint: collectionMint,
+        setCollectionMint: true,
         guid: @nft.id,
         callback: "#{host}/api/v1/nfts/callback",
-      })
+      }.tap{|h| p h})
+
+    pid = response.data&.candy_machine_upload&.process_id
+
+      return if pid&.empty?
 
       @nft.update(status: Nft::SUBMITTED)
-      puts "****"
-      puts response.to_json
-      puts "****"
   end
 
   def get_solana_price
