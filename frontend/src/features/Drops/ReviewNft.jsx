@@ -12,7 +12,7 @@ const ReviewNft = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { drop_id } = useParams();
-  const { name, nfts, isSuccess, isFetching, isError } = useSelector(dropSelector)
+  const { name, nfts, isSuccess, isFetching, isError, schools, conferences } = useSelector(dropSelector)
   const [position, setPosition] = useState(0)
   const [loading, setLoading] = useState(!!drop_id)
 
@@ -54,7 +54,7 @@ const ReviewNft = () => {
             <span className='text-lg'>{position + 1} of {nfts.length}</span>
           </div>
 
-          <ReviewNftCard nft={nfts[position]} />
+          <ReviewNftCard nft={nfts[position]} schools={schools} conferences={conferences} />
 
           <div className='flex justify-between'>
             {!drop_id ? (

@@ -42,7 +42,7 @@ export const CreateDrop = () => {
                         <span className="bg-gray-800 w-28 font-bold text-center text-gray-200 p-3 px-5 rounded-l">
                             Drop Name
                         </span>
-                        <input value={name} onChange={v => setName(v.target.value)} className="field text-sm text-gray-600 p-2 px-3 rounded-r w-full" type="text" placeholder="MyAmazingDrop" />
+                        <input value={name} onChange={v => setName(v.target.value)} className="field text-sm text-gray-600 p-2 px-3 rounded-r w-full" type="text" placeholder="Drop Name (internal name only)" />
                     </span>
                     <span className="flex shadow-md mb-5 text-xs">
                         <span className="bg-gray-800 w-28 font-bold text-center text-gray-200 p-3 px-5 rounded-l">

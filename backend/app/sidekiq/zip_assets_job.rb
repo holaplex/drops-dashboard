@@ -60,7 +60,7 @@ class ZipAssetsJob
       puts "zipping done !!!"
       nft = Nft.find(metadata["_id"].to_i)
       nft.update(
-        zipped_assets_uri: zipfile_path
+        zipped_assets_uri: zipfile_path,
         status: Nft::ZIPPED
       )
 

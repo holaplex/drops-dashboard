@@ -9,7 +9,7 @@ class Nft < ApplicationRecord
   # initialized - default
   ZIPPED = 'zipped' #- assets available
   SUBMITTED = 'submitted' # candy machince submitted
-  ONCHAIN = 'onchain'
+  ONCHAIN = 'onchain' # candy machine created
   # published - on api.campuslegends.com
   # error - you are fucked, error column
   ########################

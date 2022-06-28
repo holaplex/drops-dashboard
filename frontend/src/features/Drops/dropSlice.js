@@ -12,6 +12,8 @@ export const dropSlice = createSlice({
     isError: false,
     drops: [],
     nfts: [],
+    schools: [],
+    conferences: [],
   },
 
   // Reducers
@@ -90,8 +92,10 @@ export const dropSlice = createSlice({
       state.isFetching = true;
     },
     [show.fulfilled]: (state, { payload }) => {
-      console.log("PAYLOAD", payload)
+      console.log("PAYLOAD SHOW", payload)
       state.nfts = payload.nfts
+      state.schools = payload.schools
+      state.conferences = payload.conferences
       state.name = payload.drop_name
       state.isFetching = false;
       state.isSuccess = true;

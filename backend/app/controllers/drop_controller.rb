@@ -21,7 +21,7 @@ class DropController < ApplicationController
     drop.status = 'processing candy machine'
     drop.save!
 
-    drops.nfts.each do |nft|
+    drop.nft.each do |nft|
       ProcessCandyMachineJob.perform_async({
         nft_id: nft.id,
         drop_id: drop.id,
@@ -36,8 +36,19 @@ class DropController < ApplicationController
   def show
     drop = NftDrop.find(params[:drop_id])
     nft = drop.nft
+    schools = drop.nft.map(&:school)
+    conferences = drop.nft.map(&:conference)
 
-    render json: { success: true, drop_name: drop.name, nfts: nft }, status: :ok
+
+    puts schools
+
+    render json: {
+      success: true,
+      drop_name: drop.name,
+      nfts: nft,
+      schools: schools,
+      conferences: conferences,
+      }, status: :ok
   end
 
   private

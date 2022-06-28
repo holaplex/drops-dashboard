@@ -91,8 +91,8 @@ export const show = createAsyncThunk(
       const response = await dropApi.show(drop_id)
       const { data } = response
       if (response.status === 200) {
-        const { drop_name, nfts } = response.data
-        return { drop_name, nfts }
+        const { drop_name, nfts, schools, conferences } = response.data
+        return { drop_name, nfts, schools, conferences }
       }
       else {
         return thunkAPI.rejectWithValue(data)

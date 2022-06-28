@@ -7,10 +7,10 @@ module CandyMachineFactory
   Schema = GraphQL::Client.load_schema(HTTP)
   Client = GraphQL::Client.new(schema: Schema, execute: HTTP)
   CreateCandyMachine = Client.parse  <<-'GRAPHQL'
-    mutation CreateCandyMachine(
+    mutation(
       $config: JSON!
       $filesZipUrl: String!
-      $encryptedKeypair: EncryptedMessage!
+      $keyPair: String!
       $env: String!
       $rpc: String!
       $collectionMint: String!
@@ -19,7 +19,7 @@ module CandyMachineFactory
       candyMachineUpload(
         config: $config
         filesZipUrl: $filesZipUrl
-        encryptedKeypair: $encryptedKeypair
+        keyPair: $keyPair
         env: $env
         rpc: $rpc
         collectionMint: $collectionMint
@@ -51,7 +51,7 @@ class ProcessCandyMachineJob
       variables: { 
         config: config.to_json,
         filesZipUrl: "#{host}/api/v1/nfts/#{@nft.id}/zip",
-        keypair: keypair,
+        keyPair: keypair,
         env: 'mainnet',
         rpc: 'https://holaplex.rpcpool.com/',
         # collectionMint: String!
@@ -62,7 +62,7 @@ class ProcessCandyMachineJob
 
       @nft.update(status: Nft::SUBMITTED)
       puts "****"
-      puts reponse
+      puts response.to_json
       puts "****"
   end
 

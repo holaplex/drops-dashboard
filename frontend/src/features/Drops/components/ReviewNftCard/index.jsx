@@ -1,7 +1,7 @@
 import React from 'react'
 import { IMAGE_DIR } from '../../../../helpers/requestHelper'
 
-const ReviewNftCard = ({ nft }) => {
+const ReviewNftCard = ({ nft, schools }) => {
 
   return (
     <div className='my-6'>
@@ -23,13 +23,12 @@ const ReviewNftCard = ({ nft }) => {
             <span>{nft.description}</span>
           </div>
           <div className='flex flex-col mb-4'>
-            <b>Details:</b>
-            <span>Rarity</span>
-            <span>Edition of {nft.scarcity}</span>
-            <span>Creator</span>
-            <span>{nft.creator}</span>
-            <span>Blockchain</span>
-            <span>Solana</span>
+            <span> <b> Scarcity: </b> {nft.scarcity}</span>
+            <span> <b> Legend: </b> {nft.legend}</span>
+            <span> <b> Sport: </b> {nft.sport}</span>
+            <span> <b> School: </b> {schools.find(s => s.id === nft.school_id).name}</span>
+            { nft.award && <span> <b> Award: </b> {nft.award}</span> }
+            <span> <b>Creator:</b> {nft.creator}</span>
           </div>
         </div>
       </div>
