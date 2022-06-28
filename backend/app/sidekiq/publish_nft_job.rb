@@ -16,9 +16,37 @@ class PublishNftJob
       xmint_colllection_id: collection_id
     )
 
-
     ### publish to campuslegends
-
+    ## TO DO HANDLE FAILUE OF POST REQUEST :D 
+    resp = HTTP.post('https://api.campuslegends.com/api/v1/publish', 
+      body: {
+      drop_name: nft.name,
+      nft: [
+        {
+          name: nft.name,
+          description: nft.description,
+          sku: nft.sku,
+          upi: nft.upo,
+          scarcity: nft.scarcity,
+          creator: nft.creator,
+          royalty_matrix: nft.royalty_matrix,
+          award: nft.award,
+          fan_ranking_points: nft.fan_ranking_points,
+          unlock: nft.unlock, 
+          candymachine_address: nft.cm_address,
+          client_id: nft.client_id,
+          sol_price: nft.price_in_sol,
+          image_url: nft.cm_image_url,
+          video_url: nft.cm_video_url,
+          preview_url: nft.preview_url,
+          # collections: "", # TODO: Figure this out if needed
+          conference: nft.conference.name,
+          school: nft.school.name,
+          sport: nft.sport.name,
+          athlete: nft.legend,
+      }
+      ]
+    })
 
   end
 
@@ -50,9 +78,6 @@ class PublishNftJob
           }
         }
     )
-
     response
-
   end
-
 end
