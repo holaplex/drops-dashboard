@@ -16,7 +16,7 @@ module CandyMachineFactory
       $collectionMint: String!
       $setCollectionMint: Boolean!
       $guid: String!
-      $callback: String!
+      $callbackUrl: String!
     ) {
       candyMachineUpload(
         config: $config
@@ -27,7 +27,7 @@ module CandyMachineFactory
         collectionMint: $collectionMint
         setCollectionMint: $setCollectionMint
         guid: $guid
-        callback: $callback
+        callbackUrl: $callbackUrl
       ) {
         processId
       }
@@ -49,7 +49,7 @@ class ProcessCandyMachineJob
     keypair = ENV.fetch('KEYPAIR')
     host = ENV.fetch('HOST')
 
-    collectionMint = 'TODOTODOTODO'
+    collectionMint = 'B1q23k6N7MWKuxyWQtpUvh8noKgU9EY6fsorZnPHmLKm'
 
     puts CandyMachineFactory::Client.schema
     response = CandyMachineFactory::Client.query(
@@ -63,10 +63,11 @@ class ProcessCandyMachineJob
         collectionMint: collectionMint,
         setCollectionMint: true,
         guid: @nft.id,
-        callback: "#{host}/api/v1/nfts/callback",
+        callbackUrl: "#{host}/api/v1/nfts/callback",
       }.tap{|h| p h})
 
     pid = response.data&.candy_machine_upload&.process_id
+    puts pid
 
       return if pid&.empty?
 

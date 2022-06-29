@@ -19,7 +19,7 @@ class ZipAssetsJob
     puts scarcity
     puts "^^^ RUNNING DROP JOB ^^^^"
     begin
-      directory = File.realdirpath(metadata["_id"].to_s)
+      directory = File.realdirpath(metadata["_id"])
       if File.directory?(directory) 
         FileUtils.remove_dir(directory) # make sure we start fresh every job
       end
@@ -53,12 +53,12 @@ class ZipAssetsJob
         FileUtils.remove_dir(zip_dir) # make sure we start fresh every job
       end
       Dir.mkdir(zip_dir)
-      zipfile_path = File.join(zip_dir, "#{metadata["_id"].to_s}.zip")
+      zipfile_path = File.join(zip_dir, "#{metadata["_id"]}.zip")
       zipper = ZipFileGenerator.new(directory,  File.realdirpath(zipfile_path))
       zipper.write
 
       puts "zipping done !!!"
-      nft = Nft.find(metadata["_id"].to_i)
+      nft = Nft.find(metadata["_id"])
       nft.update(
         zipped_assets_uri: zipfile_path,
         status: Nft::ZIPPED

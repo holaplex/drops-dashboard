@@ -1,4 +1,5 @@
 require 'http'
+require 'json'
 class PublishNftJob
   include Sidekiq::Worker
 
@@ -7,15 +8,18 @@ class PublishNftJob
   # # ping api.campuslegends.com to set it live
   def perform(nft_id)
     nft = Nft.find(nft_id)
-    reponse = register_cm_with_crossmint(nft)
+    response = register_cm_with_crossmint(nft)
 
+    puts response
     collection_id = response.data['collection_id']
+    ## TODO: We don't know if this works yet :-)
 
-    # TODO: createa collection_id column
-    Nft.update(
-      xmint_colllection_id: collection_id
+    nft.update(
+      xmint_colllection_id: collection_id.to_s
     )
 
+    ### NOT READY FOR THIS
+    return ;
     ### publish to campuslegends
     ## TO DO HANDLE FAILUE OF POST REQUEST :D 
     resp = HTTP.post('https://api.campuslegends.com/api/v1/publish', 
@@ -52,8 +56,8 @@ class PublishNftJob
 
   def register_cm_with_crossmint(nft)
 
-    project_id = ENV.fetch('X-PROJECT-ID')
-    client_secret = ENV.fetch('X-CLIENT-SECRET')
+    project_id = ENV.fetch('X_PROJECT_ID')
+    client_secret = ENV.fetch('X_CLIENT_SECRET')
 
     response = HTTP
     .headers(
@@ -61,7 +65,6 @@ class PublishNftJob
       "Content-Type" => 'application/json',
       "X-PROJECT-ID" => project_id,
       "X-CLIENT-SECRET" => client_secret,
-      "Content-Type" => 'application/zip',
     )
     .post('https://www.crossmint.io/api/v1-alpha1/collections',
       body: 
@@ -76,7 +79,7 @@ class PublishNftJob
             "description": nft.description,
             "imageUrl": nft.gallery_url
           }
-        }
+        }.to_json
     )
     response
   end
