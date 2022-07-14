@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { createDrop } from './dropsActions'
-import { dropSelector } from './dropSlice'
+import { dropSelector, clearState } from './dropSlice'
 import Header from '../../components/Header'
 import FileUpload from '../Drops/components/FileUpload'
 import { DOWNLOAD_DIR } from '../../helpers/requestHelper';
@@ -15,21 +15,18 @@ export const CreateDrop = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const onDrop = (files) => {
-        setFile(files[0])
+    const onDrop = (selectedFile) => {
+        if (!file || selectedFile.path !== file.path) {
+            setFile(selectedFile)
+        }
     }
 
     useEffect(() => {
-        if (isFetching) {
-            console.log("FETCHING!")
-        }
         if (isSuccess) {
             navigate('/drops/summary')
         }
-        if (isError) {
-            console.log("ERROR")
-        }
-    }, [isFetching, isSuccess, isError])
+        dispatch(clearState())
+    }, [isSuccess, file])
 
     const handleUpload = async () => {
         const formData = new FormData()
@@ -38,7 +35,7 @@ export const CreateDrop = () => {
     }
 
     const handleCross = () => {
-        setFile();
+        setFile(null);
         navigate('/drops');
     }
 
@@ -51,9 +48,10 @@ export const CreateDrop = () => {
                         <h1 className="text-3xl font-semibold mb-5">Create new drop</h1>
                         <span className="cursor-pointer" onClick={handleCross}>X</span>
                     </div>
-                    <FileUpload onDropFile={onDrop} />
+                    <FileUpload onDropFile={onDrop} file={file} />
                     <div className="flex flex-row justify-between">
                         <a href={`${DOWNLOAD_DIR}drop_sample.xlsx`} className="underline text-sm mt-2 cursor-pointer" download> Download .xls template </a>
+                        {isError && <span className="text-red-500">Error uploading the file!</span>}
 
                         {isFetching ? (
                             <button disabled className='bg-gray-800 disabled font-bold text-gray-200 p-3  rounded-md cursor-wait opacity-75  px-8'>

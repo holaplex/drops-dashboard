@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 
-const FileUpload = ({ onDropFile }) => {
+const FileUpload = ({ onDropFile, file }) => {
 
     const onDrop = useCallback(files => {
-        onDropFile(files)
-    }, []);
+        if (files && files.length > 0) {
+            onDropFile(files[0])
+        }
+    }, [file]);
 
     const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
         onDrop,
@@ -24,6 +26,7 @@ const FileUpload = ({ onDropFile }) => {
             <div className="mb-3" {...getRootProps()} >
                 <input className="hidden" type="file" placeholder="" {...getInputProps()}
                     accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    multiple={false}
                 />
                 <label className="flex justify-center w-full h-32 px-4 transition bg-[#eee] border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none" >
                     <span className="flex flex-col text-center items-center justify-center">
