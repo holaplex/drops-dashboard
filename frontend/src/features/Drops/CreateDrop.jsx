@@ -6,6 +6,7 @@ import { createDrop } from './dropsActions'
 import { dropSelector } from './dropSlice'
 import Header from '../../components/Header'
 import FileUpload from '../Drops/components/FileUpload'
+import { DOWNLOAD_DIR } from '../../helpers/requestHelper';
 
 export const CreateDrop = () => {
     const [file, setFile] = useState()
@@ -51,19 +52,20 @@ export const CreateDrop = () => {
                         <span className="cursor-pointer" onClick={handleCross}>X</span>
                     </div>
                     <FileUpload onDropFile={onDrop} />
-                    {isFetching ? (
-                        <button disabled className='bg-gray-800 disabled font-bold text-gray-200 p-3  rounded-md cursor-wait opacity-75 float-right px-8'>
-                            Uploading...
-                        </button>
-                    ) : (
-                        <button onClick={handleUpload} className='px-8 bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700 float-right
-                        disabled:opacity-18 disabled:cursor-not-allowed'
-                            disabled={!file}
-                        >
-                            Next
-                        </button>
-                    )}
+                    <div className="flex flex-row justify-between">
+                        <a href={`${DOWNLOAD_DIR}drop_sample.xlsx`} className="underline text-sm mt-2 cursor-pointer" download> Download .xls template </a>
 
+                        {isFetching ? (
+                            <button disabled className='bg-gray-800 disabled font-bold text-gray-200 p-3  rounded-md cursor-wait opacity-75  px-8'>
+                                Uploading...
+                            </button>
+                        ) : (
+                            <button onClick={handleUpload} className='px-8 bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700 
+                        disabled:opacity-18 disabled:cursor-not-allowed' disabled={!file} >
+                                Next
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
