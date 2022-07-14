@@ -18,7 +18,6 @@ export const CreateDrop = () => {
         setFile(files[0])
     }
 
-
     useEffect(() => {
         if (isFetching) {
             console.log("FETCHING!")
