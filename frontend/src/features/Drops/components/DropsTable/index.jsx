@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { userSelector } from '../../../User/userSlice';
 import { getDrops, uploadMint, publish } from '../../dropsActions'
 import { clearState, dropSelector } from '../../dropSlice'
-import { DOWNLOAD_DIR } from '../../../../helpers/requestHelper'
 
 const index = () => {
     const navigate = useNavigate()
@@ -49,78 +48,70 @@ const index = () => {
         dispatch(publish(drop_id))
     }
 
+    const formatDate = (datePassed) => {
+
+        const date = new Date(datePassed)
+
+        return date.toLocaleString("en-US", {
+            timeZone: "UTC",
+            year: "2-digit",
+            month: "2-digit",
+            day: "2-digit",
+        })
+    }
+
+    const Flag = ({ text, status }) => {
+        return (
+            <div className="flex items-center">
+                <span className={`w-2 h-2  rounded-full mr-1 ${status ? 'bg-green-500' : 'bg-orange-300'}`}></span>
+                <span className={`text-xs ${status ? 'text-green-600' : 'text-orange-300'}`}> {text}</span>
+            </div>
+        )
+
+    }
+
+
     return (
-        <div className=' w-full flex flex-row justify-center items-center'>
+        <div className=' w-full flex flex-row justify-center items-center my-6'>
             <div className="w-8/12" >
-                <p className='my-6 font-semibold text-4xl'>Hi, {user.username}</p>
                 <div className="pb-2">
                     <div className="relative flex mt-1 justify-between items-center">
-                        <h1 className='text-gray-800 text-3xl font-bold'>All drops</h1>
+                        <h1 className='text-gray-800 text-3xl font-bold'>Drops</h1>
 
                         {user.user_type !== "minting_vendor" &&
-                            <button onClick={() => navigate('/drops/create')} className="py-4 border shadow-md border-gray-300 text-white text-lg rounded-lg block w-60 bg-gray-800">Create Drop</button>
+                            <button onClick={() => navigate('/drops/create')}
+                                className="py-1 px-4 border border-gray-300 text-white text-lg rounded-lg bg-gray-800">Add Drop</button>
                         }
                     </div>
                 </div>
-                <table className="w-full text-sm text-left  text-gray-400 mb-6">
-                    <thead className="text-xs bg-gray-700 text-gray-400">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                ID
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Name
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Time Created
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Status
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                        {isFetching ? (
-                            <div className='w-full'>
-                                <div className='w-full' ><h1>Loading...</h1></div>
+                {isFetching ? (
+                    <div className='w-full'>
+                        <div className='w-full'><h1>Loading...</h1></div>
+                    </div>
+
+                ) :
+                    drops.length ? (
+                        drops.map(drop => (
+                            <div key={drop.id} className="shadow-md rounded my-5 cursor-pointer hover:bg-slate-50" onClick={() => { handleReview(drop.id) }}>
+                                <div className="p-4 flex flex-row justify-between">
+                                    <div className="flex flex-row gap-2 items-center">
+                                        <img
+                                            className="h-16 w-16 rounded"
+                                            src="https://images.unsplash.com/photo-1642525027649-00d7397a6d4a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80" alt="NFT Image" />
+                                        <h4 className="text-base font-semibold">{drop.name}</h4>
+                                    </div>
+                                    <div className="flex flex-row gap-5 items-center">
+                                        <div className="text-[#747474] text-xs">Golive : {formatDate(drop.created_at)}</div>
+                                        <Flag text="Accessible" status={drop?.is_accessible} />
+                                        <Flag text="Discoverable" status={drop?.is_discoverable} />
+                                    </div>
+                                </div>
                             </div>
-
-                        ) :
-                            drops.length ? (
-                                drops.map(drop => (
-                                    <tr
-                                        key={drop.id}
-                                        className=" border-b bg-gray-800 border-gray-700  hover:bg-gray-600">
-                                        <th scope="row" className="px-6 py-4 font-medium text-white whitespace-nowrap">
-                                            {drop.id}
-                                        </th>
-                                        <td className="px-6 py-4">
-                                            {drop.name}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {new Date(drop.created_at).toLocaleString()}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {drop.status || (<span>Waing</span>)}
-                                        </td>
-                                        {
-                                            <td className="px-6 py-4">
-                                                <button onClick={() => handleReview(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Review</button>
-                                                <a href="#" className="font-medium text-blue-500 hover:underline mr-2">Cancel</a>
-                                                <button onClick={() => handlePublish(drop.id)} className="font-medium text-blue-500 hover:underline mr-2">Publish</button>
-                                            </td>
-                                        }
-                                    </tr>
-                                ))
-                            )
-                                : (<h1>No drops yet!</h1>)
-                        }
-                    </tbody>
-                </table>
+                        ))
+                    )
+                        : (<h1>No drops yet!</h1>)
+                }
 
                 {showModal && (
                     <>
@@ -181,41 +172,3 @@ const index = () => {
 }
 
 export default index
-
-const dropsSample = [
-    {
-        id: 0,
-        name: "April Drop#1",
-        status: "Waiting"
-    },
-    {
-        id: 0,
-        name: "April Drop#1",
-        status: "Waiting"
-    },
-    {
-        id: 0,
-        name: "April Drop#1",
-        status: "Waiting"
-    },
-    {
-        id: 0,
-        name: "April Drop#1",
-        status: "Waiting"
-    },
-    {
-        id: 0,
-        name: "April Drop#1",
-        status: "Waiting"
-    },
-    {
-        id: 0,
-        name: "April Drop#1",
-        status: "Waiting"
-    },
-    {
-        id: 0,
-        name: "April Drop#1",
-        status: "Waiting"
-    },
-]
