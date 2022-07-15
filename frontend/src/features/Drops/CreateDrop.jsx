@@ -3,34 +3,40 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { createDrop } from './dropsActions'
-import { dropSelector } from './dropSlice'
+import { dropSelector, clearState } from './dropSlice'
 import Header from '../../components/Header'
+import FileUpload from '../Drops/components/FileUpload'
+import { DOWNLOAD_DIR } from '../../helpers/requestHelper';
 
 export const CreateDrop = () => {
     const [file, setFile] = useState()
-    const [name, setName] = useState('')
 
     const { isFetching, isSuccess, isError } = useSelector(dropSelector);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (isFetching) {
-            console.log("FETCHING!")
+    const onDrop = (selectedFile) => {
+        if (!file || selectedFile.path !== file.path) {
+            setFile(selectedFile)
         }
+    }
+
+    useEffect(() => {
         if (isSuccess) {
             navigate('/drops/summary')
         }
-        if (isError) {
-            console.log("ERROR")
-        }
-    }, [isFetching, isSuccess, isError])
+        dispatch(clearState())
+    }, [isSuccess, file])
 
     const handleUpload = async () => {
         const formData = new FormData()
         formData.append("file", file)
-        formData.append("name", name)
         dispatch(createDrop(formData))
+    }
+
+    const handleCross = () => {
+        setFile(null);
+        navigate('/drops');
     }
 
     return (
@@ -38,28 +44,26 @@ export const CreateDrop = () => {
             <Header selected="Drops" />
             <div className='flex w-full h-full justify-center items-center'>
                 <div className="w-8/12">
-                    <span className="flex shadow-md mb-5 text-xs">
-                        <span className="bg-gray-800 w-28 font-bold text-center text-gray-200 p-3 px-5 rounded-l">
-                            Drop Name
-                        </span>
-                        <input value={name} onChange={v => setName(v.target.value)} className="field text-sm text-gray-600 p-2 px-3 rounded-r w-full" type="text" placeholder="MyAmazingDrop" />
-                    </span>
-                    <span className="flex shadow-md mb-5 text-xs">
-                        <span className="bg-gray-800 w-28 font-bold text-center text-gray-200 p-3 px-5 rounded-l">
-                            Upload XLS
-                        </span>
-                        <input onChange={f => setFile(f.target.files[0])} className="field text-sm text-gray-600 p-2 px-3 rounded-r w-full" type="file" placeholder="" />
-                    </span>
-                    {isFetching ? (
-                        <button disabled className='bg-gray-800 disabled font-bold text-gray-200 p-3 w-8/12 rounded-md cursor-wait opacity-75'>
-                            Uploading...
-                    </button>
-                    ) : (
-                            <button onClick={handleUpload} className='bg-gray-800 font-bold text-gray-200 p-3 w-8/12 rounded-md hover:bg-gray-700'>
-                                Create Drop
-                    </button>
-                        )}
+                    <div className="flex flex-row justify-between items-center">
+                        <h1 className="text-3xl font-semibold mb-5">Create new drop</h1>
+                        <span className="cursor-pointer" onClick={handleCross}>X</span>
+                    </div>
+                    <FileUpload onDropFile={onDrop} file={file} />
+                    <div className="flex flex-row justify-between">
+                        <a href={`${DOWNLOAD_DIR}drop_sample.xlsx`} className="underline text-sm mt-2 cursor-pointer" download> Download .xls template </a>
+                        {isError && <span className="text-red-500">Error uploading the file!</span>}
 
+                        {isFetching ? (
+                            <button disabled className='bg-gray-800 disabled font-bold text-gray-200 p-3  rounded-md cursor-wait opacity-75  px-8'>
+                                Uploading...
+                            </button>
+                        ) : (
+                            <button onClick={handleUpload} className='px-8 bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700 
+                        disabled:opacity-18 disabled:cursor-not-allowed' disabled={!file} >
+                                Next
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
