@@ -110,7 +110,7 @@ export const dropSlice = createSlice({
     },
     [getDrops.fulfilled]: (state, { payload }) => {
       console.log("PAYLOAD", payload)
-      state.drops = payload.drops;
+      state.drops = payload.formattedDrops;
       state.isFetching = false;
       // state.isSuccess = true;
     },
