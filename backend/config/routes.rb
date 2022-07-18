@@ -1,4 +1,4 @@
-require "sidekiq/web"
+require 'sidekiq/web'
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   mount Sidekiq::Web => '/sidekiq'
@@ -20,18 +20,17 @@ Rails.application.routes.draw do
       end
 
       resources :users, only: [:index]
+      resources :drops, only: %i[index show update]
 
       get '/nfts/:id/zip', to: 'nft#zip'
 
       post '/upload/excel', to: 'nft#upload_excel'
       post '/upload/minted', to: 'nft#upload_minted'
       get '/nfts', to: 'nft#index'
-      get '/drops', to: 'drop#index'
       post '/forgot_password', to: 'users#forgot_password'
       post '/reset_password', to: 'users#reset_password'
-      get '/drops/:drop_id', to: 'drop#show'
-      post '/drops/submit/:drop_id', to: 'drop#submit'
-      post '/drops/publish/:drop_id', to: 'drop#publish'
+      post '/drops/submit/:drop_id', to: 'drops#submit'
+      post '/drops/publish/:drop_id', to: 'drops#publish'
     end
   end
 end
