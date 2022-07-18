@@ -15,3 +15,28 @@ code {
     monospace;
 }
 
+
+@layer utilities{
+  .text-mustard-yellow{
+    color: #E6A602;
+  }
+
+  .bg-mustard-yellow{
+    background: #E6A602;
+  }
+
+  .bg-mustard-yellow{
+    background: #E6A602;
+  }
+
+  .text-yellow-green{
+    color: #2BBA13;
+  }
+  .bg-yellow-green{
+    background: #2BBA13;
+  }
+  .text-sonic-silver{
+    color: #747474;
+  }
+
+}

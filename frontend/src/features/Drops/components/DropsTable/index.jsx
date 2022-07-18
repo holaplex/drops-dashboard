@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { IMAGE_DIR } from '../../../../helpers/requestHelper';
 import { userSelector } from '../../../User/userSlice';
 import { getDrops, uploadMint, publish } from '../../dropsActions'
 import { clearState, dropSelector } from '../../dropSlice'
@@ -63,8 +64,8 @@ const index = () => {
     const Flag = ({ text, status }) => {
         return (
             <div className="flex items-center">
-                <span className={`w-2 h-2  rounded-full mr-1 ${status ? 'bg-green-500' : 'bg-orange-300'}`}></span>
-                <span className={`text-xs ${status ? 'text-green-600' : 'text-orange-300'}`}> {text}</span>
+                <span className={`w-2 h-2  rounded-full mr-1 ${status ? 'bg-yellow-green' : 'bg-mustard-yellow'}`}></span>
+                <span className={`text-xs ${status ? 'text-yellow-green' : 'text-mustard-yellow'}`}> {text}</span>
             </div>
         )
 
@@ -98,11 +99,12 @@ const index = () => {
                                     <div className="flex flex-row gap-2 items-center">
                                         <img
                                             className="h-16 w-16 rounded"
-                                            src="https://images.unsplash.com/photo-1642525027649-00d7397a6d4a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80" alt="NFT Image" />
+                                            src={`${IMAGE_DIR}${drop.gallery_filename}`}
+                                            alt="Drop Image" />
                                         <h4 className="text-base font-semibold">{drop.name}</h4>
                                     </div>
                                     <div className="flex flex-row gap-5 items-center">
-                                        <div className="text-[#747474] text-xs">Golive : {formatDate(drop.created_at)}</div>
+                                        <div className="text-sonic-silver text-xs">Golive : {formatDate(drop.created_at)}</div>
                                         <Flag text="Accessible" status={drop?.is_accessible} />
                                         <Flag text="Discoverable" status={drop?.is_discoverable} />
                                     </div>
