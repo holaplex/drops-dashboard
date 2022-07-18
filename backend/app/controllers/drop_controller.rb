@@ -3,7 +3,11 @@ class DropController < ApplicationController
   def index
     drops = NftDrop.all
 
-    render json: { success: true, drops: drops }, status: :ok
+    res = []
+    drops.each do |drop|
+      res.push({ drop: drop, image: drop.with_image })
+    end
+    render json: { success: true, drops: res }, status: :ok
   end
 
   def submit
@@ -23,11 +27,10 @@ class DropController < ApplicationController
 
     drops.nfts.each do |nft|
       ProcessCandyMachineJob.perform_async({
-        nft_id: nft.id,
-        drop_id: drop.id,
-      })
+                                             nft_id: nft.id,
+                                             drop_id: drop.id
+                                           })
     end
-
 
     nfts_json = mount_json(drop.id)
     render json: { success: true, nfts: nfts_json, drop_name: drop.name }, status: :ok
