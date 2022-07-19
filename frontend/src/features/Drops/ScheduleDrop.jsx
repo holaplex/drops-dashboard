@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { dropSelector, clearState } from './dropSlice'
+import { updateDrop } from './dropsActions'
 import Header from '../../components/Header'
 import WarningIcon from '../../assets/warning.svg'
 
@@ -9,8 +10,8 @@ const ScheduleDrop = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const { id } = useSelector(dropSelector)
-  const [loading, setLoading] = useState(!!id)
+  const { id, isFetching, isSuccess, isError } = useSelector(dropSelector)
+  const [loading, setLoading] = useState(!id)
   const [name, setName] = useState("")
   const [nameDirty, setNameDirty] = useState(false)
   const [golive, setGoLive] = useState("")
@@ -32,17 +33,34 @@ const ScheduleDrop = () => {
     setGoLiveDirty(true)
   }
 
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/drops')
+    }
+    dispatch(clearState())
+  }, [isSuccess])
+
+  const handleSubmit = () => {
+    const data = {
+      drop_id: id,
+      name: name,
+      go_live_date: golive + " " + timezone
+    }
+    dispatch(updateDrop(data))
+  }
+
   const ConfirmationModal = () => {
     return (
       <div className='flex w-full h-full justify-center items-center overflow-hidden absolute inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full
       '>
-        <div className="md:w-1/2 rounded p-8 rounded-lg mx-2 drop-shadow-lg bg-white">
+        <div className="md:w-1/2 p-8 rounded-16 mx-2 drop-shadow-lg bg-white">
           <div className="flex flex-col gap-y-7">
+            {isError && <p className="text-red-500 text-base font-normal">Error creating drop!</p>}
             <h2 className="text-2xl font-bold">Confirmation</h2>
-            <div className="bg-[#FAEDCB] p-3  rounded z-0">
+            <div className="bg-blanched-almond p-3  rounded z-0">
               <div className="flex flex-row gap-x-3 items-center">
                 <img src={WarningIcon} alt="Warning Icon" />
-                <span className="text-[#E6A602]  z-50 text-base font-semibold">
+                <span className="text-mustard-yellow  z-50 text-base font-semibold">
                   Are you sure you are ready to create this drop? Once created on- <br />
                   chain items will be added, this is not reversable.
                 </span>
@@ -65,9 +83,10 @@ const ScheduleDrop = () => {
                 </button>
                 <button
                   className={`bg-dark-charcoal font-medium text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700`}
-                  onClick={handleCreateDrop}
+                  onClick={handleSubmit}
+                  disabled={isFetching}
                 >
-                  Create drop
+                  {isFetching ? 'Creating...' : 'Create drop'}
                 </button>
               </div>
             </div>
@@ -96,7 +115,7 @@ const ScheduleDrop = () => {
 
                 <div className="flex flex-col gap-y-2">
                   <label className="text-base font-semibold">Create Drop</label>
-                  <input className={`bg-[#eee] px-4 py-2 rounded ${!name && nameDirty && 'border border-red-500'}`} type="text" placeholder="eg. Conference 2022" onChange={(e) => {
+                  <input className={`bg-bright-gray px-4 py-2 rounded ${!name && nameDirty && 'border border-red-500'}`} type="text" placeholder="eg. Conference 2022" onChange={(e) => {
                     setName(e.target.value);
                     setNameDirty(true);
                   }} value={name} />
@@ -108,7 +127,7 @@ const ScheduleDrop = () => {
                     <div className="flex flex-col gap-y-2">
                       <label className="text-base font-semibold">Go live date/time</label>
                       <span className="text-xs font-normal">The NFT cards will be displayed and details pages will be accessible prior to the go live date/time</span>
-                      <input className={`bg-[#eee] px-4 py-2 rounded ${!golive && goliveDirty && 'border border-red-500'}`}
+                      <input className={`bg-bright-gray px-4 py-2 rounded ${!golive && goliveDirty && 'border border-red-500'}`}
                         type="datetime-local"
                         onChange={(e) => {
                           setGoLive(e.target.value);
@@ -121,7 +140,7 @@ const ScheduleDrop = () => {
 
                   <div className="flex flex-col gap-y-2 w-1/4">
                     <div className="inline-block relative">
-                      <select className="block appearance-none w-full bg-[#eee] px-4 py-2 rounded"
+                      <select className="block appearance-none w-full bg-bright-gray px-4 py-2 rounded"
                         value={timezone}
                         onChange={(e) => {
                           setTimeZone(e.target.value)

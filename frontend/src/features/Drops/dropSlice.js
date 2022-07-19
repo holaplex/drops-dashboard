@@ -49,6 +49,7 @@ export const dropSlice = createSlice({
       state.isFetching = false;
       state.isSuccess = true;
     },
+
     //Submit
     [submit.rejected]: (state, { payload }) => {
       console.log("ERROR", payload)

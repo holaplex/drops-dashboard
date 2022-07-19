@@ -19,7 +19,7 @@ const show = async (drop_id) => {
 }
 
 const update = async ({ id, name, accessible, discoverable, goLiveDate, status }) => {
-  return await slowRequestHelper.put(`/drops/${id}`, { name, accessible, discoverable })
+  return await slowRequestHelper.put(`/drops/${id}`, { name, accessible, discoverable, goLiveDate, status })
 }
 const create = async (formData) => {
   return await slowRequestHelper.post('/upload/excel', formData)
