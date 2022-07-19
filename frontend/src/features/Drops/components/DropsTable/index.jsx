@@ -99,14 +99,14 @@ const index = () => {
                                     <div className="flex flex-row gap-2 items-center">
                                         <img
                                             className="h-16 w-16 rounded"
-                                            src={`${IMAGE_DIR}${drop.gallery_filename}`}
+                                            src={`${IMAGE_DIR}${drop?.image}`}
                                             alt="Drop Image" />
                                         <h4 className="text-base font-semibold">{drop.name}</h4>
                                     </div>
                                     <div className="flex flex-row gap-5 items-center">
-                                        <div className="text-sonic-silver text-xs">Golive : {formatDate(drop.created_at)}</div>
-                                        <Flag text="Accessible" status={drop?.is_accessible} />
-                                        <Flag text="Discoverable" status={drop?.is_discoverable} />
+                                        <div className="text-sonic-silver text-xs">Golive : {formatDate(drop?.go_live_date)}</div>
+                                        <Flag text="Accessible" status={drop?.accessible} />
+                                        <Flag text="Discoverable" status={drop?.discoverable} />
                                     </div>
                                 </div>
                             </div>
