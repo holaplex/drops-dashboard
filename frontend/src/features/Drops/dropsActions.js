@@ -74,12 +74,7 @@ export const getDrops = createAsyncThunk(
       const { data } = response;
       if (response.status === 200) {
         const { drops } = response.data
-        const formattedDrops = drops.map(drop => {
-          const object = drop.drop
-          object.image = drop.image
-          return object
-        })
-        return { formattedDrops }
+        return { drops }
       } else {
         return thunkAPI.rejectWithValue(data);
       }

@@ -2,13 +2,11 @@ class DropsController < ApplicationController
   before_action :get_drop, only: %i[update show]
   require 'http'
   def index
-    drops = NftDrop.all
+    drops = NftDrop
+            .left_joins(:nft)
+            .select('nft_drops.*, nfts.gallery_filename')
 
-    res = []
-    drops.each do |drop|
-      res.push({ drop: drop, image: drop.with_image })
-    end
-    render json: { success: true, drops: res }, status: :ok
+    render json: { success: true, drops: drops.uniq }, status: :ok
   end
 
   def show
