@@ -5,8 +5,9 @@ class DropsController < ApplicationController
     drops = NftDrop
             .left_joins(:nft)
             .select('nft_drops.*, nfts.gallery_filename')
+            .uniq
 
-    render json: { success: true, drops: drops.uniq }, status: :ok
+    render json: { success: true, drops: drops }, status: :ok
   end
 
   def show
