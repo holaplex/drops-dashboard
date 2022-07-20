@@ -49,6 +49,10 @@ const index = () => {
         dispatch(publish(drop_id))
     }
 
+    const handleInfo = (dropId) => {
+        navigate(`/drops/info/${drop_id}`)
+    }
+
     return (
         <div className=' w-full flex flex-row justify-center items-center'>
             <div className="w-8/12" >
@@ -93,6 +97,7 @@ const index = () => {
                             drops.length ? (
                                 drops.map(drop => (
                                     <tr
+                                        onClick={() => handleInfo(drop.id)}
                                         key={drop.id}
                                         className=" border-b bg-gray-800 border-gray-700  hover:bg-gray-600">
                                         <th scope="row" className="px-6 py-4 font-medium text-white whitespace-nowrap">
