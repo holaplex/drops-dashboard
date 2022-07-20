@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 
 const nfts = [
@@ -8,6 +8,8 @@ const nfts = [
 ]
 const image = 'https://uerdkdfclxjqw6xrftm46px2oacmr3vfdlcwbztvsr2of7tjhkkq.arweave.net/oSI1DKJd0wt68SzZzz76cATI7qUaxWDmdZR04v5pOpU?ext=jpg'
 const Info = () => {
+  const [accessible, setAccessible] = useState(false)
+  const [discoverable, setDiscoverable] = useState(false)
   return (
     <div className='flex p-36 gap-12'>
       <div className='w-2/3'>
@@ -47,9 +49,9 @@ const Info = () => {
           <div className='flex flex-col'>
             <h4 className='font-bold text-dropBlack mb-1'>Accessible</h4>
             <span className='text-xs mb-4'>The NFTs will be available for purchase on go live date on campus.io</span>
-            <label htmlFor="green-toggle-1" className="inline-flex justify-center relative mr-5 items-center cursor-pointer w-fit  w-[56px] h-[32px]">
-              <input type="checkbox" value="" id="green-toggle-1" class="sr-only peer  w-[56px] h-[32px]" />
-              <div className=" w-[56px] h-[32px] w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-dropGray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-dropGreen"></div>
+            <label htmlFor="green-toggle-1" className="relative mr-5 cursor-pointer w-fit">
+              <input type="checkbox" value="" id="green-toggle-1" class="sr-only peer" checked={accessible} onChange={() => setAccessible(!accessible)} />
+              <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-dropGray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-dropGreen"></div>
             </label>
           </div>
 
@@ -58,7 +60,7 @@ const Info = () => {
             <h4 className='font-bold text-dropBlack mb-1'>Discoverable</h4>
             <span className='text-xs mb-4'>The NFTs cards will be displayed on the relevant team and athlete pages on campus.io</span>
             <label htmlFor="green-toggle-2" className="relative mr-5 cursor-pointer w-fit">
-              <input type="checkbox" value="" id="green-toggle-2" class="sr-only peer" />
+              <input type="checkbox" value="" id="green-toggle-2" class="sr-only peer" checked={discoverable} onChange={() =>setDiscoverable(!discoverable)}/>
               <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-dropGray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-dropGreen"></div>
             </label>
           </div>
