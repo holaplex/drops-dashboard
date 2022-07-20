@@ -31,6 +31,18 @@ services:
     ports:
       - 3000:3000
     profiles: ['dev']
+    depends_on:
+      - db-dev
+      - redis
+    environment:
+      REDIS_URL_SIDEKIQ: redis://redis:6379/12
+      RAILS_ENV: ${ENVIRONMENT}
+      NODE_ENV: ${ENVIRONMENT}
+      DBHOST: db-dev
+      DBUSER: ${POSTGRES_USER}
+      DBPASS: ${POSTGRES_PASSWORD}
+      APM_HOST: elastic-agent
+      PROJECT_NAME: ${PROJECT_NAME}
     stdin_open: true
     tty: true
     networks:
@@ -90,7 +102,7 @@ services:
     build: backend
     container_name: sidekiq_${PROJECT_NAME}_${ENVIRONMENT}
     depends_on:
-      - 'db'
+      - 'db-dev'
       - 'redis'
     command: bundle exec sidekiq
     profiles: ['dev']
@@ -102,7 +114,7 @@ services:
       REDIS_URL_SIDEKIQ: redis://redis:6379/12
       RAILS_ENV: ${ENVIRONMENT}
       NODE_ENV: ${ENVIRONMENT}
-      DBHOST: db
+      DBHOST: db-dev
       DBUSER: ${POSTGRES_USER}
       DBPASS: ${POSTGRES_PASSWORD}
       APM_HOST: elastic-agent
