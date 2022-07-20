@@ -14,19 +14,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-
-@layer utilities{
-  .bg-dark-charcoal{
-    background: #35322F;
-  }
-  .text-dark-charcoal{
-    color: #35322F;
-  }
-  .text-sonic-silver{
-    color: #747474;
-  }
-  .w-283{
-    width: 17.688rem;
-  }
-}

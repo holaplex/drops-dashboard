@@ -37,27 +37,27 @@ const ReviewNftCard = ({ nfts }) => {
         </div>
 
         <div className="info flex flex-col gap-y-2 md:gap-y-5 lg:gap-y-5 ">
-          <h2 className="font-semibold text-dark-charcoal text-base">{nft.name}</h2>
-          <p className="text-dark-charcoal text-base font-normal">{nft.description}</p>
+          <h2 className="font-semibold text-dropCharcoal text-base">{nft.name}</h2>
+          <p className="text-dropCharcoal text-base font-normal">{nft.description}</p>
           <div>
-            <span className="text-xs text-sonic-silver">supply</span>
-            <p className="font-normal text-base text-charcoal">{nft.scarcity}</p>
+            <span className="text-xs text-dropGray">supply</span>
+            <p className="font-normal text-base text-dropCharcoal">{nft.scarcity}</p>
           </div>
           <div className="price">
-            <span className="text-xs text-sonic-silver">Price</span>
+            <span className="text-xs text-dropGray">Price</span>
             <p className="text-charcoal">{nft?.price ? nft?.price : 'Free'}</p>
           </div>
           <div className="properties">
-            <span className="text-xs text-sonic-silver">Properties</span>
+            <span className="text-xs text-dropGray">Properties</span>
             <table className="table-auto w-full">
               <tbody className="text-base font-normal">
-                <tr className="border-b border-gray-200 leading-loose text-[#35322F]">
+                <tr className="border-b border-gray-200 leading-loose text-dropCharcoal">
                   <td>Team</td>
-                  <td>{nft?.school.name}</td>
+                  <td>{nft?.school?.name}</td>
                 </tr>
                 <tr className="border-b border-gray-200 my-2 leading-loose">
                   <td>Conference</td>
-                  <td>{nft?.conference.name}</td>
+                  <td>{nft?.conference?.name}</td>
                 </tr>
                 <tr className="border-b border-gray-200 my-2 leading-loose">
                   <td>Sport</td>
@@ -69,13 +69,13 @@ const ReviewNftCard = ({ nfts }) => {
           <div className='flex flex-row justify-end buttons my-2'>
             <div className='flex gap-2'>
               <button
-                className={`bg-dark-charcoal font-bold text-gray-200 px-4 py-2 rounded-md ${position === 0 ? 'cursor-not-allowed opacity-75' : 'hover:bg-gray-700 '}`}
+                className={`bg-dropCharcoal font-bold text-gray-200 px-4 py-2 rounded-md ${position === 0 ? 'cursor-not-allowed opacity-75' : 'hover:bg-gray-700 '}`}
                 disabled={position === 0}
                 onClick={() => setPosition(position - 1)}
               >
                 Back
               </button>
-              <button className={`bg-dark-charcoal font-bold text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700`}
+              <button className={`bg-dropCharcoal font-bold text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700`}
                 onClick={handleNext} >
                 Looks good - Next
               </button>
