@@ -12,7 +12,7 @@ class NftController < ApplicationController
   def upload_excel
     file = params[:file]
 
-    xlsx = Roo::Spreadsheet.open(file,  extension: :xlsx)
+    xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
 
     nft_drop = NftDrop.create(name: params[:name])
 
@@ -38,7 +38,7 @@ class NftController < ApplicationController
           nft[:final_filename] = "/#{nft_drop.name}/#{nft_final_media[:name]}".gsub(' ', '_')
           # path = nft.make_watermark("./public/images#{nft[:final_filename]}",nft_final_media, nft_drop.name)
           # Net::SCP.upload!("assets.campuslegends.com", "assets",
-          #   path, "/home/assets/assets/images/preview-videos", 
+          #   path, "/home/assets/assets/images/preview-videos",
           #   :ssh => { :keys => "key"})
           # nft[:preview_url] = "https://assets.campuslegends.com/images/preview-videos/#{nft_final_media[:name]}"
 
@@ -46,30 +46,30 @@ class NftController < ApplicationController
           nft.save!
           nfts.push(nft)
 
-          seller_fee_basis_points = nft[:royalty_matrix]&.to_i 
-          seller_fee_basis_points =  [10000, seller_fee_basis_points].min
+          seller_fee_basis_points = nft[:royalty_matrix]&.to_i
+          seller_fee_basis_points = [10_000, seller_fee_basis_points].min
 
           attributes_list = [
             {
-              trait_type: "legend",
+              trait_type: 'legend',
               value: nft.legend
             },
             {
-              trait_type: "conference",
-              value: nft.conference&.name,
+              trait_type: 'conference',
+              value: nft.conference&.name
             },
             {
-              trait_type: "school",
-              value: nft.school&.name,
+              trait_type: 'school',
+              value: nft.school&.name
             },
             {
-              trait_type: "sport",
-              value: nft.sport,
+              trait_type: 'sport',
+              value: nft.sport
             },
             {
-              trait_type: "award",
-              value: nft.award,
-            },
+              trait_type: 'award',
+              value: nft.award
+            }
           ]
 
           category = nft.cm_video_url.present? ? 'video' : 'image'
@@ -90,21 +90,19 @@ class NftController < ApplicationController
               category: category,
               files: [
                 { uri: '0.png', type: 'image/png' },
-                { uri: '0.mp4', type: 'video/mp4' },
+                { uri: '0.mp4', type: 'video/mp4' }
               ],
               creators: [
-                { address: 'campEwCXkqfySan6a7R71BTBSurfLsfqHgShC11J3Bj', share: 100 },
-              ],
-            },
+                { address: 'campEwCXkqfySan6a7R71BTBSurfLsfqHgShC11J3Bj', share: 100 }
+              ]
+            }
           }
-
-
 
           ZipAssetsJob.perform_async(
             payload,
             nft_image[:destination],
             nft_final_media[:destination],
-            nft.scarcity.to_s,
+            nft.scarcity.to_s
           )
 
           pp 'JSON', payload
@@ -112,7 +110,8 @@ class NftController < ApplicationController
         i += 1
       end
     end
-    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name], drop_id: nft_drop[:id] }, status: :ok
+    render json: { success: true, nfts: nfts, drop_name: nft_drop[:name], drop_id: nft_drop[:id] },
+           include: %i[school conference], status: :ok
   end
 
   def upload_minted
