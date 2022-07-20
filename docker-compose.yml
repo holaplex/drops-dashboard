@@ -132,19 +132,33 @@ services:
       APM_HOST: elastic-agent
       PROJECT_NAME: ${PROJECT_NAME}
   
-  db:
+  db-dev:
     image: postgres:13
     restart: 'no'
     container_name: postgresql_${PROJECT_NAME}_${ENVIRONMENT}
     volumes:
       - postgresdb:/var/lib/postgresql/data/
-    profiles: ['dev', 'prod']
+    profiles: ['dev']
     environment:
       POSTGRES_DB: ${PROJECT_NAME}_${ENVIRONMENT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - 5432:5432
+    networks:
+      - observability
+
+  db:
+    image: postgres:13
+    restart: 'no'
+    container_name: postgresql_${PROJECT_NAME}_${ENVIRONMENT}
+    volumes:
+      - postgresdb:/var/lib/postgresql/data/
+    profiles: ['prod']
+    environment:
+      POSTGRES_DB: ${PROJECT_NAME}_${ENVIRONMENT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - observability
 
