@@ -7,6 +7,8 @@ module.exports = {
 			colors: {
 				dropCharcoal: "#35322F",
 				dropGray: "#747474",
+        dropYellow: "#E6A602",
+				dropGreen: "#2BBA13",
 			},
 			spacing:{
 				'283': '17.688rem'

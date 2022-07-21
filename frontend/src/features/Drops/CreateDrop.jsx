@@ -31,6 +31,7 @@ export const CreateDrop = () => {
     const handleUpload = async () => {
         const formData = new FormData()
         formData.append("file", file)
+        formData.append("name", "")
         dispatch(createDrop(formData))
     }
 
