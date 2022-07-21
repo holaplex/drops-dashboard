@@ -64,6 +64,7 @@ const Info = () => {
   };
 
   const formatDateTime = (datePassed) => {
+    if (!datePassed) return;
     const dateArray = datePassed.split(' '); //datePassed is a string with timezone attached
     const date = new Date(dateArray[0]);
     const timezone = dateArray[1];
