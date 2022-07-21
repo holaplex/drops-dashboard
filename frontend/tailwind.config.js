@@ -1,21 +1,21 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    fontFamily: {
-      body: ["inter", "sans-serif"],
-    },
-    extend: {
-      colors: {
-        dropGray: "#747474",
-        dropBlack: "#35322F",
-        dropGreen: "#2BBA13"
-      }
-    }
-
-  },
-  plugins: [],
+	content: [
+		"./src/**/*.{js,jsx,ts,tsx}",
+	],
+	theme: {
+		extend: {
+			colors: {
+				dropCharcoal: "#35322F",
+				dropGray: "#747474",
+        dropYellow: "#E6A602",
+				dropGreen: "#2BBA13",
+			},
+			spacing:{
+				'283': '17.688rem'
+			}
+		},
+	},
+	plugins: [],
 }
