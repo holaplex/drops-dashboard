@@ -11,7 +11,7 @@ class DropsController < ApplicationController
   end
 
   def show
-    render json: { success: true, drop_name: @drop.name, nfts: @drop.nft }, status: :ok
+    render json: { success: true, drop: @drop }, include: [:nft], status: :ok
   end
 
   def update
