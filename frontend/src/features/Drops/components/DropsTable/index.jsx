@@ -24,8 +24,8 @@ const index = () => {
 
 	}, [isFetching, isSuccess, isError])
 
-	const handleReview = (drop_id) => {
-		navigate(`/drops/review/${drop_id}`)
+	const handleInfo = (drop_id) => {
+		navigate(`/drops/info/${drop_id}`)
 	}
 
 	const Flag = ({ text, status }) => {
@@ -56,7 +56,7 @@ const index = () => {
 				) :
 					drops.length ? (
 						drops.map(drop => (
-							<div key={drop.id} className="shadow-md rounded my-5 cursor-pointer hover:bg-slate-50" onClick={() => { handleReview(drop.id) }}>
+							<div key={drop.id} className="shadow-md rounded my-5 cursor-pointer hover:bg-slate-50" onClick={() => { handleInfo(drop.id) }}>
 								<div className="p-4 flex flex-row justify-between">
 									<div className="flex flex-row gap-2 items-center">
 										<img
