@@ -13,7 +13,8 @@ module.exports = {
 				dropGreen: "#2BBA13",
 			},
 			spacing:{
-				'283': '17.688rem'
+				'283': '17.688rem',
+				'400': '25',
 			}
 		},
 	},
