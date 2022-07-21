@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { dropSelector, clearState } from './dropSlice'
 import { show } from './dropsActions'
@@ -10,11 +10,10 @@ import ReviewNftCard from './components/ReviewNftCard'
 
 const ReviewNft = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { drop_id } = useParams();
-  const { name, nfts, isSuccess, isFetching, isError } = useSelector(dropSelector)
-  const [position, setPosition] = useState(0)
+  const { nfts, isSuccess, isFetching, isError } = useSelector(dropSelector)
   const [loading, setLoading] = useState(!!drop_id)
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (drop_id) {
@@ -35,58 +34,19 @@ const ReviewNft = () => {
     navigate('/drops/create')
   }
 
-  const handleNext = () => {
-    if (position + 1 === nfts.length) {
-      navigate('/drops/confirm')
-    }
-    else {
-      setPosition(position + 1)
-    }
-  }
   return !loading ? (
     <>
       <Header selected="Drops" />
-
       <div className='w-full flex justify-center'>
-        <div className='w-8/12 m-6'>
-          <div className='flex justify-between'>
-            <h5 className='text-lg'><i>{name}</i></h5>
-            <span className='text-lg'>{position + 1} of {nfts.length}</span>
-          </div>
-
-          <ReviewNftCard nft={nfts[position]} />
-
-          <div className='flex justify-between'>
-            {!drop_id ? (
-              <button
-                className='bg-red-800 font-bold text-white p-3 rounded-md hover:bg-red-700'
-                onClick={handleCancel}
-              >
-                No, Cancel Drop
-              </button>
-            ) : (
-              <div></div>
-            )}
-
-            <div className='flex gap-2'>
-              <button
-                className={`bg-gray-800 font-bold text-gray-200 p-3 rounded-md ${position === 0 ? 'cursor-not-allowed opacity-75' : 'hover:bg-gray-700 '}`}
-                disabled={position === 0}
-                onClick={() => setPosition(position - 1)}
-              >
-                Prev
-              </button>
-              <button
-                className={`bg-gray-800 font-bold text-gray-200 p-3 rounded-md hover:bg-gray-700`}
-                // disabled={position + 1 === nfts.length}
-                onClick={handleNext}
-              >
-                Next
-              </button>
+        <div className='w-11/12 md:w-8/12 my-6'>
+          <div className='flex flex-col gap-y-2 md:gap-y-5 lg:gap-y-10'>
+            <div className="flex flex-row justify-between items-center">
+              <h2 className='text-3xl lg:text-4xl font-bold'>Create new drop</h2>
+              {!drop_id && <button className="cursor-pointer" onClick={handleCancel}>X</button>}
             </div>
+            <ReviewNftCard nfts={nfts} />
           </div>
         </div>
-
       </div>
     </>
   ) : (

@@ -44,7 +44,7 @@ export const CreateDrop = () => {
         <div className='w-screen h-screen overflow-y-hidden'>
             <Header selected="Drops" />
             <div className='flex w-full h-full justify-center items-center'>
-                <div className="w-8/12">
+                <div className="w-11/12 md:w-8/12">
                     <div className="flex flex-row justify-between items-center">
                         <h1 className="text-3xl font-semibold mb-5">Create new drop</h1>
                         <span className="cursor-pointer" onClick={handleCross}>X</span>
