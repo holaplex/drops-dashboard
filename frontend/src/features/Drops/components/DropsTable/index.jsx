@@ -5,7 +5,7 @@ import { IMAGE_DIR } from '../../../../helpers/requestHelper';
 import { userSelector } from '../../../User/userSlice';
 import { getDrops } from '../../dropsActions';
 import { clearState, dropSelector } from '../../dropSlice';
-import Flag from "../Flag"
+import Flag from '../Flag';
 
 const index = () => {
   const navigate = useNavigate();
@@ -42,7 +42,6 @@ const index = () => {
             </button>
           )}
         </div>
-
         {isFetching ? (
           <div className='w-full'>
             <div className='w-full'>

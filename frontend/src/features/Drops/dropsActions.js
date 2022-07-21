@@ -68,7 +68,6 @@ export const createDrop = createAsyncThunk(
 export const updateDrop = createAsyncThunk(
   'drops/drop',
   async ( dropData,  thunkAPI) => {
-    console.log(dropData)
     try {
       const response = await dropApi.update(dropData)
       const { data } = response;

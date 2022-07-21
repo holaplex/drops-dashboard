@@ -21,9 +21,9 @@ const ScheduleDrop = () => {
 
 
   const handleCancel = () => {
+    dispatch(clearState())
     navigate('/drops/create')
   }
-
 
   const handleCreateDrop = () => {
     if (name && golive && timezone) {
@@ -57,24 +57,24 @@ const ScheduleDrop = () => {
           <div className="flex flex-col gap-y-7">
             {isError && <p className="text-red-500 text-base font-normal">Error creating drop!</p>}
             <h2 className="text-2xl font-bold">Confirmation</h2>
-            <div className="bg-blanched-almond p-3  rounded z-0">
+            <div className="bg-dropYellow p-3  rounded z-0">
               <div className="flex flex-row gap-x-3 items-center">
                 <img src={WarningIcon} alt="Warning Icon" />
-                <span className="text-mustard-yellow  z-50 text-base font-semibold">
+                <span className="text-dropDarkYellow  z-50 text-base font-semibold">
                   Are you sure you are ready to create this drop? Once created on- <br />
                   chain items will be added, this is not reversable.
                 </span>
               </div>
             </div>
             <div>
-              <h3 className="text-sonic-silver font-normal text-xs">Estimated cost</h3>
+              <h3 className="text-dropGray font-normal text-xs">Estimated cost</h3>
               <span className="font-bold text-2xl">3.2 SOL</span>
             </div>
 
             <div className='flex flex-row justify-end buttons'>
               <div className='flex gap-2'>
                 <button
-                  className="bg-sonic-silver font-medium text-gray-200 px-4 py-2 rounded-md  'hover:bg-gray-700"
+                  className="bg-dropGray font-medium text-gray-200 px-4 py-2 rounded-md  'hover:bg-gray-700"
                   onClick={() => {
                     setShowModal(false)
                   }}
@@ -82,7 +82,7 @@ const ScheduleDrop = () => {
                   Back
                 </button>
                 <button
-                  className={`bg-dark-charcoal font-medium text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700`}
+                  className={`bg-dropCharcoal font-medium text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700`}
                   onClick={handleSubmit}
                   disabled={isFetching}
                 >
@@ -115,7 +115,7 @@ const ScheduleDrop = () => {
 
                 <div className="flex flex-col gap-y-2">
                   <label className="text-base font-semibold">Create Drop</label>
-                  <input className={`bg-bright-gray px-4 py-2 rounded ${!name && nameDirty && 'border border-red-500'}`} type="text" placeholder="eg. Conference 2022" onChange={(e) => {
+                  <input className={`bg-dropBrightGray px-4 py-2 rounded ${!name && nameDirty && 'border border-red-500'}`} type="text" placeholder="eg. Conference 2022" onChange={(e) => {
                     setName(e.target.value);
                     setNameDirty(true);
                   }} value={name} />
@@ -127,7 +127,7 @@ const ScheduleDrop = () => {
                     <div className="flex flex-col gap-y-2">
                       <label className="text-base font-semibold">Go live date/time</label>
                       <span className="text-xs font-normal">The NFT cards will be displayed and details pages will be accessible prior to the go live date/time</span>
-                      <input className={`bg-bright-gray px-4 py-2 rounded ${!golive && goliveDirty && 'border border-red-500'}`}
+                      <input className={`bg-dropBrightGray px-4 py-2 rounded ${!golive && goliveDirty && 'border border-red-500'}`}
                         type="datetime-local"
                         onChange={(e) => {
                           setGoLive(e.target.value);
@@ -140,7 +140,7 @@ const ScheduleDrop = () => {
 
                   <div className="flex flex-col gap-y-2 w-1/4">
                     <div className="inline-block relative">
-                      <select className="block appearance-none w-full bg-bright-gray px-4 py-2 rounded"
+                      <select className="block appearance-none w-full bg-dropBrightGray px-4 py-2 rounded"
                         value={timezone}
                         onChange={(e) => {
                           setTimeZone(e.target.value)
@@ -166,7 +166,7 @@ const ScheduleDrop = () => {
               <div className='flex flex-row justify-end buttons'>
                 <div className='flex gap-2'>
                   <button
-                    className="bg-sonic-silver font-medium text-gray-200 px-4 py-2 rounded-md  'hover:bg-gray-700"
+                    className="bg-dropGray font-medium text-gray-200 px-4 py-2 rounded-md  'hover:bg-gray-700"
                     onClick={() => {
                       navigate("/drops/review")
                     }}
@@ -174,7 +174,7 @@ const ScheduleDrop = () => {
                     Back
                   </button>
                   <button
-                    className={`bg-dark-charcoal font-medium text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700`}
+                    className={`bg-dropCharcoal font-medium text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700`}
                     onClick={handleCreateDrop}
                   >
                     Create drop

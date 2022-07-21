@@ -9,7 +9,7 @@ const ReviewNftCard = ({ nfts }) => {
 
   const handleNext = () => {
     if (position + 1 === nfts.length) {
-      navigate('/drops/confirm')
+      navigate('/drops/schedule')
     }
     else {
       setPosition(position + 1)
