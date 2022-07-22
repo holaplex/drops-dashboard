@@ -8,7 +8,6 @@ import { show, update } from './dropsActions';
 import Header from '../../components/Header';
 import { IMAGE_DIR } from '../../helpers/requestHelper';
 import QRModal from '../Drops/components/QrModal'
-import useComponentVisible from '../../hooks/useComponentVisible'
 
 const Info = () => {
   const dispatch = useDispatch();
@@ -19,6 +18,7 @@ const Info = () => {
   const [loading, setLoading] = useState(false);
   const [localDiscoverable, setDiscoverable] = useState(false);
   const [url, setUrl] = useState('http://www.campus.io/redeem/conference-2022');
+  const [showQR, setShowQR] = useState(false)
 
   const {
     name,
@@ -29,8 +29,6 @@ const Info = () => {
     isSuccess,
     isError,
   } = useSelector(dropSelector);
-  const { isComponentVisible, setIsComponentVisible } =
-    useComponentVisible(false);
 
   useEffect(() => {
     if (drop_id) {
@@ -63,6 +61,7 @@ const Info = () => {
     }
   };
 
+
   const formatDateTime = (datePassed) => {
     if (!datePassed) return;
     const dateArray = datePassed.split(' '); //datePassed is a string with timezone attached
@@ -85,7 +84,7 @@ const Info = () => {
   return (
     <>
       <Header selected='Drops' />
-      {isComponentVisible && <QRModal url={url} />}
+      {showQR && <QRModal url={url} handleCancel={() => setShowQR(false)}/>}
       <div className='flex flex-col md:flex-row p-1 md:p-36 md:gap-12'>
         <div className='md:w-2/3'>
           <div className='flex items-center mb-3'>
@@ -130,7 +129,7 @@ const Info = () => {
                         </span>
                         <button
                           className='rounded-lg border-[1px] border-opacity-50 px-4 py-2 text-white bg-black'
-                          onClick={() => setIsComponentVisible(true)}
+                          onClick={() => setShowQR(true)}
                         >
                           Share
                         </button>
@@ -197,7 +196,6 @@ const Info = () => {
               </label>
             </div>
           </div>
-          <div className='flex flex-1'></div>
         </div>
       </div>
     </>

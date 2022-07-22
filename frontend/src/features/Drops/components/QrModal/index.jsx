@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import Logo from '../../../../assets/Icon_GLD.png';
-import useComponentVisible from '../../../../hooks/useComponentVisible';
+import { AiOutlineClose } from 'react-icons/ai';
 
-const QRModal = ({ url }) => {
+const QRModal = ({ url, handleCancel }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isQRCopied, setIsQRCopied] = useState(false);
-  const { ref } = useComponentVisible(false);
+
   const copyTextToClipboard = async (text) => {
     if ('clipboard' in navigator) {
       return await navigator.clipboard.writeText(text);
@@ -39,11 +39,18 @@ const QRModal = ({ url }) => {
 
   return (
     <div className='flex w-full h-full justify-center items-center overflow-hidden absolute inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full'>
-      <div
-        className='w-400 p-8 rounded-16 bg-white z-50 overflow-auto'
-        ref={ref}
-      >
-        <div className='flex flex-col gap-y-4'>
+      <div className='w-400  rounded-16 bg-white z-50 overflow-auto'>
+        <div
+          className='flex flex-row justify-end items-end py-2'
+          onClick={handleCancel}
+        >
+          <AiOutlineClose
+            size={24}
+            className='text-dropGray mr-2 cursor-pointer'
+          />
+        </div>
+
+        <div className='flex flex-col gap-y-4 px-6 pb-6'>
           <div className='flex flex-row justify-between items-center'>
             <QRCode
               qrStyle='squares'

@@ -5,6 +5,7 @@ import { IMAGE_DIR } from '../../../../helpers/requestHelper';
 import { userSelector } from '../../../User/userSlice';
 import { getDrops } from '../../dropsActions';
 import { clearState, dropSelector } from '../../dropSlice';
+import Flag from "../Flag"
 
 const index = () => {
   const navigate = useNavigate();
@@ -25,24 +26,6 @@ const index = () => {
 
   const handleInfo = (drop_id) => {
     navigate(`/drops/info/${drop_id}`);
-  };
-
-  const Flag = ({ text, status }) => {
-    return (
-      <div className='flex items-center'>
-        <span
-          className={`w-2 h-2  rounded-full mr-1 ${
-            status ? 'bg-dropGreen' : 'bg-dropYellow'
-          }`}
-        ></span>
-        <span
-          className={`text-xs ${status ? 'text-dropGreen' : 'text-dropYellow'}`}
-        >
-          {' '}
-          {text}
-        </span>
-      </div>
-    );
   };
 
   return (
