@@ -1,11 +1,14 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import { submit, publish, createDrop, getDrops, show, uploadMint } from './dropsActions'
+import { submit, publish, createDrop, getDrops, show, update, uploadMint } from './dropsActions'
 
 export const dropSlice = createSlice({
   name: 'drop',
   initialState: {
     id: '',
     name: '',
+    goLiveDate: '',
+    accessible: false,
+    discoverable: false,
     isReviewingAFinishedDrop: false,
     isFetching: false,
     isSuccess: false,
@@ -78,6 +81,28 @@ export const dropSlice = createSlice({
       state.isFetching = false;
       state.isSuccess = true;
     },
+    //Update
+    [update.rejected]: (state, { payload }) => {
+      console.log("ERROR", payload)
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessages = [payload.message];
+    },
+    [update.pending]: (state) => {
+      console.log("LOADING SHOW")
+      state.isFetching = true;
+    },
+    [update.fulfilled]: (state, { payload }) => {
+      console.log("PAYLOAD", payload)
+      state.nfts = payload.drop.nft
+      state.name = payload.drop.name
+      state.discoverable = payload.drop.discoverable
+      state.accessible = payload.drop.accessible
+      state.goLiveDate = payload.drop.go_live_date
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.isReviewingAFinishedDrop = true;
+    },    
     //Show
     [show.rejected]: (state, { payload }) => {
       console.log("ERROR", payload)
@@ -91,8 +116,11 @@ export const dropSlice = createSlice({
     },
     [show.fulfilled]: (state, { payload }) => {
       console.log("PAYLOAD", payload)
-      state.nfts = payload.nfts
-      state.name = payload.drop_name
+      state.nfts = payload.drop.nft
+      state.name = payload.drop.name
+      state.discoverable = payload.drop.discoverable
+      state.accessible = payload.drop.accessible
+      state.goLiveDate = payload.drop.go_live_date
       state.isFetching = false;
       state.isSuccess = true;
       state.isReviewingAFinishedDrop = true;

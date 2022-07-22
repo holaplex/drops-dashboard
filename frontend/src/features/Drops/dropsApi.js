@@ -18,6 +18,9 @@ const show = async (drop_id) => {
   return await slowRequestHelper.get(`/drops/${drop_id}`)
 }
 
+const update = async ({ id, name, accessible, discoverable, goLiveDate, status }) => {
+  return await slowRequestHelper.put(`/drops/${id}`, { name, accessible, discoverable })
+}
 const create = async (formData) => {
   return await slowRequestHelper.post('/upload/excel', formData)
 };
@@ -25,4 +28,4 @@ const create = async (formData) => {
 const uploadMint = async (formData) => {
   return await slowRequestHelper.post('/upload/minted', formData)
 };
-export { submit, publish, create, index, show, uploadMint };
+export { update, submit, publish, create, index, show, uploadMint };
