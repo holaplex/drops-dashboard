@@ -65,24 +65,6 @@ export const createDrop = createAsyncThunk(
   }
 );
 
-export const updateDrop = createAsyncThunk(
-  'drops/drop',
-  async ( dropData,  thunkAPI) => {
-    try {
-      const response = await dropApi.update(dropData)
-      const { data } = response;
-      if (response.status === 200) {
-        const { drop_id, drop_name } = response.data
-        return { drop_id, drop_name}
-      } else {
-        return thunkAPI.rejectWithValue(data);
-      }
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
-    }
-  }
-);
-
 export const getDrops = createAsyncThunk(
   'drops',
   async (thunkAPI) => {
@@ -124,9 +106,9 @@ export const show = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'drops/update',
-  async ({ id, name, accessible, discoverable, goLiveDate, status }, thunkAPI) => {
+  async ({ id, name, accessible, discoverable, go_live_date, status }, thunkAPI) => {
     try {
-      const response = await dropApi.update({ id, name, accessible, discoverable, goLiveDate, status })
+      const response = await dropApi.update({ id, name, accessible, discoverable, go_live_date, status })
       const { data } = response
       if (response.status === 200) {
         const { drop } = response.data
