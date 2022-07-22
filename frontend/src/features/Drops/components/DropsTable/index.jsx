@@ -38,8 +38,8 @@ const index = () => {
 	}
 
 	return (
-		<div className="w-full flex flex-col justify-center items-center my-6 mx-2">
-			<div className="w-full md:w-8/12">
+		<div className="flex flex-col justify-center items-center my-6 mx-2">
+			<div className="md:w-8/12">
 				<div className="flex flex-row justify-between items-center mb-2">
 					<h1 className='text-gray-800 text-3xl font-bold'>Drops</h1>
 					{user.user_type !== "minting_vendor" &&

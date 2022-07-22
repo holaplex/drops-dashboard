@@ -54,6 +54,7 @@ export const createDrop = createAsyncThunk(
 
       const { data } = response;
       if (response.status === 200) {
+        console.log("RECEIVED:", data)
         const { drop_id, drop_name, nfts } = response.data
         return { drop_id, drop_name, nfts }
       } else {
