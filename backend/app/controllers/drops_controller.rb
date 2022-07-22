@@ -17,11 +17,7 @@ class DropsController < ApplicationController
   def update
     @drop.update(drop_params)
     return render json: { success: true, message: 'Drop updated successfully!', drop: @drop }, include: [:nft], status: :ok if @drop.save
-
-    unless @drop.save
-      render json: { success: false, error: 'Error while updating drop', errors: @drop.errors },
-             status: :unprocessable_entry
-    end
+    render json: { success: false, error: 'Error while updating drop', errors: @drop.errors }, status: :unprocessable_entry
   end
 
   def submit
