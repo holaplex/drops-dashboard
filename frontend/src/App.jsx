@@ -19,6 +19,7 @@ import { fetchUserBytoken } from './features/User/userActions';
 import RolePrivateRoute from './helpers/RolePrivateRoute';
 import Summary from './features/Drops/Summary';
 import ReviewNft from './features/Drops/ReviewNft';
+import DropInfo from './features/Drops/DropInfo';
 import ConfirmDrop from './features/Drops/ConfirmDrop'
 import ForgotPassword from './features/User/ForgotPassword';
 import ResetPassword from './features/User/ResetPassword';
@@ -82,6 +83,15 @@ function App() {
               </RolePrivateRoute>
             }
           />
+          <Route
+            path={"/drops/info/:drop_id"}
+            element={
+              <RolePrivateRoute roles={adminAndClient}>
+                <DropInfo />
+              </RolePrivateRoute>
+            }
+          />
+
           <Route
             path='/drops/confirm'
             element={
