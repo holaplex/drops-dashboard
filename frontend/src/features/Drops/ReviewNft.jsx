@@ -21,6 +21,7 @@ const ReviewNft = () => {
     }
   }, []);
 
+
   useEffect(() => {
     if (isSuccess) {
       dispatch(clearState());

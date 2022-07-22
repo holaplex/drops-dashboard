@@ -23,7 +23,7 @@ export const CreateDrop = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/drops/summary');
+      navigate('/drops/review');
     }
     dispatch(clearState());
   }, [isSuccess, file]);
@@ -60,7 +60,9 @@ export const CreateDrop = () => {
               href={`${DOWNLOAD_DIR}drop_sample.xlsx`}
               className='underline text-sm mt-2 cursor-pointer'
               download
-            > Download .xls template
+            >
+              {' '}
+              Download .xls template
             </a>
             {isError && (
               <span className='text-red-500'>Error uploading the file!</span>

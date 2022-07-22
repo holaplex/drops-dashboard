@@ -3,11 +3,11 @@ const Flag = ({ text, status }) => {
     <div className='flex items-center'>
       <span
         className={`w-2 h-2  rounded-full mr-1 ${
-          status ? 'bg-dropGreen' : 'bg-dropYellow'
+          status ? 'bg-dropGreen' : 'bg-dropDarkYellow'
         }`}
       ></span>
       <span
-        className={`text-xs ${status ? 'text-dropGreen' : 'text-dropYellow'}`}
+        className={`text-xs ${status ? 'text-dropGreen' : 'text-dropDarkYellow'}`}
       >
         {text}
       </span>

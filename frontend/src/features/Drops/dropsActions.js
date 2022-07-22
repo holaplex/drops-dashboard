@@ -106,9 +106,9 @@ export const show = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'drops/update',
-  async ({ id, name, accessible, discoverable, goLiveDate, status }, thunkAPI) => {
+  async ({ id, name, accessible, discoverable, go_live_date, status }, thunkAPI) => {
     try {
-      const response = await dropApi.update({ id, name, accessible, discoverable, goLiveDate, status })
+      const response = await dropApi.update({ id, name, accessible, discoverable, go_live_date, status })
       const { data } = response
       if (response.status === 200) {
         const { drop } = response.data

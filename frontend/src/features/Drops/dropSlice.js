@@ -32,68 +32,57 @@ export const dropSlice = createSlice({
   extraReducers: {
     //Create 
     [createDrop.rejected]: (state, { payload }) => {
-      console.log("ERROR", payload)
       state.isFetching = false;
       state.isError = true;
       state.errorMessages = [payload.message];
     },
     [createDrop.pending]: (state) => {
-      console.log("LOADING")
       state.isFetching = true;
     },
     [createDrop.fulfilled]: (state, { payload }) => {
-      console.log("PAYLOAD", payload)
       state.nfts = payload.nfts
       state.name = payload.drop_name
       state.id = payload.drop_id
       state.isFetching = false;
       state.isSuccess = true;
     },
+
     //Submit
     [submit.rejected]: (state, { payload }) => {
-      console.log("ERROR", payload)
       state.isFetching = false;
       state.isError = true;
       state.errorMessages = [payload.message];
     },
     [submit.pending]: (state) => {
-      console.log("LOADING SUBMIT")
       state.isFetching = true;
     },
     [submit.fulfilled]: (state, { payload }) => {
-      console.log("PAYLOAD SUBMIT", payload)
       state.isFetching = false;
       state.isSuccess = true;
     },
     //Publish
     [publish.rejected]: (state, { payload }) => {
-      console.log("ERROR", payload)
       state.isFetching = false;
       state.isError = true;
       state.errorMessages = [payload.message];
     },
     [publish.pending]: (state) => {
-      console.log("LOADING PUBLISH")
       state.isFetching = true;
     },
     [publish.fulfilled]: (state, { payload }) => {
-      console.log("PAYLOAD PUBLISH", payload)
       state.isFetching = false;
       state.isSuccess = true;
     },
     //Update
     [update.rejected]: (state, { payload }) => {
-      console.log("ERROR", payload)
       state.isFetching = false;
       state.isError = true;
       state.errorMessages = [payload.message];
     },
     [update.pending]: (state) => {
-      console.log("LOADING SHOW")
       state.isFetching = true;
     },
     [update.fulfilled]: (state, { payload }) => {
-      console.log("PAYLOAD", payload)
       state.nfts = payload.drop.nft
       state.name = payload.drop.name
       state.discoverable = payload.drop.discoverable
@@ -105,17 +94,14 @@ export const dropSlice = createSlice({
     },    
     //Show
     [show.rejected]: (state, { payload }) => {
-      console.log("ERROR", payload)
       state.isFetching = false;
       state.isError = true;
       state.errorMessages = [payload.message];
     },
     [show.pending]: (state) => {
-      console.log("LOADING SHOW")
       state.isFetching = true;
     },
     [show.fulfilled]: (state, { payload }) => {
-      console.log("PAYLOAD", payload)
       state.nfts = payload.drop.nft
       state.name = payload.drop.name
       state.discoverable = payload.drop.discoverable
@@ -127,30 +113,25 @@ export const dropSlice = createSlice({
     },
     //Get all
     [getDrops.rejected]: (state, { payload }) => {
-      console.log("ERROR", payload)
       state.isFetching = false;
       state.isError = true;
       state.errorMessages = [payload.message];
     },
     [getDrops.pending]: (state) => {
-      console.log("LOADING")
       state.isFetching = true;
     },
     [getDrops.fulfilled]: (state, { payload }) => {
-      console.log("PAYLOAD", payload)
       state.drops = payload.drops;
       state.isFetching = false;
       // state.isSuccess = true;
     },
     //Upload mint
     [uploadMint.rejected]: (state, { payload }) => {
-      console.log("ERROR", payload)
       state.isFetching = false;
       state.isError = true;
       state.errorMessages = [payload.message];
     },
     [uploadMint.pending]: (state) => {
-      console.log("LOADING")
       state.isFetching = true;
     },
     [uploadMint.fulfilled]: (state, { payload }) => {
